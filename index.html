@@ -95,7 +95,6 @@
              border-bottom: 1px dashed #374151;
              padding-bottom: 4px;
         }
-        /* h4:first-of-type { margin-top: 0;} Removed this as grouping handles margins */
 
         /* --- Input Group Styles (Grid Layout) --- */
         .input-group {
@@ -121,7 +120,7 @@
             color: #cbd5e1;
             margin-bottom: 5px;
         }
-        .input-group > div > label { height: auto; min-height: 0; } /* Override potential conflicting styles */
+        .input-group > div > label { height: auto; min-height: 0; }
 
         /* --- Input & Select Styles --- */
         input[type="number"], select {
@@ -138,25 +137,22 @@
         }
         input[type="number"]:focus, select:focus {
             outline: none;
-            border-color: #4ade80; /* Highlight on focus */
+            border-color: #4ade80;
         }
-        select { /* Custom dropdown arrow */
+        select {
              appearance: none;
              background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A");
              background-repeat: no-repeat;
              background-position: right 10px center;
              background-size: 16px;
-             padding-right: 30px; /* Space for the arrow */
+             padding-right: 30px;
         }
-        /* Remove number input spinners */
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
-        input[type=number] {
-            -moz-appearance: textfield; /* Firefox */
-        }
+        input[type=number] { -moz-appearance: textfield; }
 
         /* --- Checkbox Styles --- */
         .checkbox-container {
@@ -179,7 +175,7 @@
             height: 18px;
             margin: 0;
             cursor: pointer;
-            accent-color: #4ade80; /* Color for the checkmark */
+            accent-color: #4ade80;
             border: 1px solid #374151;
             border-radius: 3px;
             vertical-align: middle;
@@ -190,8 +186,8 @@
             outline-offset: 1px;
         }
         .checkbox-item label {
-            font-size: 18px; /* Increased font size */
-            font-weight: 700; /* Increased font weight */
+            font-size: 18px;
+            font-weight: 700;
             color: #cbd5e1;
             cursor: pointer;
             margin-bottom: 0;
@@ -211,7 +207,7 @@
             font-size: 15px;
             text-transform: uppercase;
             font-family: 'Manrope', sans-serif;
-            background-color: #7c3aed; /* Default purple */
+            background-color: #7c3aed;
             letter-spacing: inherit;
             color: #fff;
             cursor: pointer;
@@ -219,250 +215,109 @@
             transition: background-color 0.3s ease, transform 0.1s ease, opacity 0.3s ease;
         }
         button:hover { background-color: #6d28d9; }
-        button:active { transform: scale(0.98); } /* Slight shrink on click */
-        button:disabled {
-            background-color: #585063;
-            cursor: not-allowed;
-            opacity: 0.6;
-        }
-        button:disabled:hover { background-color: #585063; } /* Prevent hover effect when disabled */
+        button:active { transform: scale(0.98); }
+        button:disabled { background-color: #585063; cursor: not-allowed; opacity: 0.6; }
+        button:disabled:hover { background-color: #585063; }
 
         /* --- Specific Button Styles --- */
         #languageToggleButton {
             padding: 6px 12px;
             font-size: 12px;
-            background-color: #374151; /* Darker gray */
+            background-color: #374151;
             text-transform: none;
             font-weight: 500;
             margin-top: 0;
-            order: 2; /* Position in header */
+            order: 2;
         }
         #languageToggleButton:hover { background-color: #4b5563; }
-        #languageToggleButton:disabled { background-color: #374151; cursor: pointer; opacity: 1; } /* Keep active look */
+        #languageToggleButton:disabled { background-color: #374151; cursor: pointer; opacity: 1; }
         #languageToggleButton:disabled:hover { background-color: #4b5563;}
 
         /* --- Referrals Section Styles --- */
-        .referrals {
-            margin-top: 15px; /* Reduced top margin */
-            text-align: center;
-        }
+        .referrals { margin-top: 15px; text-align: center; }
         .referrals table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
             margin-bottom: 15px;
             letter-spacing: inherit;
-            table-layout: fixed; /* Prevent content from expanding columns */
+            table-layout: fixed;
         }
         .referrals th, .referrals td {
             padding: 8px 10px;
             text-align: center;
-            font-size: 14px;
-            background-color: #111827; /* Dark background for cells */
-            border: 1px solid #1f2937; /* Subtle border */
+            font-size: 16px;
+            background-color: #111827;
+            border: 1px solid #1f2937;
             letter-spacing: inherit;
             word-wrap: break-word;
             vertical-align: middle;
         }
-         .referrals th {
-             font-weight: 600;
-             color: #9ca3af; /* Lighter gray for headers */
-         }
-         /* Column widths */
-         .referrals th:nth-child(1) { width: 20%; } /* Referral # */
-         .referrals th:nth-child(2) { width: 45%; } /* Stakes Summary */
-         .referrals th:nth-child(3) { width: 35%; } /* Actions */
-
-         .referrals td.stakes-summary { /* Left-align summary text */
-             font-size: 13px;
-             color: #d1d5db;
-             text-align: left;
-             white-space: pre-wrap; /* Allow wrapping */
-          }
-         .referrals td.actions-cell { /* Center buttons in actions cell */
-             display: flex;
-             justify-content: center;
-             align-items: center;
-             gap: 8px;
-             padding: 8px 5px;
-          }
-         /* Edit/Remove button styles within the table */
-         .referrals td .action-button {
-             margin: 0;
-             padding: 6px 8px;
-             font-size: 12px;
-             border-radius: 4px;
-             font-weight: 500;
-             text-transform: none;
-             min-width: 65px;
-             text-align: center;
-          }
-         .referrals td .edit-button { background-color: #f59e0b; } /* Amber */
+         .referrals th { font-weight: 600; color: #9ca3af;  }
+         .referrals th:nth-child(1) { width: 20%; }
+         .referrals th:nth-child(2) { width: 45%; }
+         .referrals th:nth-child(3) { width: 35%; }
+         .referrals td.stakes-summary { font-size: 16px; color: #60a5fa; text-align: ; white-space: pre-wrap; }
+         .referrals td.actions-cell { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 5px; }
+         .referrals td .action-button { margin: 0; padding: 6px 8px; font-size: 12px; border-radius: 4px; font-weight: 500; text-transform: none; min-width: 65px; text-align: center; }
+         .referrals td .edit-button { background-color: #f59e0b; }
          .referrals td .edit-button:hover { background-color: #d97706; }
-         .referrals td .remove-button { background-color: #ef4444; } /* Red */
+         .referrals td .remove-button { background-color: #ef4444; }
          .referrals td .remove-button:hover { background-color: #dc2626; }
-
-         /* Collapsible Referrals Styles */
-         .collapsible-header {
-             cursor: pointer;
-             display: flex;
-             align-items: center;
-             justify-content: center;
-             gap: 8px;
-             user-select: none; /* Prevent text selection on click */
-             margin-bottom: 5px;
-         }
-         .toggle-icon {
-             transition: transform 0.3s ease; /* Smooth rotation */
-             font-size: 0.8em;
-             color: #9ca3af;
-         }
-         .collapsible-content {
-             /* Content is visible by default */
-         }
-         .referrals.collapsed .collapsible-content {
-             display: none; /* Hide content when collapsed */
-         }
-         .referrals.collapsed .toggle-icon {
-             transform: rotate(-90deg); /* Rotate arrow icon */
-         }
-         #addReferralButton {
-             background-color: #3b82f6; /* Blue */
-             margin-top: 10px;
-         }
+         .collapsible-header { cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; user-select: none; margin-bottom: 5px; }
+         .toggle-icon { transition: transform 0.3s ease; font-size: 0.8em; color: #9ca3af; }
+         .collapsible-content { /* Visible by default */ }
+         .referrals.collapsed .collapsible-content { display: none; }
+         .referrals.collapsed .toggle-icon { transform: rotate(-90deg); }
+         #addReferralButton { background-color: #3b82f6; margin-top: 10px; }
          #addReferralButton:hover { background-color: #2563eb; }
 
         /* --- Results Section Styles --- */
-        .results {
-            margin-top: 25px;
-            padding: 20px;
-            background-color: #111827; /* Same as input groups */
-            border: 1px solid #1f2937;
-            box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset;
-            border-radius: 8px;
-        }
-        /* Grid container for results */
-        .results-grid-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Two equal columns */
-            gap: 25px; /* Gap between columns and rows */
-            margin-top: 15px; /* Space below the main H2 */
-        }
-        /* Style for each group in the grid */
-        .result-group h4 {
-            margin-top: 0; /* Remove top margin for headers within the group */
-        }
-        .result-item { /* Each row in results */
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 0;
-            border-bottom: 1px solid #283141; /* Separator line */
-            font-size: 14px;
-        }
-        .result-item:last-child { border-bottom: none; } /* Remove last border */
-        .result-item .label { color: #9ca3af; } /* Gray for labels */
-        .result-item .value {
-            color: #ffffff; /* White for values */
-            font-weight: 600;
-            text-align: right;
-        }
-        /* Specific colors for certain result values */
-        .result-item .value.profit-sol,
-        .result-item .value.profit-usdc,
-        .result-item .value.profit-percent { color: #4ade80; } /* Green for profit */
-        .result-item .value.roi,
-        .result-item .value.doubling { color: #fbbf24; } /* Amber for ROI/Doubling */
-        .result-item .value.balance-usd { color: #60a5fa; } /* Blue for total USD */
+        .results { margin-top: 25px; padding: 20px; background-color: #111827; border: 1px solid #1f2937; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; border-radius: 8px; }
+        .results-grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 25px; margin-top: 15px; }
+        .result-group h4 { margin-top: 0; }
+        .result-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #283141; font-size: 14px; }
+        .result-item:last-child { border-bottom: none; }
+        .result-item .label { color: #9ca3af; }
+        .result-item .value { color: #ffffff; font-weight: 600; text-align: right; }
+        .result-item .value.profit-sol, .result-item .value.profit-usdc, .result-item .value.profit-percent { color: #4ade80; }
+        .result-item .value.roi, .result-item .value.doubling { color: #fbbf24; }
+        .result-item .value.balance-usd { color: #60a5fa; }
 
         /* Calculate Button Style */
-        #calculateButton {
-            background-color: #22c55e; /* Green */
-            margin-top: 25px; /* Space above */
-            margin-right: 0;
-            display: block;
-            width: auto; /* Fit content */
-            max-width: 200px; /* Limit width */
-            margin-left: auto; /* Center */
-            margin-right: auto; /* Center */
-        }
+        #calculateButton { background-color: #22c55e; margin-top: 25px; margin-right: 0; display: block; width: auto; max-width: 200px; margin-left: auto; margin-right: auto; }
         #calculateButton:hover { background-color: #16a34a; }
 
         /* --- Footer Styles --- */
-        .textContent {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 15px;
-            color: #6b7280; /* Gray */
-        }
+        .textContent { text-align: center; margin-top: 20px; font-size: 15px; color: #6b7280; }
         .textContent p { display: block; margin-block-start: 0em; margin-block-end: 0em; margin-inline-start: 0px; margin-inline-end: 0px; unicode-bidi: isolate; }
-        .textContent i { color: #6b7280; margin: 0 2px; } /* Icon color */
-        .textContent a { color: #3b82f6; text-decoration: none; } /* Link color */
+        .textContent i { color: #6b7280; margin: 0 2px; }
+        .textContent a { color: #3b82f6; text-decoration: none; }
         .textContent a:hover { text-decoration: underline; }
 
         /* --- Modal Styles (Edit Referral) --- */
-        .modal-overlay {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.6); /* Black overlay */
-            justify-content: center; /* Center content vertically */
-            align-items: center; /* Center content horizontally */
-        }
-        .modal-content {
-            background: linear-gradient(to bottom, #111827, #05001d); /* Gradient background */
-            margin: auto;
-            padding: 25px;
-            border: 1px solid #4ade80; /* Green border */
-            border-radius: 8px;
-            width: 90%; /* Responsive width */
-            max-width: 550px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
-        }
-        .modal-header {
-            padding-bottom: 15px;
-            border-bottom: 1px solid #374151;
-            margin-bottom: 20px;
-        }
+        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
+        .modal-content { background: linear-gradient(to bottom, #111827, #05001d); margin: auto; padding: 25px; border: 1px solid #4ade80; border-radius: 8px; width: 90%; max-width: 550px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
+        .modal-header { padding-bottom: 15px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
         .modal-header h4 { margin: 0; font-size: 20px; font-weight: 700; color: #e5e7eb; }
-        .modal-body {
-            max-height: 60vh; /* Limit height and allow scrolling */
-            overflow-y: auto;
-            padding-right: 10px; /* Space for scrollbar */
-        }
+        .modal-body { max-height: 60vh; overflow-y: auto; padding-right: 10px; }
         .modal-body .input-pair { margin-bottom: 15px; }
         .modal-body .input-pair label { margin-bottom: 5px; font-size: 13px; color: #9ca3af; }
         .modal-body .input-pair input { width: 100%; font-size: 14px; padding: 6px 8px; }
-        .modal-footer {
-            padding-top: 20px;
-            border-top: 1px solid #374151;
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end; /* Align buttons to the right */
-            gap: 10px;
-        }
+        .modal-footer { padding-top: 20px; border-top: 1px solid #374151; margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
         .modal-footer button { padding: 8px 18px; font-size: 14px; }
-        #saveReferralButton { background-color: #22c55e; } /* Green Save button */
+        #saveReferralButton { background-color: #22c55e; }
         #saveReferralButton:hover { background-color: #16a34a; }
-        #cancelReferralButton { background-color: #6b7280; } /* Gray Cancel button */
+        #cancelReferralButton { background-color: #6b7280; }
         #cancelReferralButton:hover { background-color: #4b5563; }
 
         /* --- Responsive Styles --- */
-        @media (max-width: 600px) { /* Adjust breakpoint as needed */
-            .input-group {
-                grid-template-columns: 1fr; /* Stack inputs vertically */
-            }
-            .results-grid-container {
-                grid-template-columns: 1fr; /* Single column for results */
-                gap: 20px; /* Adjust gap for single column */
-            }
-            h1 { font-size: 26px; } /* Slightly smaller title */
-            h2, h3 { font-size: 24px; } /* Smaller headings */
+        @media (max-width: 600px) {
+            .input-group { grid-template-columns: 1fr; }
+            .results-grid-container { grid-template-columns: 1fr; gap: 20px; }
+            h1 { font-size: 26px; }
+            h2, h3 { font-size: 24px; }
         }
-
     </style>
 </head>
 <body>
@@ -590,10 +445,10 @@
                         <span class="label" id="label-double-sol-noreinvest">SOL Stake (No Reinvest):</span>
                         <span class="value doubling" id="result-double-sol-noreinvest">N/A</span>
                     </div>
-                    <div class="result-item">
-                        <span class="label" id="label-double-sol-reinvest">SOL Stake (With Reinvest):</span>
-                        <span class="value doubling" id="result-double-sol-reinvest">N/A</span>
-                    </div>
+                     <div class="result-item">
+                         <span class="label" id="label-double-sol-reinvest">SOL Stake (With Reinvest):</span>
+                         <span class="value doubling" id="result-double-sol-reinvest">N/A</span>
+                     </div>
                     <div class="result-item">
                         <span class="label" id="label-double-usdc-noreinvest">USDC Stake (No Reinvest):</span>
                         <span class="value doubling" id="result-double-usdc-noreinvest">N/A</span>
@@ -619,7 +474,16 @@
                         <span class="value balance-usd" id="result-final-balance-usd-total">0 $</span>
                     </div>
                 </div>
+
+                <div class="result-group">
+                    <h4 id="h4-total-profit-usd">Total Profit (USD)</h4>
+                    <div class="result-item">
+                        <span class="label" id="label-profit-total-usd">Total Profit (USD):</span>
+                        <span class="value balance-usd" id="result-profit-total-usd">0 $</span>
+                    </div>
+                </div>
             </div> </div>
+
         <div class="textContent">
              <p id="p-footer">Made by <i class="fab fa-telegram-plane"></i> AslChernov</p>
         </div>
@@ -658,33 +522,28 @@
 
     <script>
         // --- Global Variables & Constants ---
-        let referralsData = []; // Array to hold referral objects: { id, stakedSol, profitPercentSol, stakedUsdc, profitPercentUsdc }
-        let nextReferralId = 1; // Counter for assigning unique referral IDs
-        let currentLanguage = 'en'; // Default language
-        const REINVEST_THRESHOLD_SOL = 0.1; // Minimum SOL profit to trigger reinvestment
-        const REINVEST_THRESHOLD_USDC = 20; // Minimum USDC profit to trigger reinvestment
+        let referralsData = [];
+        let nextReferralId = 1;
+        let currentLanguage = 'en';
+        const REINVEST_THRESHOLD_SOL = 0.1;
+        const REINVEST_THRESHOLD_USDC = 20;
 
         // --- Translations Object ---
-        // Stores UI text for different languages
         const translations = {
             'en': {
-                // General UI
                 labelUserStakedSol: 'Staked (SOL):', labelUserProfitPercentSol: 'Profit % / day (SOL):',
                 labelUserStakedUsdc: 'Staked (USDC):', labelUserProfitPercentUsdc: 'Profit % / day (USDC):',
                 labelPlatformFee: 'FomoFarm Fee (%):', labelSolUsd: 'SOL / USD:',
                 labelDays: 'Days:', labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals',
                 calculate: 'Calculate', pFooter: 'Made by', langButtonText: 'Language EN',
-                // Referrals Section
                 h3Referrals: 'Referrals', addReferral: 'Add Referral', thReferralNum: 'Referral #',
                 thRefStakes: 'Stakes Summary', thActions: 'Actions',
                 editButtonShort: 'Edit', removeButtonShort: 'Remove',
                 noReferrals: 'No referrals added yet.', refSummaryNone: '-',
-                // Modal
                 modalTitlePrefix: 'Edit Data for Referral #',
                 labelModalStakeSol: 'Staked (SOL):', labelModalProfitSol: 'Profit % / day (SOL):',
                 labelModalStakeUsdc: 'Staked (USDC):', labelModalProfitUsdc: 'Profit % / day (USDC):',
                 saveButton: 'Save', cancelButton: 'Cancel',
-                // Results Section
                 h2Results: 'Results',
                 h4YourProfit: 'Your profit', labelProfitUserSol: 'From SOL Stake:', labelProfitUserUsdc: 'From USDC Stake:',
                 h4ReferralProfit: 'Profit from referrals', labelProfitRefSol: 'From SOL Stakes:', labelProfitRefUsdc: 'From USDC Stakes:',
@@ -695,29 +554,25 @@
                 labelDoubleSolReinvest: 'SOL Stake (With Reinvest):', labelDoubleUsdcReinvest: 'USDC Stake (With Reinvest):',
                 h4FinalBalance: 'Final Balance',
                 labelFinalBalanceSol: 'Balance SOL:', labelFinalBalanceUsdc: 'Balance USDC:', labelFinalBalanceUsd: 'Total Balance (USD):',
-                // Other strings
+                h4TotalProfitUsd: 'Total Profit (USD)', labelProfitTotalUsd: 'Total Profit (USD):', // New keys
                 roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
                 invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
                 solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
             },
             'ru': {
-                 // General UI (Russian translations)
                 labelUserStakedSol: 'Вложено (SOL):', labelUserProfitPercentSol: 'Профит % / день (SOL):',
                 labelUserStakedUsdc: 'Вложено (USDC):', labelUserProfitPercentUsdc: 'Профит % / день (USDC):',
                 labelPlatformFee: 'Комиссия FomoFarm (%):', labelSolUsd: 'SOL / USD:',
                 labelDays: 'Дней:', labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов',
                 calculate: 'Рассчитать', pFooter: 'Сделано', langButtonText: 'Язык RU',
-                 // Referrals Section
                 h3Referrals: 'Рефералы', addReferral: 'Добавить реферала', thReferralNum: 'Реферал №',
                 thRefStakes: 'Сводка стейков', thActions: 'Действия',
                 editButtonShort: 'Изм.', removeButtonShort: 'Удал.',
                 noReferrals: 'Рефералы еще не добавлены.', refSummaryNone: '-',
-                // Modal
                 modalTitlePrefix: 'Изменить данные для Реферала №',
                 labelModalStakeSol: 'Вложено (SOL):', labelModalProfitSol: 'Профит % / день (SOL):',
                 labelModalStakeUsdc: 'Вложено (USDC):', labelModalProfitUsdc: 'Профит % / день (USDC):',
                 saveButton: 'Сохранить', cancelButton: 'Отмена',
-                // Results Section
                 h2Results: 'Результаты',
                 h4YourProfit: 'Ваш профит', labelProfitUserSol: 'От стейка SOL:', labelProfitUserUsdc: 'От стейка USDC:',
                 h4ReferralProfit: 'Профит от рефералов', labelProfitRefSol: 'От стейков SOL:', labelProfitRefUsdc: 'От стейков USDC:',
@@ -728,7 +583,7 @@
                 labelDoubleSolReinvest: 'Стейк SOL (С реинвестом):', labelDoubleUsdcReinvest: 'Стейк USDC (С реинвестом):',
                 h4FinalBalance: 'Итоговый баланс',
                 labelFinalBalanceSol: 'Баланс SOL:', labelFinalBalanceUsdc: 'Баланс USDC:', labelFinalBalanceUsd: 'Общий Баланс (USD):',
-                // Other strings
+                h4TotalProfitUsd: 'Общий Профит (USD)', labelProfitTotalUsd: 'Общий Профит (USD):', // New keys
                 roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
                 invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
                 solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.'
@@ -736,12 +591,8 @@
         };
 
         // --- Data Persistence Functions (localStorage) ---
-
-        /**
-         * Saves the current state of inputs, checkboxes, referrals, and UI settings to localStorage.
-         */
-        function saveData() {
-            try {
+        function saveData() { /* ... (saveData function remains the same) ... */
+             try {
                 const data = {
                     userStakedSolAmount: document.getElementById('userStakedSolAmount').value,
                     userProfitPercentSol: document.getElementById('userProfitPercentSol').value,
@@ -763,12 +614,8 @@
                 console.error("Error saving data to localStorage:", error);
             }
         }
-
-        /**
-         * Loads saved data from localStorage and applies it to the UI elements and variables.
-         */
-        function loadData() {
-            try {
+        function loadData() { /* ... (loadData function remains the same) ... */
+             try {
                 document.getElementById('userStakedSolAmount').value = localStorage.getItem('fomoFarmCalc_userStakedSolAmount') || '0';
                 document.getElementById('userProfitPercentSol').value = localStorage.getItem('fomoFarmCalc_userProfitPercentSol') || '0';
                 document.getElementById('userStakedUsdcAmount').value = localStorage.getItem('fomoFarmCalc_userStakedUsdcAmount') || '0';
@@ -818,14 +665,9 @@
                 referralsData = [];
                 nextReferralId = 1;
             }
-        }
+         }
 
         // --- UI Update Functions ---
-
-        /**
-         * Updates the text content of UI elements based on the selected language.
-         * @param {string} lang - The language code ('en' or 'ru').
-         */
         function updateUI(lang) {
             currentLanguage = lang;
             const trans = translations[lang];
@@ -836,6 +678,7 @@
                 h3ReferralsTextElement.textContent = trans.h3Referrals;
             }
 
+            // --- Updated idToKeyMap ---
             const idToKeyMap = {
                 'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
                 'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
@@ -852,6 +695,7 @@
                 'label-double-sol-reinvest': 'labelDoubleSolReinvest', 'label-double-usdc-reinvest': 'labelDoubleUsdcReinvest',
                 'h4-final-balance': 'h4FinalBalance', 'label-final-balance-sol': 'labelFinalBalanceSol',
                 'label-final-balance-usdc': 'labelFinalBalanceUsdc', 'label-final-balance-usd': 'labelFinalBalanceUsd',
+                'h4-total-profit-usd': 'h4TotalProfitUsd', 'label-profit-total-usd': 'labelProfitTotalUsd', // New IDs added
                 'label-modal-stake-sol': 'labelModalStakeSol', 'label-modal-profit-sol': 'labelModalProfitSol',
                 'label-modal-stake-usdc': 'labelModalStakeUsdc', 'label-modal-profit-usdc': 'labelModalProfitUsdc',
                 'saveReferralButton': 'saveButton', 'cancelReferralButton': 'cancelButton',
@@ -878,55 +722,28 @@
             }
             renderReferralsTable();
         }
-
-        /**
-         * Toggles the display language between 'en' and 'ru' and saves the preference.
-         */
-        function toggleLanguage() {
+        function toggleLanguage() { /* ... (toggleLanguage function remains the same) ... */
             const newLang = currentLanguage === 'en' ? 'ru' : 'en';
             localStorage.setItem('fomoFarmCalc_language', newLang);
             updateUI(newLang);
-        }
+         }
 
         // --- Referral Management Functions ---
-
-        /**
-         * Adds a new empty referral entry to the data, updates the table, and saves data.
-         */
-        function addReferral() {
+        function addReferral() { /* ... (addReferral function remains the same) ... */
             const newId = nextReferralId++;
             const newReferral = { id: newId, stakedSol: 0, profitPercentSol: 0, stakedUsdc: 0, profitPercentUsdc: 0 };
             referralsData.push(newReferral);
             renderReferralsTable();
             saveData();
         }
-
-        /**
-         * Removes a referral by its ID, updates the table, re-indexes remaining referrals, and saves data.
-         * @param {number} referralIdToRemove - The ID of the referral to remove.
-         */
-        function removeReferral(referralIdToRemove) {
-            // Filter out the referral to remove
+        function removeReferral(referralIdToRemove) { /* ... (removeReferral function with re-indexing remains the same) ... */
             referralsData = referralsData.filter(ref => ref.id !== referralIdToRemove);
-
-            // --- UNCOMMENTED THIS BLOCK TO RE-INDEX ---
-            // Re-index remaining referrals to be sequential
-            referralsData.forEach((ref, index) => {
-                ref.id = index + 1; // Assign new ID based on array index (1-based)
-            });
-            // Reset the next ID counter based on the current number of referrals
+            referralsData.forEach((ref, index) => { ref.id = index + 1; });
             nextReferralId = referralsData.length + 1;
-            // --- END OF UNCOMMENTED BLOCK ---
-
-            renderReferralsTable(); // Update the table display
-            saveData(); // Save the updated data
+            renderReferralsTable();
+            saveData();
         }
-
-
-        /**
-         * Renders the referrals table based on the current referralsData.
-         */
-        function renderReferralsTable() {
+        function renderReferralsTable() { /* ... (renderReferralsTable function remains the same) ... */
             const referralsListBody = document.getElementById('referralsList');
             if (!referralsListBody) return;
             referralsListBody.innerHTML = '';
@@ -940,7 +757,7 @@
                 referralsData.forEach(referral => {
                      const row = document.createElement('tr');
                      const numCell = document.createElement('td');
-                     numCell.textContent = referral.id; // Now displays the potentially re-indexed ID
+                     numCell.textContent = referral.id;
 
                      const summaryCell = document.createElement('td');
                      summaryCell.className = 'stakes-summary';
@@ -956,11 +773,11 @@
                      const editButton = document.createElement('button');
                      editButton.textContent = trans.editButtonShort;
                      editButton.className = 'action-button edit-button';
-                     editButton.onclick = () => openEditModal(referral.id); // Still uses the current ID to find the referral
+                     editButton.onclick = () => openEditModal(referral.id);
                      const removeButton = document.createElement('button');
                      removeButton.textContent = trans.removeButtonShort;
                      removeButton.className = 'action-button remove-button';
-                     removeButton.onclick = () => removeReferral(referral.id); // Still uses the current ID to trigger removal
+                     removeButton.onclick = () => removeReferral(referral.id);
                      actionCell.appendChild(editButton);
                      actionCell.appendChild(removeButton);
 
@@ -973,21 +790,16 @@
         }
 
         // --- Modal Management Functions ---
-
-        /**
-         * Opens the edit referral modal and populates it with data for the given referral ID.
-         * @param {number} referralId - The ID of the referral to edit.
-         */
-        function openEditModal(referralId) {
+        function openEditModal(referralId) { /* ... (openEditModal function remains the same) ... */
             const modal = document.getElementById('editReferralModal');
             const modalTitle = document.getElementById('modalTitle');
             const editingIdInput = document.getElementById('editingReferralId');
             const trans = translations[currentLanguage];
-            const referral = referralsData.find(ref => ref.id === referralId); // Find by current ID
+            const referral = referralsData.find(ref => ref.id === referralId);
             if (!referral || !modal || !modalTitle || !editingIdInput) return;
 
-            modalTitle.textContent = `${trans.modalTitlePrefix}${referral.id}`; // Display current ID
-            editingIdInput.value = referral.id; // Store current ID for saving
+            modalTitle.textContent = `${trans.modalTitlePrefix}${referral.id}`;
+            editingIdInput.value = referral.id;
             document.getElementById('modal-stake-sol').value = referral.stakedSol || 0;
             document.getElementById('modal-profit-sol').value = referral.profitPercentSol || 0;
             document.getElementById('modal-stake-usdc').value = referral.stakedUsdc || 0;
@@ -998,24 +810,16 @@
             document.getElementById('label-modal-profit-usdc').textContent = trans.labelModalProfitUsdc;
             modal.style.display = 'flex';
         }
-
-        /**
-         * Closes the edit referral modal.
-         */
-        function closeEditModal() {
+        function closeEditModal() { /* ... (closeEditModal function remains the same) ... */
             const modal = document.getElementById('editReferralModal');
             if (modal) { modal.style.display = 'none'; }
             const editingIdInput = document.getElementById('editingReferralId');
             if(editingIdInput) { editingIdInput.value = ''; }
         }
-
-        /**
-         * Saves the data entered in the edit modal to the corresponding referral object and saves all data.
-         */
-        function saveReferralData() {
+        function saveReferralData() { /* ... (saveReferralData function remains the same) ... */
             const editingId = parseInt(document.getElementById('editingReferralId').value);
             if (isNaN(editingId)) return;
-            const referralIndex = referralsData.findIndex(ref => ref.id === editingId); // Find by current ID
+            const referralIndex = referralsData.findIndex(ref => ref.id === editingId);
             if (referralIndex === -1) return;
 
             const newStakeSol = parseFloat(document.getElementById('modal-stake-sol').value) || 0;
@@ -1028,20 +832,13 @@
             referralsData[referralIndex].stakedUsdc = newStakeUsdc >= 0 ? newStakeUsdc : 0;
             referralsData[referralIndex].profitPercentUsdc = newProfitUsdc >= 0 ? newProfitUsdc : 0;
 
-            saveData(); // Save data after editing a referral
+            saveData();
             renderReferralsTable();
             closeEditModal();
         }
 
         // --- Formatting Function ---
-
-        /**
-         * Formats a number according to the specified currency or type.
-         * @param {number} number - The number to format.
-         * @param {string} [currency='default'] - The type of formatting ('SOL', 'USDC', 'USD', 'PERCENT', 'DAYS', 'default').
-         * @returns {string} The formatted number string.
-         */
-        function formatNumber(number, currency = 'default') {
+        function formatNumber(number, currency = 'default') { /* ... (formatNumber function remains the same) ... */
             if (isNaN(number) || number === null) { return currency === 'USD' ? '0.00 $' : (currency === 'RUB' ? '0.00 ₽' : '0.00000'); }
             const daysSuffix = translations[currentLanguage].daysSuffix;
             const config = {
@@ -1057,10 +854,6 @@
         }
 
         // --- Calculation Logic ---
-
-        /**
-         * Performs the profit calculation based on user inputs and referral data.
-         */
         function calculate() {
             // Get input values
             const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100;
@@ -1124,8 +917,8 @@
             let currentUsdcStake = initialUserStakedUsdc;
             let accumulatedSolProfit = 0;
             let accumulatedUsdcProfit = 0;
-            let totalSolProfitAccumulated = 0;
-            let totalUsdcProfitAccumulated = 0;
+            let totalSolProfitAccumulated = 0; // Renamed for clarity
+            let totalUsdcProfitAccumulated = 0; // Renamed for clarity
             let doubleSolReinvestDays = "N/A";
             let doubleUsdcReinvestDays = "N/A";
             let solDoubled = false;
@@ -1136,10 +929,10 @@
                 const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate);
                 const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol;
                 const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc;
-                totalSolProfitAccumulated += profitTodaySol_Total;
-                totalUsdcProfitAccumulated += profitTodayUsdc_Total;
-                accumulatedSolProfit += profitTodaySol_Total;
-                accumulatedUsdcProfit += profitTodayUsdc_Total;
+                totalSolProfitAccumulated += profitTodaySol_Total; // Accumulate total profit
+                totalUsdcProfitAccumulated += profitTodayUsdc_Total; // Accumulate total profit
+                accumulatedSolProfit += profitTodaySol_Total; // Accumulate for reinvestment check
+                accumulatedUsdcProfit += profitTodayUsdc_Total; // Accumulate for reinvestment check
 
                 if (reinvestEnabled) {
                     if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) { currentSolStake += accumulatedSolProfit; accumulatedSolProfit = 0; }
@@ -1169,6 +962,9 @@
             const totalReferralProfitOverPeriodSol = dailyNetProfit_RefSol * days;
             const totalReferralProfitOverPeriodUsdc = dailyNetProfit_RefUsdc * days;
 
+            // --- Calculate Total Profit in USD ---
+            const totalProfitUsd = (solToUsd > 0 ? totalSolProfitAccumulated * solToUsd : 0) + totalUsdcProfitAccumulated;
+
             // Update Results Display
             document.getElementById('result-profit-user-sol').textContent = formatNumber(totalSolProfitAccumulated - totalReferralProfitOverPeriodSol, 'SOL');
             document.getElementById('result-profit-user-usdc').textContent = formatNumber(totalUsdcProfitAccumulated - totalReferralProfitOverPeriodUsdc, 'USDC');
@@ -1185,6 +981,8 @@
              document.getElementById('result-final-balance-sol').textContent = formatNumber(finalSolBalance, 'SOL');
              document.getElementById('result-final-balance-usdc').textContent = formatNumber(finalUsdcBalance, 'USDC');
              document.getElementById('result-final-balance-usd-total').textContent = formatNumber(finalUsdBalanceTotal, 'USD');
+             // --- Update new Total Profit USD element ---
+             document.getElementById('result-profit-total-usd').textContent = formatNumber(totalProfitUsd, 'USD');
         }
 
         /**
@@ -1207,34 +1005,25 @@
              document.getElementById('result-final-balance-sol').textContent = '0 SOL';
              document.getElementById('result-final-balance-usdc').textContent = '0 USDC';
              document.getElementById('result-final-balance-usd-total').textContent = '0 $';
+             // --- Clear new Total Profit USD element ---
+             document.getElementById('result-profit-total-usd').textContent = '0 $';
              if (message) { console.warn(message); }
         }
 
         // --- Collapsible Section Function ---
-
-        /**
-         * Toggles the 'collapsed' class on the referrals section container and saves the state.
-         */
-        function toggleReferralsSection() {
+        function toggleReferralsSection() { /* ... (toggleReferralsSection function remains the same) ... */
             const referralsContainer = document.getElementById('referralsContainer');
             if (referralsContainer) {
                 referralsContainer.classList.toggle('collapsed');
-                saveData(); // Save the new collapse state
+                saveData();
             }
         }
 
         // --- Event Listener Setup ---
-
-        /**
-         * Attaches event listeners to various UI elements.
-         */
-        function setupEventListeners() {
-             // --- Add listeners to save data on input change ---
+        function setupEventListeners() { /* ... (setupEventListeners function remains the same) ... */
              document.querySelectorAll('.input-group input, .checkbox-container input').forEach(element => {
                  element.addEventListener('change', saveData);
              });
-             // --- End listeners for saving data ---
-
              document.getElementById('languageToggleButton').addEventListener('click', toggleLanguage);
              document.getElementById('addReferralButton').addEventListener('click', addReferral);
              document.getElementById('saveReferralButton').addEventListener('click', saveReferralData);
@@ -1247,27 +1036,11 @@
         }
 
         // --- Initialization ---
-
-        /**
-         * Initializes the calculator when the DOM is fully loaded.
-         */
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load language preference first
+        document.addEventListener('DOMContentLoaded', function() { /* ... (DOMContentLoaded handler remains the same) ... */
             currentLanguage = localStorage.getItem('fomoFarmCalc_language') || 'en';
-
-            // Load saved data (inputs, referrals, UI state) from localStorage
-            loadData(); // This now also applies the collapse state
-
-            // Set up event listeners
+            loadData();
             setupEventListeners();
-
-            // Update UI text based on loaded language
             updateUI(currentLanguage);
-
-            // Clear results display initially (optional, loadData might populate some fields)
-            // clearResults(); // Keep this if you want a clean slate regardless of loaded data
-
-            // Render the referral table based on loaded data
             renderReferralsTable();
         });
 
