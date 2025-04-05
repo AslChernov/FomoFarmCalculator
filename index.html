@@ -55,13 +55,18 @@
         label img, .result-item img, .stakes-summary img {
             width: 14px;
             height: 14px;
-            vertical-align: middle; /* Fallback alignment */
+            vertical-align: middle; /* Use vertical-align for inline elements */
             /* margin-left is applied specifically below */
         }
-        /* Apply left margin only where needed (after text) */
+        /* Apply left margin only where needed (after text in labels/results values) */
          label img, .result-item .value img {
              margin-left: 5px;
          }
+         /* Apply left margin for icons inside summary (after number) */
+         .referrals td.stakes-summary img {
+             margin-left: 4px;
+         }
+
 
         /* --- Input & Select Styles --- */
         input[type="number"], select { width: 100%; padding: 8px 10px; margin-top: 0; border: 1px solid #374151; border-radius: 6px; font-size: 14px; font-family: 'Manrope', sans-serif; color: #ffffff; background-color: #000000; transition: border-color 0.3s ease; }
@@ -99,18 +104,11 @@
          .referrals th:nth-child(2) { width: 55%; } /* Stakes Summary */
          .referrals th:nth-child(3) { width: 35%; } /* Actions */
          .referrals td.stakes-summary { font-size: 14px; color: #d1d5db; text-align: center; font-weight: 500; white-space: pre-wrap; }
-         /* === NEW/MODIFIED: Styles for spans and icons inside stakes-summary === */
+         /* Removed flex styles from .stakes-summary span */
          .referrals td.stakes-summary span {
-            display: inline-flex;  /* Align icon and text within the span */
-            align-items: center;
-            margin-right: 10px;   /* Space between SOL and USDC parts */
-            white-space: nowrap; /* Prevent wrapping within a single currency block */
+             margin-right: 10px; /* Space between SOL and USDC parts if both present */
+             white-space: nowrap;
          }
-         .referrals td.stakes-summary span img {
-             margin-right: 4px; /* Space between icon and number */
-             margin-left: 0; /* Reset margin-left from general rule */
-         }
-         /* === END NEW/MODIFIED === */
          .referrals td.actions-cell { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 5px; }
          .referrals td .action-button { margin: 0; padding: 6px 8px; font-size: 12px; border-radius: 4px; font-weight: 500; text-transform: none; min-width: 65px; text-align: center; }
          .referrals td .edit-button { background-color: #f59e0b; }
@@ -207,7 +205,7 @@
                 <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
             </div>
              <div id="platformFeeContainer">
-                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee %</label>
+                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)</label>
                 <input type="number" id="platformFee" value="10" step="0.1" min="0">
             </div>
             <div>
@@ -287,7 +285,7 @@
         const translations = {
             'en': {
                 labelUserStakedSol: 'Staked', labelUserProfitPercentSol: 'Profit % / day', labelUserStakedUsdc: 'Staked', labelUserProfitPercentUsdc: 'Profit % / day',
-                labelPlatformFee: 'FomoFarm Fee %', labelSolUsd: 'SOL / USD', labelDays: 'Days',
+                labelPlatformFee: 'FomoFarm Fee (%)', labelSolUsd: 'SOL / USD', labelDays: 'Days',
                 labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
                 thReferralNum: '№', thRefStakes: 'Stakes Summary', thActions: 'Actions', editButtonShort: 'Edit',
@@ -383,15 +381,12 @@
             const h3ReferralsTextElement = document.getElementById('h3-referrals-text');
             if (h3ReferralsTextElement && trans.h3Referrals) { h3ReferralsTextElement.textContent = trans.h3Referrals; }
 
-            // --- Define IMG tags for icons ---
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
             const idToKeyMap = {
-                'label-user-staked-sol': 'labelUserStakedSol',
-                'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
-                'label-user-staked-usdc': 'labelUserStakedUsdc',
-                'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
+                'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
+                'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
                 'label-platform-fee': 'labelPlatformFee', 'label-sol-usd': 'labelSolUsd', 'label-days': 'labelDays',
                 'label-reinvest': 'labelReinvest', 'label-enable-referrals': 'labelEnableReferrals',
                 'addReferralButton': 'addReferral', 'th-referral-num': 'thReferralNum',
@@ -406,22 +401,19 @@
                 'h4-final-balance': 'h4FinalBalance', 'label-final-balance-sol': 'labelFinalBalanceSol',
                 'label-final-balance-usdc': 'labelFinalBalanceUsdc', 'label-final-balance-usd': 'labelFinalBalanceUsd',
                 'h4-total-profit-usd': 'h4TotalProfitUsd', 'label-profit-total-usd': 'labelProfitTotalUsd',
-                'label-modal-stake-sol': 'labelModalStakeSol',
-                'label-modal-profit-sol': 'labelModalProfitSol',
-                'label-modal-stake-usdc': 'labelModalStakeUsdc',
-                'label-modal-profit-usdc': 'labelModalProfitUsdc',
+                'label-modal-stake-sol': 'labelModalStakeSol', 'label-modal-profit-sol': 'labelModalProfitSol',
+                'label-modal-stake-usdc': 'labelModalStakeUsdc', 'label-modal-profit-usdc': 'labelModalProfitUsdc',
                 'saveReferralButton': 'saveButton', 'cancelReferralButton': 'cancelButton',
                 'languageToggleButton': 'langButtonText'
             };
 
-            // Loop for standard elements - sets base text
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
                 if (element && trans[key] !== undefined) {
                      if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
                          if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
-                         else { element.textContent = trans[key]; } // Set base text first
+                         else { element.textContent = trans[key]; }
                      }
                 } else if (element && id === 'p-footer') {
                      if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
@@ -434,7 +426,6 @@
             const labelUsdcStake = document.getElementById('label-user-staked-usdc');
             const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
             const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
-
             if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
             if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
             if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
@@ -464,7 +455,6 @@
             if (!referralsListBody) return;
             referralsListBody.innerHTML = '';
             const trans = translations[currentLanguage];
-            // Define IMG tags for icons within this scope
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
@@ -479,20 +469,19 @@
 
                      const summaryCell = document.createElement('td');
                      summaryCell.className = 'stakes-summary';
-                     let summaryContent = []; // Use array to build content parts
+                     let summaryContent = [];
                      const formatOptionsNoSuffix = { maximumFractionDigits: 5, minimumFractionDigits: 2 };
                      const usdcFormatOptionsNoSuffix = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
 
-                     // Add SOL stake info with icon
+                     // --- UPDATED: Removed class="summary-part" from span ---
                      if (referral.stakedSol > 0) {
-                         summaryContent.push(`<span>${formatNumber(referral.stakedSol, 'SOL', false)} &nbsp;${solanaIconImg}</span>`);
+                         summaryContent.push(`<span>${formatNumber(referral.stakedSol, 'SOL', false)}${solanaIconImg}</span>`); // Space added via CSS margin now
                      }
-                     // Add USDC stake info with icon
                      if (referral.stakedUsdc > 0) {
-                         summaryContent.push(`<span>${formatNumber(referral.stakedUsdc, 'USDC', false)} &nbsp;${usdcIconImg}</span>`);
+                         summaryContent.push(`<span>${formatNumber(referral.stakedUsdc, 'USDC', false)}${usdcIconImg}</span>`); // Space added via CSS margin now
                      }
-                     // Set cell content
-                     summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join('   ') : trans.refSummaryNone;
+                     summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join(' | ') : trans.refSummaryNone;
+                     // --- END UPDATE ---
 
                      const actionCell = document.createElement('td'); actionCell.className = 'actions-cell';
                      const editButton = document.createElement('button'); editButton.textContent = trans.editButtonShort; editButton.className = 'action-button edit-button'; editButton.onclick = () => openEditModal(referral.id);
@@ -552,7 +541,6 @@
         }
 
         // --- Formatting Function ---
-        // Added includeSuffix parameter (defaults to true)
         function formatNumber(number, currency = 'default', includeSuffix = true) {
             if (isNaN(number) || number === null) { return currency === 'USD' ? '0.00 $' : (currency === 'RUB' ? '0.00 ₽' : '0.00000'); }
             const daysSuffix = translations[currentLanguage].daysSuffix;
@@ -565,13 +553,12 @@
                 'default': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: '' }
             };
             const { locale, options, suffix } = config[currency] || config.default;
-            // Conditionally add suffix
             return number.toLocaleString(locale, options) + (includeSuffix ? suffix : '');
          }
 
 
         // --- Calculation Logic ---
-        function calculate() {
+        function calculate() { /* ... calculation logic ... */
             const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100; const solToUsd = parseFloat(document.getElementById('solToUsd').value) || 0;
             const days = parseInt(document.getElementById('days').value) || 0; const reinvestEnabled = document.getElementById('reinvestCheckbox').checked;
             const referralsEnabled = document.getElementById('includeReferralsCheckbox').checked; const trans = translations[currentLanguage];
@@ -589,7 +576,6 @@
             if (!solDoubled) { if (totalDailySolProfit > 0 && initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiNever; else doubleSolReinvestDays = "N/A"; } if (!usdcDoubled) { if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiNever; else doubleUsdcReinvestDays = "N/A"; }
             const finalSolBalance = currentSolStake + accumulatedSolProfit; const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit; const finalUsdBalanceTotal = (solToUsd > 0 ? finalSolBalance * solToUsd : 0) + finalUsdcBalance; const profitPercentSol = initialUserStakedSol > 0 ? (totalSolProfitAccumulated / initialUserStakedSol) * 100 : 0; const profitPercentUsdc = initialUserStakedUsdc > 0 ? (totalUsdcProfitAccumulated / initialUserStakedUsdc) * 100 : 0; const totalReferralProfitOverPeriodSol = dailyNetProfit_RefSol * days; const totalReferralProfitOverPeriodUsdc = dailyNetProfit_RefUsdc * days; const totalProfitUsd = (solToUsd > 0 ? totalSolProfitAccumulated * solToUsd : 0) + totalUsdcProfitAccumulated;
 
-            // --- Update Results Display with Icons ---
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
@@ -613,7 +599,6 @@
         function clearResults(message = "") {
              const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
              const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
-             // Use innerHTML to set initial value with icon
              document.getElementById('result-profit-user-sol').innerHTML = '0' + solanaIconImg;
              document.getElementById('result-profit-user-usdc').innerHTML = '0.00' + usdcIconImg;
              document.getElementById('result-profit-ref-sol').innerHTML = '0' + solanaIconImg;
@@ -656,9 +641,7 @@
             loadData();
             setupEventListeners();
             updateUI(currentLanguage);
-            // --- UNCOMMENTED clearResults() call ---
-            clearResults(); // Call clearResults AFTER updateUI to set initial icons
-            // --- END UNCOMMENT ---
+            clearResults(); // Ensure initial state has icons
             renderReferralsTable();
         });
 
