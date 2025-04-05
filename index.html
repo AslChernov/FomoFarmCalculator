@@ -37,23 +37,22 @@
         label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; }
         .input-group > div > label { height: auto; min-height: 0; }
 
-        /* === NEW: Styles for labels containing icons === */
+        /* Styles for labels containing icons */
         #label-user-staked-sol,
         #label-user-staked-usdc,
         #label-user-profit-percent-sol,
         #label-user-profit-percent-usdc {
-            display: inline-flex; /* Use inline-flex to allow alignment */
-            align-items: center; /* Vertically center text and icon */
-            gap: 0; /* Prevent extra gap if needed */
-            /* line-height: 1; Might need adjustment if text wraps weirdly */
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
         }
-        /* === END NEW === */
 
         /* Style for icons within labels */
         label img {
-            width: 15px;
-            height: 15px;
-            margin-left: 5px; /* Space between text and icon */
+            width: 16px;
+            height: 16px;
+            margin-left: 5px;
+            /* vertical-align is handled by flex align-items */
         }
 
 
@@ -229,88 +228,12 @@
         <div class="results">
             <h2 id="h2-results">Results</h2>
             <div class="results-grid-container">
-                <div class="result-group">
-                    <h4 id="h4-your-profit">Your profit</h4>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-user-sol">From SOL Stake:</span>
-                        <span class="value profit-sol" id="result-profit-user-sol">0 SOL</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-user-usdc">From USDC Stake:</span>
-                        <span class="value profit-usdc" id="result-profit-user-usdc">0 USDC</span>
-                    </div>
-                </div>
-                <div class="result-group">
-                    <h4 id="h4-referral-profit">Profit from referrals</h4>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-ref-sol">From SOL Stakes:</span>
-                        <span class="value profit-sol" id="result-profit-ref-sol">0 SOL</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-ref-usdc">From USDC Stakes:</span>
-                        <span class="value profit-usdc" id="result-profit-ref-usdc">0 USDC</span>
-                    </div>
-                </div>
-                <div class="result-group">
-                    <h4 id="h4-total-profit">Total profit</h4>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-total-sol">Total SOL:</span>
-                        <span class="value profit-sol" id="result-profit-total-sol">0 SOL</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-total-usdc">Total USDC:</span>
-                        <span class="value profit-usdc" id="result-profit-total-usdc">0 USDC</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-percent-sol">Profit SOL (% of initial SOL):</span>
-                        <span class="value profit-percent" id="result-profit-percent-sol">0 %</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-percent-usdc">Profit USDC (% of initial USDC):</span>
-                        <span class="value profit-percent" id="result-profit-percent-usdc">0 %</span>
-                    </div>
-                </div>
-                <div class="result-group">
-                    <h4 id="h4-doubling-time">Doubling Time (100% Profit)</h4>
-                    <div class="result-item">
-                        <span class="label" id="label-double-sol-noreinvest">SOL Stake (No Reinvest):</span>
-                        <span class="value doubling" id="result-double-sol-noreinvest">N/A</span>
-                    </div>
-                     <div class="result-item">
-                         <span class="label" id="label-double-sol-reinvest">SOL Stake (With Reinvest):</span>
-                         <span class="value doubling" id="result-double-sol-reinvest">N/A</span>
-                     </div>
-                    <div class="result-item">
-                        <span class="label" id="label-double-usdc-noreinvest">USDC Stake (No Reinvest):</span>
-                        <span class="value doubling" id="result-double-usdc-noreinvest">N/A</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-double-usdc-reinvest">USDC Stake (With Reinvest):</span>
-                        <span class="value doubling" id="result-double-usdc-reinvest">N/A</span>
-                    </div>
-                </div>
-                <div class="result-group">
-                    <h4 id="h4-final-balance">Final Balance</h4>
-                    <div class="result-item">
-                        <span class="label" id="label-final-balance-sol">Balance SOL:</span>
-                        <span class="value" id="result-final-balance-sol">0 SOL</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-final-balance-usdc">Balance USDC:</span>
-                        <span class="value" id="result-final-balance-usdc">0 USDC</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="label" id="label-final-balance-usd">Total Balance (USD):</span>
-                        <span class="value balance-usd" id="result-final-balance-usd-total">0 $</span>
-                    </div>
-                </div>
-                <div class="result-group">
-                    <h4 id="h4-total-profit-usd">Total Profit (USD)</h4>
-                    <div class="result-item">
-                        <span class="label" id="label-profit-total-usd">Total Profit (USD):</span>
-                        <span class="value balance-usd" id="result-profit-total-usd">0 $</span>
-                    </div>
-                </div>
+                <div class="result-group"> <h4 id="h4-your-profit">Your profit</h4> <div class="result-item"> <span class="label" id="label-profit-user-sol">From SOL Stake:</span> <span class="value profit-sol" id="result-profit-user-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-profit-user-usdc">From USDC Stake:</span> <span class="value profit-usdc" id="result-profit-user-usdc">0 USDC</span> </div> </div>
+                <div class="result-group"> <h4 id="h4-referral-profit">Profit from referrals</h4> <div class="result-item"> <span class="label" id="label-profit-ref-sol">From SOL Stakes:</span> <span class="value profit-sol" id="result-profit-ref-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-profit-ref-usdc">From USDC Stakes:</span> <span class="value profit-usdc" id="result-profit-ref-usdc">0 USDC</span> </div> </div>
+                <div class="result-group"> <h4 id="h4-total-profit">Total profit</h4> <div class="result-item"> <span class="label" id="label-profit-total-sol">Total SOL:</span> <span class="value profit-sol" id="result-profit-total-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-profit-total-usdc">Total USDC:</span> <span class="value profit-usdc" id="result-profit-total-usdc">0 USDC</span> </div> <div class="result-item"> <span class="label" id="label-profit-percent-sol">Profit SOL (% of initial SOL):</span> <span class="value profit-percent" id="result-profit-percent-sol">0 %</span> </div> <div class="result-item"> <span class="label" id="label-profit-percent-usdc">Profit USDC (% of initial USDC):</span> <span class="value profit-percent" id="result-profit-percent-usdc">0 %</span> </div> </div>
+                <div class="result-group"> <h4 id="h4-doubling-time">Doubling Time (100% Profit)</h4> <div class="result-item"> <span class="label" id="label-double-sol-noreinvest">SOL Stake (No Reinvest):</span> <span class="value doubling" id="result-double-sol-noreinvest">N/A</span> </div> <div class="result-item"> <span class="label" id="label-double-sol-reinvest">SOL Stake (With Reinvest):</span> <span class="value doubling" id="result-double-sol-reinvest">N/A</span> </div> <div class="result-item"> <span class="label" id="label-double-usdc-noreinvest">USDC Stake (No Reinvest):</span> <span class="value doubling" id="result-double-usdc-noreinvest">N/A</span> </div> <div class="result-item"> <span class="label" id="label-double-usdc-reinvest">USDC Stake (With Reinvest):</span> <span class="value doubling" id="result-double-usdc-reinvest">N/A</span> </div> </div>
+                <div class="result-group"> <h4 id="h4-final-balance">Final Balance</h4> <div class="result-item"> <span class="label" id="label-final-balance-sol">Balance SOL:</span> <span class="value" id="result-final-balance-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-final-balance-usdc">Balance USDC:</span> <span class="value" id="result-final-balance-usdc">0 USDC</span> </div> <div class="result-item"> <span class="label" id="label-final-balance-usd">Total Balance (USD):</span> <span class="value balance-usd" id="result-final-balance-usd-total">0 $</span> </div> </div>
+                <div class="result-group"> <h4 id="h4-total-profit-usd">Total Profit (USD)</h4> <div class="result-item"> <span class="label" id="label-profit-total-usd">Total Profit (USD):</span> <span class="value balance-usd" id="result-profit-total-usd">0 $</span> </div> </div>
             </div>
         </div>
 
@@ -344,10 +267,10 @@
         // --- Translations Object ---
         const translations = {
             'en': {
-                labelUserStakedSol: 'Staked (SOL):', // Restored
-                labelUserProfitPercentSol: 'Profit % / day (SOL):', // Restored
-                labelUserStakedUsdc: 'Staked (USDC):', // Restored
-                labelUserProfitPercentUsdc: 'Profit % / day (USDC):', // Restored
+                labelUserStakedSol: 'Staked', // Text only
+                labelUserProfitPercentSol: 'Profit % / day', // Text only
+                labelUserStakedUsdc: 'Staked', // Text only
+                labelUserProfitPercentUsdc: 'Profit % / day', // Text only
                 labelPlatformFee: 'FomoFarm Fee (%)', labelSolUsd: 'SOL / USD', labelDays: 'Days',
                 labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
@@ -372,10 +295,10 @@
                 solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
             },
             'ru': {
-                labelUserStakedSol: 'Вложено (SOL):', // Restored
-                labelUserProfitPercentSol: 'Профит % / день (SOL):', // Restored
-                labelUserStakedUsdc: 'Вложено (USDC):', // Restored
-                labelUserProfitPercentUsdc: 'Профит % / день (USDC):', // Restored
+                labelUserStakedSol: 'Вложено', // Text only
+                labelUserProfitPercentSol: 'Профит % / день', // Text only
+                labelUserStakedUsdc: 'Вложено', // Text only
+                labelUserProfitPercentUsdc: 'Профит % / день', // Text only
                 labelPlatformFee: 'Комиссия FomoFarm (%)', labelSolUsd: 'SOL / USD', labelDays: 'Дней',
                 labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов', calculate: 'Рассчитать',
                 pFooter: 'Сделано', langButtonText: 'Язык RU', h3Referrals: 'Рефералы', addReferral: 'Добавить реферала',
@@ -449,7 +372,11 @@
             const h3ReferralsTextElement = document.getElementById('h3-referrals-text');
             if (h3ReferralsTextElement && trans.h3Referrals) { h3ReferralsTextElement.textContent = trans.h3Referrals; }
 
-            // --- Reverted idToKeyMap to include stake labels ---
+            // Define IMG tags for icons
+            // IMPORTANT: Ensure solana_icon.svg and usdc_icon.svg are in the same folder as the HTML file!
+            const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`; // Size set via CSS/inline style on label img
+            const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`; // Size set via CSS/inline style on label img
+
             const idToKeyMap = {
                 'label-user-staked-sol': 'labelUserStakedSol',
                 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
@@ -475,14 +402,14 @@
                 'languageToggleButton': 'langButtonText'
             };
 
-            // Loop for standard elements - now updates all labels via textContent
+            // Loop for standard elements - sets base text
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
                 if (element && trans[key] !== undefined) {
                      if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
                          if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
-                         else { element.textContent = trans[key]; } // Use textContent for all
+                         else { element.textContent = trans[key]; }
                      }
                 } else if (element && id === 'p-footer') {
                      if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
@@ -490,7 +417,18 @@
                 }
             }
 
-            // --- Removed specific label update logic with icons ---
+            // --- Append icons to specific labels ---
+            const labelSolStake = document.getElementById('label-user-staked-sol');
+            const labelUsdcStake = document.getElementById('label-user-staked-usdc');
+            const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
+            const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
+
+            // Append icons using innerHTML AFTER setting textContent
+            if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
+            if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
+            if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
+            if (labelUsdcProfit) { labelUsdcProfit.innerHTML += usdcIconImg; }
+            // --- End Icon Appending ---
 
             renderReferralsTable();
         }
