@@ -38,8 +38,8 @@
         .input-group > div > label { height: auto; min-height: 0; }
         /* Style for icons within labels */
         label img {
-            width: 16px;
-            height: 16px;
+            width: 16px; /* Explicit width */
+            height: 16px; /* Explicit height */
             display: inline-block;
             vertical-align: middle; /* Align icon with text */
             margin-left: 5px; /* Space between text and icon */
@@ -158,20 +158,24 @@
 
         <div class="input-group">
             <div>
-                <label for="userStakedSolAmount" id="label-user-staked-sol">Staked</label> <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0">
+                <label for="userStakedSolAmount" id="label-user-staked-sol">Staked</label>
+                <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0">
             </div>
             <div>
-                <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day</label> <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
+                <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day</label>
+                <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
             </div>
              <div>
                 <label for="days" id="label-days">Days</label>
                 <input type="number" id="days" value="0" step="1" min="0">
             </div>
             <div>
-                 <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label> <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
+                 <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label>
+                <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
             </div>
              <div>
-                <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day</label> <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
+                <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day</label>
+                <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
             </div>
              <div id="platformFeeContainer">
                  <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)</label>
@@ -309,10 +313,10 @@
              <div class="modal-header"> <h4 id="modalTitle">Edit Referral Data</h4> </div>
              <div class="modal-body">
                  <input type="hidden" id="editingReferralId">
-                 <div class="input-pair"> <label for="modal-stake-sol" id="label-modal-stake-sol">Staked (SOL):</label> <input type="number" id="modal-stake-sol" step="0.001" min="0"> </div>
-                 <div class="input-pair"> <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day (SOL):</label> <input type="number" id="modal-profit-sol" step="0.01" min="0"> </div>
-                 <div class="input-pair"> <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked (USDC):</label> <input type="number" id="modal-stake-usdc" step="0.01" min="0"> </div>
-                 <div class="input-pair"> <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day (USDC):</label> <input type="number" id="modal-profit-usdc" step="0.01" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-stake-sol" id="label-modal-stake-sol">Staked (SOL)</label> <input type="number" id="modal-stake-sol" step="0.001" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day (SOL)</label> <input type="number" id="modal-profit-sol" step="0.01" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked (USDC)</label> <input type="number" id="modal-stake-usdc" step="0.01" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day (USDC)</label> <input type="number" id="modal-profit-usdc" step="0.01" min="0"> </div>
              </div>
              <div class="modal-footer"> <button id="cancelReferralButton">Cancel</button> <button id="saveReferralButton">Save</button> </div>
          </div>
@@ -329,22 +333,18 @@
         // --- Translations Object ---
         const translations = {
             'en': {
-                labelUserStakedSol: 'Staked', // Colon and (SOL) removed
-                labelUserProfitPercentSol: 'Profit % / day', // Colon and (SOL) removed
-                labelUserStakedUsdc: 'Staked', // Colon and (USDC) removed
-                labelUserProfitPercentUsdc: 'Profit % / day', // Colon and (USDC) removed
-                labelPlatformFee: 'FomoFarm Fee (%)', // Colon removed
-                labelSolUsd: 'SOL / USD', // Colon removed
-                labelDays: 'Days', // Colon removed
+                labelUserStakedSol: 'Staked', // Text only
+                labelUserProfitPercentSol: 'Profit % / day', // Text only
+                labelUserStakedUsdc: 'Staked', // Text only
+                labelUserProfitPercentUsdc: 'Profit % / day', // Text only
+                labelPlatformFee: 'FomoFarm Fee (%)', labelSolUsd: 'SOL / USD', labelDays: 'Days',
                 labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
                 thReferralNum: '№', thRefStakes: 'Stakes Summary', thActions: 'Actions', editButtonShort: 'Edit',
                 removeButtonShort: 'Remove', noReferrals: 'No referrals added yet.', refSummaryNone: '-',
                 modalTitlePrefix: 'Edit Data for Referral #',
-                labelModalStakeSol: 'Staked (SOL)', // Colon removed
-                labelModalProfitSol: 'Profit % / day (SOL)', // Colon removed
-                labelModalStakeUsdc: 'Staked (USDC)', // Colon removed
-                labelModalProfitUsdc: 'Profit % / day (USDC)', // Colon removed
+                labelModalStakeSol: 'Staked (SOL)', labelModalProfitSol: 'Profit % / day (SOL)',
+                labelModalStakeUsdc: 'Staked (USDC)', labelModalProfitUsdc: 'Profit % / day (USDC)',
                 saveButton: 'Save', cancelButton: 'Cancel', h2Results: 'Results', h4YourProfit: 'Your profit',
                 labelProfitUserSol: 'From SOL Stake:', labelProfitUserUsdc: 'From USDC Stake:',
                 h4ReferralProfit: 'Profit from referrals', labelProfitRefSol: 'From SOL Stakes:', labelProfitRefUsdc: 'From USDC Stakes:',
@@ -361,22 +361,18 @@
                 solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
             },
             'ru': {
-                labelUserStakedSol: 'Вложено', // Colon and (SOL) removed
-                labelUserProfitPercentSol: 'Профит % / день', // Colon and (SOL) removed
-                labelUserStakedUsdc: 'Вложено', // Colon and (USDC) removed
-                labelUserProfitPercentUsdc: 'Профит % / день', // Colon and (USDC) removed
-                labelPlatformFee: 'Комиссия FomoFarm (%)', // Colon removed
-                labelSolUsd: 'SOL / USD', // Colon removed
-                labelDays: 'Дней', // Colon removed
+                labelUserStakedSol: 'Вложено', // Text only
+                labelUserProfitPercentSol: 'Профит % / день', // Text only
+                labelUserStakedUsdc: 'Вложено', // Text only
+                labelUserProfitPercentUsdc: 'Профит % / день', // Text only
+                labelPlatformFee: 'Комиссия FomoFarm (%)', labelSolUsd: 'SOL / USD', labelDays: 'Дней',
                 labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов', calculate: 'Рассчитать',
                 pFooter: 'Сделано', langButtonText: 'Язык RU', h3Referrals: 'Рефералы', addReferral: 'Добавить реферала',
                 thReferralNum: '№', thRefStakes: 'Сводка стейков', thActions: 'Действия', editButtonShort: 'Изм.',
                 removeButtonShort: 'Удал.', noReferrals: 'Рефералы еще не добавлены.', refSummaryNone: '-',
                 modalTitlePrefix: 'Изменить данные для Реферала №',
-                labelModalStakeSol: 'Вложено (SOL)', // Colon removed
-                labelModalProfitSol: 'Профит % / день (SOL)', // Colon removed
-                labelModalStakeUsdc: 'Вложено (USDC)', // Colon removed
-                labelModalProfitUsdc: 'Профит % / день (USDC)', // Colon removed
+                labelModalStakeSol: 'Вложено (SOL)', labelModalProfitSol: 'Профит % / день (SOL)',
+                labelModalStakeUsdc: 'Вложено (USDC)', labelModalProfitUsdc: 'Профит % / день (USDC)',
                 saveButton: 'Сохранить', cancelButton: 'Отмена', h2Results: 'Результаты', h4YourProfit: 'Ваш профит',
                 labelProfitUserSol: 'От стейка SOL:', labelProfitUserUsdc: 'От стейка USDC:',
                 h4ReferralProfit: 'Профит от рефералов', labelProfitRefSol: 'От стейков SOL:', labelProfitRefUsdc: 'От стейков USDC:',
@@ -443,15 +439,15 @@
             if (h3ReferralsTextElement && trans.h3Referrals) { h3ReferralsTextElement.textContent = trans.h3Referrals; }
 
             // Define IMG tags for icons (assuming files are in the same folder)
-            // Remember to upload solana_icon.svg and usdc_icon.svg to your repository!
+            // IMPORTANT: Make sure solana_icon.svg and usdc_icon.svg exist in your repository!
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-left: 5px;">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-left: 5px;">`;
 
             const idToKeyMap = {
-                'label-user-staked-sol': 'labelUserStakedSol', // Base text set by loop
-                'label-user-profit-percent-sol': 'labelUserProfitPercentSol', // Base text set by loop
-                'label-user-staked-usdc': 'labelUserStakedUsdc', // Base text set by loop
-                'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc', // Base text set by loop
+                'label-user-staked-sol': 'labelUserStakedSol',
+                'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
+                'label-user-staked-usdc': 'labelUserStakedUsdc',
+                'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
                 'label-platform-fee': 'labelPlatformFee', 'label-sol-usd': 'labelSolUsd', 'label-days': 'labelDays',
                 'label-reinvest': 'labelReinvest', 'label-enable-referrals': 'labelEnableReferrals',
                 'addReferralButton': 'addReferral', 'th-referral-num': 'thReferralNum',
@@ -476,10 +472,10 @@
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
-                if (element && trans[key] !== undefined) { // Check if key exists
+                if (element && trans[key] !== undefined) {
                      if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
                          if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
-                         else { element.textContent = trans[key]; } // Use textContent for base text
+                         else { element.textContent = trans[key]; } // Set base text content
                      }
                 } else if (element && id === 'p-footer') {
                      if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
@@ -493,6 +489,7 @@
             const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
             const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
 
+            // Append icons using innerHTML AFTER setting textContent in the loop
             if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
             if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
             if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
