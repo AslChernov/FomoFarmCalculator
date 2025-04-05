@@ -4,261 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=650, initial-scale=1.0, maximum-scale=1.0">
     <title>FomoFarm Calculator</title>
-    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
-    <style>
+    <link rel="icon" type="image/png" href="favicon.png"> <style>
         /* --- General Styles --- */
         * { box-sizing: border-box; }
         body {
-            font-family: 'Manrope', sans-serif;
-            margin: 20px;
-            background-color: #000000;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding-bottom: 50px;
+            font-family: 'Manrope', sans-serif; margin: 20px; background-color: #000000;
+            color: #ffffff; display: flex; justify-content: center; align-items: flex-start;
+            min-height: 100vh; padding-bottom: 50px;
         }
         .container {
-            max-width: 650px;
-            width: 100%;
-            margin: auto;
-            background: linear-gradient(to top, #000000, #05001d);
-            padding: 20px;
-            border: 1px solid #4ade80;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
+            max-width: 650px; width: 100%; margin: auto;
+            background: linear-gradient(to top, #000000, #05001d); padding: 20px;
+            border: 1px solid #4ade80; border-radius: 8px; box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
         }
 
         /* --- Header Styles --- */
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        h1 {
-            font-size: 30px;
-            font-weight: 900;
-            margin: 0;
-            letter-spacing: -1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            flex-grow: 1;
-            justify-content: flex-start;
-        }
-        h1 svg { /* Placeholder for potential SVG specific styles */ }
-        h1 span#appTitle {
-            background-image: linear-gradient(to right, #0ea5e9, #7dd3fc );
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-        }
-        h2 { /* Results Heading */
-            margin-block-start: 0em;
-            margin-block-end: 0em;
-            font-size: 30px;
-            text-align: center; /* Centered */
-            text-transform: uppercase; /* Uppercase */
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            color: #4ade80;
-            margin-top: 0px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid #374151;
-            padding-bottom: 8px;
-        }
-        h3 { /* Section Heading (e.g., Referrals) */
-            font-size: 30px;
-            margin-top: 25px;
-            margin-block-start: 0em;
-            margin-block-end: 0em;
-            text-align: center;
-            text-transform: uppercase; /* Uppercase */
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            color: #e5e7eb;
-            margin-bottom: 15px;
-        }
-        h4 { /* Results Sub-heading */
-             font-size: 16px;
-             color: #dfdfdf;
-             text-transform: uppercase; /* Uppercase */
-             font-weight: 600;
-             margin-top: 15px; /* Default top margin */
-             margin-bottom: 8px;
-             border-bottom: 1px dashed #374151;
-             padding-bottom: 4px;
-        }
+        .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        h1 { font-size: 30px; font-weight: 900; margin: 0; letter-spacing: -1px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-grow: 1; justify-content: flex-start; }
+        h1 svg { /* Placeholder */ }
+        h1 span#appTitle { background-image: linear-gradient(to right, #0ea5e9, #7dd3fc ); background-clip: text; -webkit-background-clip: text; color: transparent; }
+        h2 { margin-block-start: 0em; margin-block-end: 0em; font-size: 30px; text-align: center; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; color: #4ade80; margin-top: 0px; margin-bottom: 15px; border-bottom: 1px solid #374151; padding-bottom: 8px; }
+        h3 { font-size: 30px; margin-top: 25px; margin-block-start: 0em; margin-block-end: 0em; text-align: center; text-transform: uppercase; font-weight: 700; letter-spacing: -0.5px; color: #e5e7eb; margin-bottom: 15px; }
+        h4 { font-size: 16px; color: #dfdfdf; text-transform: uppercase; font-weight: 600; margin-top: 15px; margin-bottom: 8px; border-bottom: 1px dashed #374151; padding-bottom: 4px; }
 
         /* --- Input Group Styles (Grid Layout) --- */
-        .input-group {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 3 columns */
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .input-group > div { /* Style for each grid item */
-            padding: 10px;
-            border: 1px solid #1f2937;
-            border-radius: 8px;
-            background-color: #111827;
-            box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset;
-        }
+        .input-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .input-group > div { padding: 10px; border: 1px solid #1f2937; border-radius: 8px; background-color: #111827; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; }
 
         /* --- Label Styles --- */
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            letter-spacing: inherit;
-            color: #cbd5e1;
-            margin-bottom: 5px;
-        }
+        label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; /* Ensure enough line height for icons */ }
         .input-group > div > label { height: auto; min-height: 0; }
+        /* Style for icons within labels */
+        label img {
+            width: 16px;
+            height: 16px;
+            display: inline-block;
+            vertical-align: middle; /* Align icon with text */
+            margin-left: 5px; /* Space between text and icon */
+        }
+
 
         /* --- Input & Select Styles --- */
-        input[type="number"], select {
-            width: 100%;
-            padding: 8px 10px;
-            margin-top: 0;
-            border: 1px solid #374151;
-            border-radius: 6px;
-            font-size: 14px;
-            font-family: 'Manrope', sans-serif;
-            color: #ffffff;
-            background-color: #000000;
-            transition: border-color 0.3s ease;
-        }
-        input[type="number"]:focus, select:focus {
-            outline: none;
-            border-color: #4ade80;
-        }
-        select {
-             appearance: none;
-             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A");
-             background-repeat: no-repeat;
-             background-position: right 10px center;
-             background-size: 16px;
-             padding-right: 30px;
-        }
-        input[type=number]::-webkit-inner-spin-button,
-        input[type=number]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+        input[type="number"], select { width: 100%; padding: 8px 10px; margin-top: 0; border: 1px solid #374151; border-radius: 6px; font-size: 14px; font-family: 'Manrope', sans-serif; color: #ffffff; background-color: #000000; transition: border-color 0.3s ease; }
+        input[type="number"]:focus, select:focus { outline: none; border-color: #4ade80; }
+        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 30px; }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
         /* --- Checkbox Styles --- */
-        .checkbox-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 0;
-            margin-bottom: 25px;
-            padding: 10px 0;
-            flex-wrap: wrap;
-        }
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            justify-content: center;
-        }
-        .checkbox-item input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            margin: 0;
-            cursor: pointer;
-            accent-color: #4ade80;
-            border: 1px solid #374151;
-            border-radius: 3px;
-            vertical-align: middle;
-            flex-shrink: 0;
-        }
-        .checkbox-item input[type="checkbox"]:focus {
-            outline: 1px solid #4ade80;
-            outline-offset: 1px;
-        }
-        .checkbox-item label {
-            font-size: 18px;
-            font-weight: 700;
-            color: #cbd5e1;
-            cursor: pointer;
-            margin-bottom: 0;
-            line-height: 1;
-            min-height: auto;
-            display: inline;
-            align-items: initial;
-            padding-bottom: 0;
-        }
+        .checkbox-container { display: flex; justify-content: center; gap: 40px; margin-top: 0; margin-bottom: 25px; padding: 10px 0; flex-wrap: wrap; }
+        .checkbox-item { display: flex; align-items: center; gap: 8px; justify-content: center; }
+        .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: #4ade80; border: 1px solid #374151; border-radius: 3px; vertical-align: middle; flex-shrink: 0; }
+        .checkbox-item input[type="checkbox"]:focus { outline: 1px solid #4ade80; outline-offset: 1px; }
+        .checkbox-item label { font-size: 18px; font-weight: 700; color: #cbd5e1; cursor: pointer; margin-bottom: 0; line-height: 1; min-height: auto; display: inline; align-items: initial; padding-bottom: 0; }
 
         /* --- General Button Styles --- */
-        button {
-            width: auto;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            font-size: 15px;
-            text-transform: uppercase;
-            font-family: 'Manrope', sans-serif;
-            background-color: #7c3aed;
-            letter-spacing: inherit;
-            color: #fff;
-            cursor: pointer;
-            font-weight: 700;
-            transition: background-color 0.3s ease, transform 0.1s ease, opacity 0.3s ease;
-        }
+        button { width: auto; padding: 10px 20px; border: none; border-radius: 6px; font-size: 15px; text-transform: uppercase; font-family: 'Manrope', sans-serif; background-color: #7c3aed; letter-spacing: inherit; color: #fff; cursor: pointer; font-weight: 700; transition: background-color 0.3s ease, transform 0.1s ease, opacity 0.3s ease; }
         button:hover { background-color: #6d28d9; }
         button:active { transform: scale(0.98); }
         button:disabled { background-color: #585063; cursor: not-allowed; opacity: 0.6; }
         button:disabled:hover { background-color: #585063; }
 
         /* --- Specific Button Styles --- */
-        #languageToggleButton {
-            padding: 6px 12px;
-            font-size: 12px;
-            background-color: #374151;
-            text-transform: none;
-            font-weight: 500;
-            margin-top: 0;
-            order: 2;
-        }
+        #languageToggleButton { padding: 6px 12px; font-size: 12px; background-color: #374151; text-transform: none; font-weight: 500; margin-top: 0; order: 2; }
         #languageToggleButton:hover { background-color: #4b5563; }
         #languageToggleButton:disabled { background-color: #374151; cursor: pointer; opacity: 1; }
         #languageToggleButton:disabled:hover { background-color: #4b5563;}
 
         /* --- Referrals Section Styles --- */
         .referrals { margin-top: 15px; text-align: center; }
-        .referrals table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-            margin-bottom: 15px;
-            letter-spacing: inherit;
-            table-layout: fixed;
-        }
-        .referrals th, .referrals td {
-            padding: 8px 10px;
-            text-align: center;
-            font-size: 14px;
-            background-color: #111827;
-            border: 1px solid #1f2937;
-            letter-spacing: inherit;
-            word-wrap: break-word;
-            vertical-align: middle;
-        }
-         .referrals th { font-weight: 600; color: #9ca3af;  }
-         .referrals th:nth-child(1) { width: 10%; }
-         .referrals th:nth-child(2) { width: 55%; }
-         .referrals th:nth-child(3) { width: 35%; }
-         .referrals td.stakes-summary { font-size: 14px; color: #60a5fa; text-align: ; white-space: pre-wrap; }
+        .referrals table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; letter-spacing: inherit; table-layout: fixed; }
+        .referrals th, .referrals td { padding: 8px 10px; text-align: center; font-size: 14px; background-color: #111827; border: 1px solid #1f2937; letter-spacing: inherit; word-wrap: break-word; vertical-align: middle; }
+         .referrals th { font-weight: 600; color: #9ca3af; }
+         .referrals th:nth-child(1) { width: 10%; } /* № */
+         .referrals th:nth-child(2) { width: 55%; } /* Stakes Summary */
+         .referrals th:nth-child(3) { width: 35%; } /* Actions */
+         .referrals td.stakes-summary { font-size: 13px; color: #d1d5db; text-align: left; white-space: pre-wrap; }
          .referrals td.actions-cell { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 5px; }
          .referrals td .action-button { margin: 0; padding: 6px 8px; font-size: 12px; border-radius: 4px; font-weight: 500; text-transform: none; min-width: 65px; text-align: center; }
          .referrals td .edit-button { background-color: #f59e0b; }
@@ -267,7 +90,7 @@
          .referrals td .remove-button:hover { background-color: #dc2626; }
          .collapsible-header { cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; user-select: none; margin-bottom: 5px; }
          .toggle-icon { transition: transform 0.3s ease; font-size: 0.8em; color: #9ca3af; }
-         .collapsible-content { /* Visible by default */ }
+         .collapsible-content {}
          .referrals.collapsed .collapsible-content { display: none; }
          .referrals.collapsed .toggle-icon { transform: rotate(-90deg); }
          #addReferralButton { background-color: #3b82f6; margin-top: 10px; }
@@ -335,31 +158,27 @@
 
         <div class="input-group">
             <div>
-                <label for="userStakedSolAmount" id="label-user-staked-sol">Staked (SOL):</label>
-                <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0">
+                <label for="userStakedSolAmount" id="label-user-staked-sol">Staked</label> <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0">
             </div>
             <div>
-                <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day (SOL):</label>
-                <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
+                <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day</label> <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
             </div>
              <div>
-                <label for="days" id="label-days">Days:</label>
+                <label for="days" id="label-days">Days</label>
                 <input type="number" id="days" value="0" step="1" min="0">
             </div>
             <div>
-                <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked (USDC):</label>
-                <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
+                 <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label> <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
             </div>
              <div>
-                <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day (USDC):</label>
-                <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
+                <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day</label> <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
             </div>
              <div id="platformFeeContainer">
-                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%):</label>
+                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)</label>
                 <input type="number" id="platformFee" value="10" step="0.1" min="0">
             </div>
             <div>
-                <label for="solToUsd" id="label-sol-usd">SOL / USD:</label>
+                <label for="solToUsd" id="label-sol-usd">SOL / USD</label>
                 <input type="number" id="solToUsd" value="0" step="0.01" min="0">
             </div>
         </div>
@@ -380,13 +199,12 @@
                  <table id="referralsTable">
                      <thead>
                          <tr>
-                             <th id="th-referral-num">Referral #</th>
+                             <th id="th-referral-num">№</th>
                              <th id="th-ref-stakes">Stakes Summary</th>
                              <th id="th-actions">Actions</th>
                          </tr>
                      </thead>
-                     <tbody id="referralsList">
-                         </tbody>
+                     <tbody id="referralsList"></tbody>
                  </table>
             </div>
         </div>
@@ -407,7 +225,6 @@
                         <span class="value profit-usdc" id="result-profit-user-usdc">0 USDC</span>
                     </div>
                 </div>
-
                 <div class="result-group">
                     <h4 id="h4-referral-profit">Profit from referrals</h4>
                     <div class="result-item">
@@ -419,7 +236,6 @@
                         <span class="value profit-usdc" id="result-profit-ref-usdc">0 USDC</span>
                     </div>
                 </div>
-
                 <div class="result-group">
                     <h4 id="h4-total-profit">Total profit</h4>
                     <div class="result-item">
@@ -439,7 +255,6 @@
                         <span class="value profit-percent" id="result-profit-percent-usdc">0 %</span>
                     </div>
                 </div>
-
                 <div class="result-group">
                     <h4 id="h4-doubling-time">Doubling Time (100% Profit)</h4>
                     <div class="result-item">
@@ -459,7 +274,6 @@
                         <span class="value doubling" id="result-double-usdc-reinvest">N/A</span>
                     </div>
                 </div>
-
                 <div class="result-group">
                     <h4 id="h4-final-balance">Final Balance</h4>
                     <div class="result-item">
@@ -475,7 +289,6 @@
                         <span class="value balance-usd" id="result-final-balance-usd-total">0 $</span>
                     </div>
                 </div>
-
                 <div class="result-group">
                     <h4 id="h4-total-profit-usd">Total Profit (USD)</h4>
                     <div class="result-item">
@@ -483,7 +296,8 @@
                         <span class="value balance-usd" id="result-profit-total-usd">0 $</span>
                     </div>
                 </div>
-            </div> </div>
+            </div>
+        </div>
 
         <div class="textContent">
              <p id="p-footer">Made by <i class="fab fa-telegram-plane"></i> AslChernov</p>
@@ -492,32 +306,15 @@
 
     <div id="editReferralModal" class="modal-overlay">
          <div class="modal-content">
-             <div class="modal-header">
-                 <h4 id="modalTitle">Edit Referral Data</h4>
-             </div>
+             <div class="modal-header"> <h4 id="modalTitle">Edit Referral Data</h4> </div>
              <div class="modal-body">
                  <input type="hidden" id="editingReferralId">
-                 <div class="input-pair">
-                      <label for="modal-stake-sol" id="label-modal-stake-sol">Staked (SOL):</label>
-                      <input type="number" id="modal-stake-sol" step="0.001" min="0">
-                 </div>
-                  <div class="input-pair">
-                      <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day (SOL):</label>
-                      <input type="number" id="modal-profit-sol" step="0.01" min="0">
-                 </div>
-                  <div class="input-pair">
-                      <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked (USDC):</label>
-                      <input type="number" id="modal-stake-usdc" step="0.01" min="0">
-                 </div>
-                  <div class="input-pair">
-                      <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day (USDC):</label>
-                      <input type="number" id="modal-profit-usdc" step="0.01" min="0">
-                 </div>
+                 <div class="input-pair"> <label for="modal-stake-sol" id="label-modal-stake-sol">Staked (SOL):</label> <input type="number" id="modal-stake-sol" step="0.001" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day (SOL):</label> <input type="number" id="modal-profit-sol" step="0.01" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked (USDC):</label> <input type="number" id="modal-stake-usdc" step="0.01" min="0"> </div>
+                 <div class="input-pair"> <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day (USDC):</label> <input type="number" id="modal-profit-usdc" step="0.01" min="0"> </div>
              </div>
-             <div class="modal-footer">
-                 <button id="cancelReferralButton">Cancel</button>
-                 <button id="saveReferralButton">Save</button>
-             </div>
+             <div class="modal-footer"> <button id="cancelReferralButton">Cancel</button> <button id="saveReferralButton">Save</button> </div>
          </div>
     </div>
 
@@ -532,21 +329,24 @@
         // --- Translations Object ---
         const translations = {
             'en': {
-                labelUserStakedSol: 'Staked (SOL):', labelUserProfitPercentSol: 'Profit % / day (SOL):',
-                labelUserStakedUsdc: 'Staked (USDC):', labelUserProfitPercentUsdc: 'Profit % / day (USDC):',
-                labelPlatformFee: 'FomoFarm Fee (%):', labelSolUsd: 'SOL / USD:',
-                labelDays: 'Days:', labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals',
-                calculate: 'Calculate', pFooter: 'Made by', langButtonText: 'Language EN',
-                h3Referrals: 'Referrals', addReferral: 'Add Referral', thReferralNum: '№',
-                thRefStakes: 'Stakes Summary', thActions: 'Actions',
-                editButtonShort: 'Edit', removeButtonShort: 'Remove',
-                noReferrals: 'No referrals added yet.', refSummaryNone: '-',
+                labelUserStakedSol: 'Staked', // Colon and (SOL) removed
+                labelUserProfitPercentSol: 'Profit % / day', // Colon and (SOL) removed
+                labelUserStakedUsdc: 'Staked', // Colon and (USDC) removed
+                labelUserProfitPercentUsdc: 'Profit % / day', // Colon and (USDC) removed
+                labelPlatformFee: 'FomoFarm Fee (%)', // Colon removed
+                labelSolUsd: 'SOL / USD', // Colon removed
+                labelDays: 'Days', // Colon removed
+                labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
+                pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
+                thReferralNum: '№', thRefStakes: 'Stakes Summary', thActions: 'Actions', editButtonShort: 'Edit',
+                removeButtonShort: 'Remove', noReferrals: 'No referrals added yet.', refSummaryNone: '-',
                 modalTitlePrefix: 'Edit Data for Referral #',
-                labelModalStakeSol: 'Staked (SOL):', labelModalProfitSol: 'Profit % / day (SOL):',
-                labelModalStakeUsdc: 'Staked (USDC):', labelModalProfitUsdc: 'Profit % / day (USDC):',
-                saveButton: 'Save', cancelButton: 'Cancel',
-                h2Results: 'Results',
-                h4YourProfit: 'Your profit', labelProfitUserSol: 'From SOL Stake:', labelProfitUserUsdc: 'From USDC Stake:',
+                labelModalStakeSol: 'Staked (SOL)', // Colon removed
+                labelModalProfitSol: 'Profit % / day (SOL)', // Colon removed
+                labelModalStakeUsdc: 'Staked (USDC)', // Colon removed
+                labelModalProfitUsdc: 'Profit % / day (USDC)', // Colon removed
+                saveButton: 'Save', cancelButton: 'Cancel', h2Results: 'Results', h4YourProfit: 'Your profit',
+                labelProfitUserSol: 'From SOL Stake:', labelProfitUserUsdc: 'From USDC Stake:',
                 h4ReferralProfit: 'Profit from referrals', labelProfitRefSol: 'From SOL Stakes:', labelProfitRefUsdc: 'From USDC Stakes:',
                 h4TotalProfit: 'Total profit', labelProfitTotalSol: 'Total SOL:', labelProfitTotalUsdc: 'Total USDC:',
                 labelProfitPercentSol: 'Profit SOL (% of initial SOL):', labelProfitPercentUsdc: 'Profit USDC (% of initial USDC):',
@@ -555,27 +355,30 @@
                 labelDoubleSolReinvest: 'SOL Stake (With Reinvest):', labelDoubleUsdcReinvest: 'USDC Stake (With Reinvest):',
                 h4FinalBalance: 'Final Balance',
                 labelFinalBalanceSol: 'Balance SOL:', labelFinalBalanceUsdc: 'Balance USDC:', labelFinalBalanceUsd: 'Total Balance (USD):',
-                h4TotalProfitUsd: 'Total Profit (USD)', labelProfitTotalUsd: 'Total Profit (USD):', // New keys
+                h4TotalProfitUsd: 'Total Profit (USD)', labelProfitTotalUsd: 'Total Profit (USD):',
                 roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
                 invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
                 solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
             },
             'ru': {
-                labelUserStakedSol: 'Вложено (SOL):', labelUserProfitPercentSol: 'Профит % / день (SOL):',
-                labelUserStakedUsdc: 'Вложено (USDC):', labelUserProfitPercentUsdc: 'Профит % / день (USDC):',
-                labelPlatformFee: 'Комиссия FomoFarm (%):', labelSolUsd: 'SOL / USD:',
-                labelDays: 'Дней:', labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов',
-                calculate: 'Рассчитать', pFooter: 'Сделано', langButtonText: 'Язык RU',
-                h3Referrals: 'Рефералы', addReferral: 'Добавить реферала', thReferralNum: '№',
-                thRefStakes: 'Сводка стейков', thActions: 'Действия',
-                editButtonShort: 'Изм.', removeButtonShort: 'Удал.',
-                noReferrals: 'Рефералы еще не добавлены.', refSummaryNone: '-',
+                labelUserStakedSol: 'Вложено', // Colon and (SOL) removed
+                labelUserProfitPercentSol: 'Профит % / день', // Colon and (SOL) removed
+                labelUserStakedUsdc: 'Вложено', // Colon and (USDC) removed
+                labelUserProfitPercentUsdc: 'Профит % / день', // Colon and (USDC) removed
+                labelPlatformFee: 'Комиссия FomoFarm (%)', // Colon removed
+                labelSolUsd: 'SOL / USD', // Colon removed
+                labelDays: 'Дней', // Colon removed
+                labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов', calculate: 'Рассчитать',
+                pFooter: 'Сделано', langButtonText: 'Язык RU', h3Referrals: 'Рефералы', addReferral: 'Добавить реферала',
+                thReferralNum: '№', thRefStakes: 'Сводка стейков', thActions: 'Действия', editButtonShort: 'Изм.',
+                removeButtonShort: 'Удал.', noReferrals: 'Рефералы еще не добавлены.', refSummaryNone: '-',
                 modalTitlePrefix: 'Изменить данные для Реферала №',
-                labelModalStakeSol: 'Вложено (SOL):', labelModalProfitSol: 'Профит % / день (SOL):',
-                labelModalStakeUsdc: 'Вложено (USDC):', labelModalProfitUsdc: 'Профит % / день (USDC):',
-                saveButton: 'Сохранить', cancelButton: 'Отмена',
-                h2Results: 'Результаты',
-                h4YourProfit: 'Ваш профит', labelProfitUserSol: 'От стейка SOL:', labelProfitUserUsdc: 'От стейка USDC:',
+                labelModalStakeSol: 'Вложено (SOL)', // Colon removed
+                labelModalProfitSol: 'Профит % / день (SOL)', // Colon removed
+                labelModalStakeUsdc: 'Вложено (USDC)', // Colon removed
+                labelModalProfitUsdc: 'Профит % / день (USDC)', // Colon removed
+                saveButton: 'Сохранить', cancelButton: 'Отмена', h2Results: 'Результаты', h4YourProfit: 'Ваш профит',
+                labelProfitUserSol: 'От стейка SOL:', labelProfitUserUsdc: 'От стейка USDC:',
                 h4ReferralProfit: 'Профит от рефералов', labelProfitRefSol: 'От стейков SOL:', labelProfitRefUsdc: 'От стейков USDC:',
                 h4TotalProfit: 'Общий профит', labelProfitTotalSol: 'Всего SOL:', labelProfitTotalUsdc: 'Всего USDC:',
                 labelProfitPercentSol: 'Профит SOL (% от нач. SOL):', labelProfitPercentUsdc: 'Профит USDC (% от нач. USDC):',
@@ -584,7 +387,7 @@
                 labelDoubleSolReinvest: 'Стейк SOL (С реинвестом):', labelDoubleUsdcReinvest: 'Стейк USDC (С реинвестом):',
                 h4FinalBalance: 'Итоговый баланс',
                 labelFinalBalanceSol: 'Баланс SOL:', labelFinalBalanceUsdc: 'Баланс USDC:', labelFinalBalanceUsd: 'Общий Баланс (USD):',
-                h4TotalProfitUsd: 'Общий Профит (USD)', labelProfitTotalUsd: 'Общий Профит (USD):', // New keys
+                h4TotalProfitUsd: 'Общий Профит (USD)', labelProfitTotalUsd: 'Общий Профит (USD):',
                 roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
                 invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
                 solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.'
@@ -592,30 +395,20 @@
         };
 
         // --- Data Persistence Functions (localStorage) ---
-        function saveData() { /* ... (saveData function remains the same) ... */
+        function saveData() { /* ... */
              try {
                 const data = {
-                    userStakedSolAmount: document.getElementById('userStakedSolAmount').value,
-                    userProfitPercentSol: document.getElementById('userProfitPercentSol').value,
-                    userStakedUsdcAmount: document.getElementById('userStakedUsdcAmount').value,
-                    userProfitPercentUsdc: document.getElementById('userProfitPercentUsdc').value,
-                    platformFee: document.getElementById('platformFee').value,
-                    solToUsd: document.getElementById('solToUsd').value,
-                    days: document.getElementById('days').value,
-                    reinvest: document.getElementById('reinvestCheckbox').checked.toString(),
-                    includeReferrals: document.getElementById('includeReferralsCheckbox').checked.toString(),
-                    referralsData: JSON.stringify(referralsData || []),
-                    nextReferralId: nextReferralId,
+                    userStakedSolAmount: document.getElementById('userStakedSolAmount').value, userProfitPercentSol: document.getElementById('userProfitPercentSol').value,
+                    userStakedUsdcAmount: document.getElementById('userStakedUsdcAmount').value, userProfitPercentUsdc: document.getElementById('userProfitPercentUsdc').value,
+                    platformFee: document.getElementById('platformFee').value, solToUsd: document.getElementById('solToUsd').value, days: document.getElementById('days').value,
+                    reinvest: document.getElementById('reinvestCheckbox').checked.toString(), includeReferrals: document.getElementById('includeReferralsCheckbox').checked.toString(),
+                    referralsData: JSON.stringify(referralsData || []), nextReferralId: nextReferralId,
                     referralsCollapsed: document.getElementById('referralsContainer')?.classList.contains('collapsed').toString() || 'false'
                 };
-                for (const [key, value] of Object.entries(data)) {
-                     localStorage.setItem(`fomoFarmCalc_${key}`, value);
-                }
-            } catch (error) {
-                console.error("Error saving data to localStorage:", error);
-            }
+                for (const [key, value] of Object.entries(data)) { localStorage.setItem(`fomoFarmCalc_${key}`, value); }
+            } catch (error) { console.error("Error saving data to localStorage:", error); }
         }
-        function loadData() { /* ... (loadData function remains the same) ... */
+        function loadData() { /* ... */
              try {
                 document.getElementById('userStakedSolAmount').value = localStorage.getItem('fomoFarmCalc_userStakedSolAmount') || '0';
                 document.getElementById('userProfitPercentSol').value = localStorage.getItem('fomoFarmCalc_userProfitPercentSol') || '0';
@@ -626,46 +419,18 @@
                 document.getElementById('days').value = localStorage.getItem('fomoFarmCalc_days') || '0';
                 document.getElementById('reinvestCheckbox').checked = (localStorage.getItem('fomoFarmCalc_reinvest') || 'true') === 'true';
                 document.getElementById('includeReferralsCheckbox').checked = (localStorage.getItem('fomoFarmCalc_includeReferrals') || 'true') === 'true';
-
                 const savedReferrals = localStorage.getItem('fomoFarmCalc_referralsData');
                 referralsData = savedReferrals ? JSON.parse(savedReferrals) : [];
                 if (!Array.isArray(referralsData)) { referralsData = []; }
                 referralsData = referralsData.filter(ref => typeof ref === 'object' && ref !== null && ref.hasOwnProperty('id'));
-                referralsData.forEach(ref => {
-                     ref.stakedSol = ref.stakedSol || 0;
-                     ref.profitPercentSol = ref.profitPercentSol || 0;
-                     ref.stakedUsdc = ref.stakedUsdc || 0;
-                     ref.profitPercentUsdc = ref.profitPercentUsdc || 0;
-                });
-
+                referralsData.forEach(ref => { ref.stakedSol = ref.stakedSol || 0; ref.profitPercentSol = ref.profitPercentSol || 0; ref.stakedUsdc = ref.stakedUsdc || 0; ref.profitPercentUsdc = ref.profitPercentUsdc || 0; });
                 const savedNextId = parseInt(localStorage.getItem('fomoFarmCalc_nextReferralId'));
-                if (referralsData.length > 0) {
-                    const maxId = referralsData.reduce((max, ref) => Math.max(max, ref.id || 0), 0);
-                    nextReferralId = Math.max(maxId + 1, savedNextId || 1);
-                } else {
-                    nextReferralId = savedNextId || 1;
-                }
-
+                if (referralsData.length > 0) { const maxId = referralsData.reduce((max, ref) => Math.max(max, ref.id || 0), 0); nextReferralId = Math.max(maxId + 1, savedNextId || 1); }
+                else { nextReferralId = savedNextId || 1; }
                 const referralsContainer = document.getElementById('referralsContainer');
                 const savedCollapseState = localStorage.getItem('fomoFarmCalc_referralsCollapsed');
-                if (referralsContainer && savedCollapseState === 'true') {
-                    referralsContainer.classList.add('collapsed');
-                }
-
-            } catch (error) {
-                console.error("Error loading data from localStorage:", error);
-                 document.getElementById('userStakedSolAmount').value = '0';
-                 document.getElementById('userProfitPercentSol').value = '0';
-                 document.getElementById('userStakedUsdcAmount').value = '0';
-                 document.getElementById('userProfitPercentUsdc').value = '0';
-                 document.getElementById('platformFee').value = '10';
-                 document.getElementById('solToUsd').value = '0';
-                 document.getElementById('days').value = '0';
-                 document.getElementById('reinvestCheckbox').checked = true;
-                 document.getElementById('includeReferralsCheckbox').checked = true;
-                referralsData = [];
-                nextReferralId = 1;
-            }
+                if (referralsContainer && savedCollapseState === 'true') { referralsContainer.classList.add('collapsed'); }
+            } catch (error) { console.error("Error loading data from localStorage:", error); /* Reset fields */ referralsData = []; nextReferralId = 1; }
          }
 
         // --- UI Update Functions ---
@@ -675,14 +440,18 @@
             document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
 
             const h3ReferralsTextElement = document.getElementById('h3-referrals-text');
-            if (h3ReferralsTextElement && trans.h3Referrals) {
-                h3ReferralsTextElement.textContent = trans.h3Referrals;
-            }
+            if (h3ReferralsTextElement && trans.h3Referrals) { h3ReferralsTextElement.textContent = trans.h3Referrals; }
 
-            // --- Updated idToKeyMap ---
+            // Define IMG tags for icons (assuming files are in the same folder)
+            // Remember to upload solana_icon.svg and usdc_icon.svg to your repository!
+            const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-left: 5px;">`;
+            const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-left: 5px;">`;
+
             const idToKeyMap = {
-                'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
-                'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
+                'label-user-staked-sol': 'labelUserStakedSol', // Base text set by loop
+                'label-user-profit-percent-sol': 'labelUserProfitPercentSol', // Base text set by loop
+                'label-user-staked-usdc': 'labelUserStakedUsdc', // Base text set by loop
+                'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc', // Base text set by loop
                 'label-platform-fee': 'labelPlatformFee', 'label-sol-usd': 'labelSolUsd', 'label-days': 'labelDays',
                 'label-reinvest': 'labelReinvest', 'label-enable-referrals': 'labelEnableReferrals',
                 'addReferralButton': 'addReferral', 'th-referral-num': 'thReferralNum',
@@ -696,348 +465,158 @@
                 'label-double-sol-reinvest': 'labelDoubleSolReinvest', 'label-double-usdc-reinvest': 'labelDoubleUsdcReinvest',
                 'h4-final-balance': 'h4FinalBalance', 'label-final-balance-sol': 'labelFinalBalanceSol',
                 'label-final-balance-usdc': 'labelFinalBalanceUsdc', 'label-final-balance-usd': 'labelFinalBalanceUsd',
-                'h4-total-profit-usd': 'h4TotalProfitUsd', 'label-profit-total-usd': 'labelProfitTotalUsd', // New IDs added
+                'h4-total-profit-usd': 'h4TotalProfitUsd', 'label-profit-total-usd': 'labelProfitTotalUsd',
                 'label-modal-stake-sol': 'labelModalStakeSol', 'label-modal-profit-sol': 'labelModalProfitSol',
                 'label-modal-stake-usdc': 'labelModalStakeUsdc', 'label-modal-profit-usdc': 'labelModalProfitUsdc',
                 'saveReferralButton': 'saveButton', 'cancelReferralButton': 'cancelButton',
                 'languageToggleButton': 'langButtonText'
             };
 
+            // Loop for standard elements
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
-                if (element && trans[key]) {
+                if (element && trans[key] !== undefined) { // Check if key exists
                      if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
-                         if (id === 'p-footer') {
-                             element.childNodes[0].nodeValue = trans[key] + ' ';
-                         } else {
-                             element.textContent = trans[key];
-                         }
+                         if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
+                         else { element.textContent = trans[key]; } // Use textContent for base text
                      }
                 } else if (element && id === 'p-footer') {
-                     if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) {
-                         element.prepend(document.createTextNode(' '));
-                     }
+                     if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
                      element.childNodes[0].nodeValue = (trans.pFooter || 'Made by') + ' ';
                 }
             }
+
+            // --- Append icons to specific labels ---
+            const labelSolStake = document.getElementById('label-user-staked-sol');
+            const labelUsdcStake = document.getElementById('label-user-staked-usdc');
+            const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
+            const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
+
+            if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
+            if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
+            if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
+            if (labelUsdcProfit) { labelUsdcProfit.innerHTML += usdcIconImg; }
+            // --- End Icon Appending ---
+
             renderReferralsTable();
         }
-        function toggleLanguage() { /* ... (toggleLanguage function remains the same) ... */
+        function toggleLanguage() { /* ... */
             const newLang = currentLanguage === 'en' ? 'ru' : 'en';
             localStorage.setItem('fomoFarmCalc_language', newLang);
             updateUI(newLang);
          }
 
         // --- Referral Management Functions ---
-        function addReferral() { /* ... (addReferral function remains the same) ... */
-            const newId = nextReferralId++;
-            const newReferral = { id: newId, stakedSol: 0, profitPercentSol: 0, stakedUsdc: 0, profitPercentUsdc: 0 };
-            referralsData.push(newReferral);
-            renderReferralsTable();
-            saveData();
+        function addReferral() { /* ... */
+            const newId = nextReferralId++; const newReferral = { id: newId, stakedSol: 0, profitPercentSol: 0, stakedUsdc: 0, profitPercentUsdc: 0 };
+            referralsData.push(newReferral); renderReferralsTable(); saveData();
         }
-        function removeReferral(referralIdToRemove) { /* ... (removeReferral function with re-indexing remains the same) ... */
+        function removeReferral(referralIdToRemove) { /* ... */
             referralsData = referralsData.filter(ref => ref.id !== referralIdToRemove);
-            referralsData.forEach((ref, index) => { ref.id = index + 1; });
-            nextReferralId = referralsData.length + 1;
-            renderReferralsTable();
-            saveData();
+            referralsData.forEach((ref, index) => { ref.id = index + 1; }); nextReferralId = referralsData.length + 1;
+            renderReferralsTable(); saveData();
         }
-        function renderReferralsTable() { /* ... (renderReferralsTable function remains the same) ... */
-            const referralsListBody = document.getElementById('referralsList');
-            if (!referralsListBody) return;
-            referralsListBody.innerHTML = '';
-            const trans = translations[currentLanguage];
-
-            if (referralsData.length === 0) {
-                 const row = document.createElement('tr');
-                 row.innerHTML = `<td colspan="3" style="text-align:center; color:#6b7280;">${trans.noReferrals}</td>`;
-                 referralsListBody.appendChild(row);
-            } else {
-                referralsData.forEach(referral => {
-                     const row = document.createElement('tr');
-                     const numCell = document.createElement('td');
-                     numCell.textContent = referral.id;
-
-                     const summaryCell = document.createElement('td');
-                     summaryCell.className = 'stakes-summary';
-                     let summaryParts = [];
-                     const formatOptionsNoSuffix = { maximumFractionDigits: 5, minimumFractionDigits: 2 };
-                     const usdcFormatOptionsNoSuffix = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
-                     if (referral.stakedSol > 0) { summaryParts.push(`SOL: ${referral.stakedSol.toLocaleString(currentLanguage === 'ru' ? 'ru-RU' : 'en-US', formatOptionsNoSuffix)}`); }
-                     if (referral.stakedUsdc > 0) { summaryParts.push(`USDC: ${referral.stakedUsdc.toLocaleString('en-US', usdcFormatOptionsNoSuffix)}`); }
-                     summaryCell.textContent = summaryParts.length > 0 ? summaryParts.join(' | ') : trans.refSummaryNone;
-
-                     const actionCell = document.createElement('td');
-                     actionCell.className = 'actions-cell';
-                     const editButton = document.createElement('button');
-                     editButton.textContent = trans.editButtonShort;
-                     editButton.className = 'action-button edit-button';
-                     editButton.onclick = () => openEditModal(referral.id);
-                     const removeButton = document.createElement('button');
-                     removeButton.textContent = trans.removeButtonShort;
-                     removeButton.className = 'action-button remove-button';
-                     removeButton.onclick = () => removeReferral(referral.id);
-                     actionCell.appendChild(editButton);
-                     actionCell.appendChild(removeButton);
-
-                     row.appendChild(numCell);
-                     row.appendChild(summaryCell);
-                     row.appendChild(actionCell);
-                     referralsListBody.appendChild(row);
-                });
-            }
+        function renderReferralsTable() { /* ... */
+            const referralsListBody = document.getElementById('referralsList'); if (!referralsListBody) return;
+            referralsListBody.innerHTML = ''; const trans = translations[currentLanguage];
+            if (referralsData.length === 0) { const row = document.createElement('tr'); row.innerHTML = `<td colspan="3" style="text-align:center; color:#6b7280;">${trans.noReferrals}</td>`; referralsListBody.appendChild(row); }
+            else { referralsData.forEach(referral => { /* ... create and append rows ... */
+                 const row = document.createElement('tr'); const numCell = document.createElement('td'); numCell.textContent = referral.id;
+                 const summaryCell = document.createElement('td'); summaryCell.className = 'stakes-summary'; let summaryParts = [];
+                 const formatOptionsNoSuffix = { maximumFractionDigits: 5, minimumFractionDigits: 2 }; const usdcFormatOptionsNoSuffix = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
+                 if (referral.stakedSol > 0) { summaryParts.push(`SOL: ${referral.stakedSol.toLocaleString(currentLanguage === 'ru' ? 'ru-RU' : 'en-US', formatOptionsNoSuffix)}`); }
+                 if (referral.stakedUsdc > 0) { summaryParts.push(`USDC: ${referral.stakedUsdc.toLocaleString('en-US', usdcFormatOptionsNoSuffix)}`); }
+                 summaryCell.textContent = summaryParts.length > 0 ? summaryParts.join(' | ') : trans.refSummaryNone;
+                 const actionCell = document.createElement('td'); actionCell.className = 'actions-cell';
+                 const editButton = document.createElement('button'); editButton.textContent = trans.editButtonShort; editButton.className = 'action-button edit-button'; editButton.onclick = () => openEditModal(referral.id);
+                 const removeButton = document.createElement('button'); removeButton.textContent = trans.removeButtonShort; removeButton.className = 'action-button remove-button'; removeButton.onclick = () => removeReferral(referral.id);
+                 actionCell.appendChild(editButton); actionCell.appendChild(removeButton);
+                 row.appendChild(numCell); row.appendChild(summaryCell); row.appendChild(actionCell); referralsListBody.appendChild(row);
+            }); }
         }
 
         // --- Modal Management Functions ---
-        function openEditModal(referralId) { /* ... (openEditModal function remains the same) ... */
-            const modal = document.getElementById('editReferralModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const editingIdInput = document.getElementById('editingReferralId');
-            const trans = translations[currentLanguage];
-            const referral = referralsData.find(ref => ref.id === referralId);
-            if (!referral || !modal || !modalTitle || !editingIdInput) return;
-
-            modalTitle.textContent = `${trans.modalTitlePrefix}${referral.id}`;
-            editingIdInput.value = referral.id;
-            document.getElementById('modal-stake-sol').value = referral.stakedSol || 0;
-            document.getElementById('modal-profit-sol').value = referral.profitPercentSol || 0;
-            document.getElementById('modal-stake-usdc').value = referral.stakedUsdc || 0;
-            document.getElementById('modal-profit-usdc').value = referral.profitPercentUsdc || 0;
-            document.getElementById('label-modal-stake-sol').textContent = trans.labelModalStakeSol;
-            document.getElementById('label-modal-profit-sol').textContent = trans.labelModalProfitSol;
-            document.getElementById('label-modal-stake-usdc').textContent = trans.labelModalStakeUsdc;
-            document.getElementById('label-modal-profit-usdc').textContent = trans.labelModalProfitUsdc;
+        function openEditModal(referralId) { /* ... */
+            const modal = document.getElementById('editReferralModal'); const modalTitle = document.getElementById('modalTitle');
+            const editingIdInput = document.getElementById('editingReferralId'); const trans = translations[currentLanguage];
+            const referral = referralsData.find(ref => ref.id === referralId); if (!referral || !modal || !modalTitle || !editingIdInput) return;
+            modalTitle.textContent = `${trans.modalTitlePrefix}${referral.id}`; editingIdInput.value = referral.id;
+            document.getElementById('modal-stake-sol').value = referral.stakedSol || 0; document.getElementById('modal-profit-sol').value = referral.profitPercentSol || 0;
+            document.getElementById('modal-stake-usdc').value = referral.stakedUsdc || 0; document.getElementById('modal-profit-usdc').value = referral.profitPercentUsdc || 0;
+            document.getElementById('label-modal-stake-sol').textContent = trans.labelModalStakeSol; document.getElementById('label-modal-profit-sol').textContent = trans.labelModalProfitSol;
+            document.getElementById('label-modal-stake-usdc').textContent = trans.labelModalStakeUsdc; document.getElementById('label-modal-profit-usdc').textContent = trans.labelModalProfitUsdc;
             modal.style.display = 'flex';
+         }
+        function closeEditModal() { /* ... */
+            const modal = document.getElementById('editReferralModal'); if (modal) { modal.style.display = 'none'; }
+            const editingIdInput = document.getElementById('editingReferralId'); if(editingIdInput) { editingIdInput.value = ''; }
         }
-        function closeEditModal() { /* ... (closeEditModal function remains the same) ... */
-            const modal = document.getElementById('editReferralModal');
-            if (modal) { modal.style.display = 'none'; }
-            const editingIdInput = document.getElementById('editingReferralId');
-            if(editingIdInput) { editingIdInput.value = ''; }
-        }
-        function saveReferralData() { /* ... (saveReferralData function remains the same) ... */
-            const editingId = parseInt(document.getElementById('editingReferralId').value);
-            if (isNaN(editingId)) return;
-            const referralIndex = referralsData.findIndex(ref => ref.id === editingId);
-            if (referralIndex === -1) return;
-
-            const newStakeSol = parseFloat(document.getElementById('modal-stake-sol').value) || 0;
-            const newProfitSol = parseFloat(document.getElementById('modal-profit-sol').value) || 0;
-            const newStakeUsdc = parseFloat(document.getElementById('modal-stake-usdc').value) || 0;
-            const newProfitUsdc = parseFloat(document.getElementById('modal-profit-usdc').value) || 0;
-
-            referralsData[referralIndex].stakedSol = newStakeSol >= 0 ? newStakeSol : 0;
-            referralsData[referralIndex].profitPercentSol = newProfitSol >= 0 ? newProfitSol : 0;
-            referralsData[referralIndex].stakedUsdc = newStakeUsdc >= 0 ? newStakeUsdc : 0;
-            referralsData[referralIndex].profitPercentUsdc = newProfitUsdc >= 0 ? newProfitUsdc : 0;
-
-            saveData();
-            renderReferralsTable();
-            closeEditModal();
+        function saveReferralData() { /* ... */
+            const editingId = parseInt(document.getElementById('editingReferralId').value); if (isNaN(editingId)) return;
+            const referralIndex = referralsData.findIndex(ref => ref.id === editingId); if (referralIndex === -1) return;
+            const newStakeSol = parseFloat(document.getElementById('modal-stake-sol').value) || 0; const newProfitSol = parseFloat(document.getElementById('modal-profit-sol').value) || 0;
+            const newStakeUsdc = parseFloat(document.getElementById('modal-stake-usdc').value) || 0; const newProfitUsdc = parseFloat(document.getElementById('modal-profit-usdc').value) || 0;
+            referralsData[referralIndex].stakedSol = newStakeSol >= 0 ? newStakeSol : 0; referralsData[referralIndex].profitPercentSol = newProfitSol >= 0 ? newProfitSol : 0;
+            referralsData[referralIndex].stakedUsdc = newStakeUsdc >= 0 ? newStakeUsdc : 0; referralsData[referralIndex].profitPercentUsdc = newProfitUsdc >= 0 ? newProfitUsdc : 0;
+            saveData(); renderReferralsTable(); closeEditModal();
         }
 
         // --- Formatting Function ---
-        function formatNumber(number, currency = 'default') { /* ... (formatNumber function remains the same) ... */
+        function formatNumber(number, currency = 'default') { /* ... */
             if (isNaN(number) || number === null) { return currency === 'USD' ? '0.00 $' : (currency === 'RUB' ? '0.00 ₽' : '0.00000'); }
             const daysSuffix = translations[currentLanguage].daysSuffix;
-            const config = {
-                'USD': { locale: 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' $' },
-                'SOL': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: ' SOL' },
-                'USDC': { locale: 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' USDC' },
-                'PERCENT': { locale: currentLanguage === 'ru' ? 'ru-RU' : 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' %' },
-                'DAYS': { locale: currentLanguage === 'ru' ? 'ru-RU' : 'en-US', options: { maximumFractionDigits: 0, minimumFractionDigits: 0 }, suffix: daysSuffix },
-                'default': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: '' }
+            const config = { /* ... */
+                'USD': { locale: 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' $' }, 'SOL': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: ' SOL' },
+                'USDC': { locale: 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' USDC' }, 'PERCENT': { locale: currentLanguage === 'ru' ? 'ru-RU' : 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' %' },
+                'DAYS': { locale: currentLanguage === 'ru' ? 'ru-RU' : 'en-US', options: { maximumFractionDigits: 0, minimumFractionDigits: 0 }, suffix: daysSuffix }, 'default': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: '' }
             };
-            const { locale, options, suffix } = config[currency] || config.default;
-            return number.toLocaleString(locale, options) + suffix;
-        }
+            const { locale, options, suffix } = config[currency] || config.default; return number.toLocaleString(locale, options) + suffix;
+         }
 
         // --- Calculation Logic ---
-        function calculate() {
-            // Get input values
-            const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100;
-            const solToUsd = parseFloat(document.getElementById('solToUsd').value) || 0;
-            const days = parseInt(document.getElementById('days').value) || 0;
-            const reinvestEnabled = document.getElementById('reinvestCheckbox').checked;
-            const referralsEnabled = document.getElementById('includeReferralsCheckbox').checked;
-            const trans = translations[currentLanguage];
-            const initialUserStakedSol = parseFloat(document.getElementById('userStakedSolAmount').value) || 0;
-            const userProfitRateSol = (parseFloat(document.getElementById('userProfitPercentSol').value) || 0) / 100;
-            const initialUserStakedUsdc = parseFloat(document.getElementById('userStakedUsdcAmount').value) || 0;
-            const userProfitRateUsdc = (parseFloat(document.getElementById('userProfitPercentUsdc').value) || 0) / 100;
-
-            // Input Validation
-            if (days <= 0 || solToUsd < 0 || initialUserStakedSol < 0 || userProfitRateSol < 0 || initialUserStakedUsdc < 0 || userProfitRateUsdc < 0) {
-                clearResults(trans.invalidInputError); return;
-            }
-            let needsSolUsdRate = (initialUserStakedUsdc > 0);
-            const hasUsdcReferralStake = referralsData.some(ref => (ref.stakedUsdc || 0) > 0);
-            if (referralsEnabled && hasUsdcReferralStake) { needsSolUsdRate = true; }
-            if (needsSolUsdRate && solToUsd <= 0) {
-                clearResults(trans.solUsdRateError); return;
-            }
-
-            // Calculate Daily Referral Profit
-            let dailyNetProfit_RefSol = 0;
-            let dailyNetProfit_RefUsdc = 0;
-            if (referralsEnabled) {
-                referralsData.forEach(referral => {
-                    if (referral.stakedSol > 0 && referral.profitPercentSol > 0) {
-                        const refProfitRateSol = referral.profitPercentSol / 100;
-                        const grossProfit = referral.stakedSol * refProfitRateSol;
-                        const fee = grossProfit * platformFeeRate;
-                        dailyNetProfit_RefSol += ((grossProfit - fee) * 0.08);
-                    }
-                    if (referral.stakedUsdc > 0 && referral.profitPercentUsdc > 0) {
-                        const refProfitRateUsdc = referral.profitPercentUsdc / 100;
-                        const grossProfit = referral.stakedUsdc * refProfitRateUsdc;
-                        const fee = grossProfit * platformFeeRate;
-                        dailyNetProfit_RefUsdc += ((grossProfit - fee) * 0.08);
-                    }
-                });
-            }
-
-            // Calculate Doubling Time (No Reinvestment)
-            let doubleSolNoReinvestDays = "N/A";
-            let doubleUsdcNoReinvestDays = "N/A";
-            const dailyNetProfit_UserSol = initialUserStakedSol * userProfitRateSol * (1 - platformFeeRate);
-            const dailyNetProfit_UserUsdc = initialUserStakedUsdc * userProfitRateUsdc * (1 - platformFeeRate);
-            const totalDailySolProfit = dailyNetProfit_UserSol + dailyNetProfit_RefSol;
-            const totalDailyUsdcProfit = dailyNetProfit_UserUsdc + dailyNetProfit_RefUsdc;
-            if (totalDailySolProfit > 0 && initialUserStakedSol > 0) {
-                doubleSolNoReinvestDays = Math.ceil(initialUserStakedSol / totalDailySolProfit);
-            } else if (initialUserStakedSol > 0) { doubleSolNoReinvestDays = trans.roiNever; }
-            if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) {
-                doubleUsdcNoReinvestDays = Math.ceil(initialUserStakedUsdc / totalDailyUsdcProfit);
-            } else if (initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = trans.roiNever; }
-
-            // Simulate Day-by-Day Profit (Handles Reinvestment)
-            let currentSolStake = initialUserStakedSol;
-            let currentUsdcStake = initialUserStakedUsdc;
-            let accumulatedSolProfit = 0;
-            let accumulatedUsdcProfit = 0;
-            let totalSolProfitAccumulated = 0; // Renamed for clarity
-            let totalUsdcProfitAccumulated = 0; // Renamed for clarity
-            let doubleSolReinvestDays = "N/A";
-            let doubleUsdcReinvestDays = "N/A";
-            let solDoubled = false;
-            let usdcDoubled = false;
-
-            for (let day = 1; day <= days; day++) {
-                const profitTodaySol_User = currentSolStake * userProfitRateSol * (1 - platformFeeRate);
-                const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate);
-                const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol;
-                const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc;
-                totalSolProfitAccumulated += profitTodaySol_Total; // Accumulate total profit
-                totalUsdcProfitAccumulated += profitTodayUsdc_Total; // Accumulate total profit
-                accumulatedSolProfit += profitTodaySol_Total; // Accumulate for reinvestment check
-                accumulatedUsdcProfit += profitTodayUsdc_Total; // Accumulate for reinvestment check
-
-                if (reinvestEnabled) {
-                    if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) { currentSolStake += accumulatedSolProfit; accumulatedSolProfit = 0; }
-                    if (accumulatedUsdcProfit >= REINVEST_THRESHOLD_USDC) { currentUsdcStake += accumulatedUsdcProfit; accumulatedUsdcProfit = 0; }
-                }
-                if (!solDoubled && initialUserStakedSol > 0 && currentSolStake >= initialUserStakedSol * 2) { doubleSolReinvestDays = day; solDoubled = true; }
-                if (!usdcDoubled && initialUserStakedUsdc > 0 && currentUsdcStake >= initialUserStakedUsdc * 2) { doubleUsdcReinvestDays = day; usdcDoubled = true; }
-            }
-
-            // Final Calculations & Display
-             if (!solDoubled) {
-                 if (totalDailySolProfit > 0 && initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiOverDays.replace('{days}', days);
-                 else if (initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiNever;
-                 else doubleSolReinvestDays = "N/A";
-             }
-             if (!usdcDoubled) {
-                 if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiOverDays.replace('{days}', days);
-                 else if (initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiNever;
-                 else doubleUsdcReinvestDays = "N/A";
-             }
-
-            const finalSolBalance = currentSolStake + accumulatedSolProfit;
-            const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit;
-            const finalUsdBalanceTotal = (solToUsd > 0 ? finalSolBalance * solToUsd : 0) + finalUsdcBalance;
-            const profitPercentSol = initialUserStakedSol > 0 ? (totalSolProfitAccumulated / initialUserStakedSol) * 100 : 0;
-            const profitPercentUsdc = initialUserStakedUsdc > 0 ? (totalUsdcProfitAccumulated / initialUserStakedUsdc) * 100 : 0;
-            const totalReferralProfitOverPeriodSol = dailyNetProfit_RefSol * days;
-            const totalReferralProfitOverPeriodUsdc = dailyNetProfit_RefUsdc * days;
-
-            // --- Calculate Total Profit in USD ---
-            const totalProfitUsd = (solToUsd > 0 ? totalSolProfitAccumulated * solToUsd : 0) + totalUsdcProfitAccumulated;
-
-            // Update Results Display
-            document.getElementById('result-profit-user-sol').textContent = formatNumber(totalSolProfitAccumulated - totalReferralProfitOverPeriodSol, 'SOL');
-            document.getElementById('result-profit-user-usdc').textContent = formatNumber(totalUsdcProfitAccumulated - totalReferralProfitOverPeriodUsdc, 'USDC');
-             document.getElementById('result-profit-ref-sol').textContent = formatNumber(totalReferralProfitOverPeriodSol, 'SOL');
-             document.getElementById('result-profit-ref-usdc').textContent = formatNumber(totalReferralProfitOverPeriodUsdc, 'USDC');
-             document.getElementById('result-profit-total-sol').textContent = formatNumber(totalSolProfitAccumulated, 'SOL');
-             document.getElementById('result-profit-total-usdc').textContent = formatNumber(totalUsdcProfitAccumulated, 'USDC');
-             document.getElementById('result-profit-percent-sol').textContent = formatNumber(profitPercentSol, 'PERCENT');
-             document.getElementById('result-profit-percent-usdc').textContent = formatNumber(profitPercentUsdc, 'PERCENT');
-             document.getElementById('result-double-sol-noreinvest').textContent = typeof doubleSolNoReinvestDays === 'number' ? formatNumber(doubleSolNoReinvestDays, 'DAYS') : doubleSolNoReinvestDays;
-             document.getElementById('result-double-usdc-noreinvest').textContent = typeof doubleUsdcNoReinvestDays === 'number' ? formatNumber(doubleUsdcNoReinvestDays, 'DAYS') : doubleUsdcNoReinvestDays;
-             document.getElementById('result-double-sol-reinvest').textContent = typeof doubleSolReinvestDays === 'number' ? formatNumber(doubleSolReinvestDays, 'DAYS') : doubleSolReinvestDays;
-             document.getElementById('result-double-usdc-reinvest').textContent = typeof doubleUsdcReinvestDays === 'number' ? formatNumber(doubleUsdcReinvestDays, 'DAYS') : doubleUsdcReinvestDays;
-             document.getElementById('result-final-balance-sol').textContent = formatNumber(finalSolBalance, 'SOL');
-             document.getElementById('result-final-balance-usdc').textContent = formatNumber(finalUsdcBalance, 'USDC');
-             document.getElementById('result-final-balance-usd-total').textContent = formatNumber(finalUsdBalanceTotal, 'USD');
-             // --- Update new Total Profit USD element ---
-             document.getElementById('result-profit-total-usd').textContent = formatNumber(totalProfitUsd, 'USD');
+        function calculate() { /* ... calculation logic ... */
+            const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100; const solToUsd = parseFloat(document.getElementById('solToUsd').value) || 0;
+            const days = parseInt(document.getElementById('days').value) || 0; const reinvestEnabled = document.getElementById('reinvestCheckbox').checked;
+            const referralsEnabled = document.getElementById('includeReferralsCheckbox').checked; const trans = translations[currentLanguage];
+            const initialUserStakedSol = parseFloat(document.getElementById('userStakedSolAmount').value) || 0; const userProfitRateSol = (parseFloat(document.getElementById('userProfitPercentSol').value) || 0) / 100;
+            const initialUserStakedUsdc = parseFloat(document.getElementById('userStakedUsdcAmount').value) || 0; const userProfitRateUsdc = (parseFloat(document.getElementById('userProfitPercentUsdc').value) || 0) / 100;
+            if (days <= 0 || solToUsd < 0 || initialUserStakedSol < 0 || userProfitRateSol < 0 || initialUserStakedUsdc < 0 || userProfitRateUsdc < 0) { clearResults(trans.invalidInputError); return; }
+            let needsSolUsdRate = (initialUserStakedUsdc > 0); const hasUsdcReferralStake = referralsData.some(ref => (ref.stakedUsdc || 0) > 0);
+            if (referralsEnabled && hasUsdcReferralStake) { needsSolUsdRate = true; } if (needsSolUsdRate && solToUsd <= 0) { clearResults(trans.solUsdRateError); return; }
+            let dailyNetProfit_RefSol = 0; let dailyNetProfit_RefUsdc = 0;
+            if (referralsEnabled) { referralsData.forEach(referral => { if (referral.stakedSol > 0 && referral.profitPercentSol > 0) { const refProfitRateSol = referral.profitPercentSol / 100; const grossProfit = referral.stakedSol * refProfitRateSol; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefSol += ((grossProfit - fee) * 0.08); } if (referral.stakedUsdc > 0 && referral.profitPercentUsdc > 0) { const refProfitRateUsdc = referral.profitPercentUsdc / 100; const grossProfit = referral.stakedUsdc * refProfitRateUsdc; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefUsdc += ((grossProfit - fee) * 0.08); } }); }
+            let doubleSolNoReinvestDays = "N/A"; let doubleUsdcNoReinvestDays = "N/A"; const dailyNetProfit_UserSol = initialUserStakedSol * userProfitRateSol * (1 - platformFeeRate); const dailyNetProfit_UserUsdc = initialUserStakedUsdc * userProfitRateUsdc * (1 - platformFeeRate); const totalDailySolProfit = dailyNetProfit_UserSol + dailyNetProfit_RefSol; const totalDailyUsdcProfit = dailyNetProfit_UserUsdc + dailyNetProfit_RefUsdc;
+            if (totalDailySolProfit > 0 && initialUserStakedSol > 0) { doubleSolNoReinvestDays = Math.ceil(initialUserStakedSol / totalDailySolProfit); } else if (initialUserStakedSol > 0) { doubleSolNoReinvestDays = trans.roiNever; } if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = Math.ceil(initialUserStakedUsdc / totalDailyUsdcProfit); } else if (initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = trans.roiNever; }
+            let currentSolStake = initialUserStakedSol; let currentUsdcStake = initialUserStakedUsdc; let accumulatedSolProfit = 0; let accumulatedUsdcProfit = 0; let totalSolProfitAccumulated = 0; let totalUsdcProfitAccumulated = 0; let doubleSolReinvestDays = "N/A"; let doubleUsdcReinvestDays = "N/A"; let solDoubled = false; let usdcDoubled = false;
+            for (let day = 1; day <= days; day++) { const profitTodaySol_User = currentSolStake * userProfitRateSol * (1 - platformFeeRate); const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate); const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol; const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc; totalSolProfitAccumulated += profitTodaySol_Total; totalUsdcProfitAccumulated += profitTodayUsdc_Total; accumulatedSolProfit += profitTodaySol_Total; accumulatedUsdcProfit += profitTodayUsdc_Total; if (reinvestEnabled) { if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) { currentSolStake += accumulatedSolProfit; accumulatedSolProfit = 0; } if (accumulatedUsdcProfit >= REINVEST_THRESHOLD_USDC) { currentUsdcStake += accumulatedUsdcProfit; accumulatedUsdcProfit = 0; } } if (!solDoubled && initialUserStakedSol > 0 && currentSolStake >= initialUserStakedSol * 2) { doubleSolReinvestDays = day; solDoubled = true; } if (!usdcDoubled && initialUserStakedUsdc > 0 && currentUsdcStake >= initialUserStakedUsdc * 2) { doubleUsdcReinvestDays = day; usdcDoubled = true; } }
+            if (!solDoubled) { if (totalDailySolProfit > 0 && initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiNever; else doubleSolReinvestDays = "N/A"; } if (!usdcDoubled) { if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiNever; else doubleUsdcReinvestDays = "N/A"; }
+            const finalSolBalance = currentSolStake + accumulatedSolProfit; const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit; const finalUsdBalanceTotal = (solToUsd > 0 ? finalSolBalance * solToUsd : 0) + finalUsdcBalance; const profitPercentSol = initialUserStakedSol > 0 ? (totalSolProfitAccumulated / initialUserStakedSol) * 100 : 0; const profitPercentUsdc = initialUserStakedUsdc > 0 ? (totalUsdcProfitAccumulated / initialUserStakedUsdc) * 100 : 0; const totalReferralProfitOverPeriodSol = dailyNetProfit_RefSol * days; const totalReferralProfitOverPeriodUsdc = dailyNetProfit_RefUsdc * days; const totalProfitUsd = (solToUsd > 0 ? totalSolProfitAccumulated * solToUsd : 0) + totalUsdcProfitAccumulated;
+            document.getElementById('result-profit-user-sol').textContent = formatNumber(totalSolProfitAccumulated - totalReferralProfitOverPeriodSol, 'SOL'); document.getElementById('result-profit-user-usdc').textContent = formatNumber(totalUsdcProfitAccumulated - totalReferralProfitOverPeriodUsdc, 'USDC'); document.getElementById('result-profit-ref-sol').textContent = formatNumber(totalReferralProfitOverPeriodSol, 'SOL'); document.getElementById('result-profit-ref-usdc').textContent = formatNumber(totalReferralProfitOverPeriodUsdc, 'USDC'); document.getElementById('result-profit-total-sol').textContent = formatNumber(totalSolProfitAccumulated, 'SOL'); document.getElementById('result-profit-total-usdc').textContent = formatNumber(totalUsdcProfitAccumulated, 'USDC'); document.getElementById('result-profit-percent-sol').textContent = formatNumber(profitPercentSol, 'PERCENT'); document.getElementById('result-profit-percent-usdc').textContent = formatNumber(profitPercentUsdc, 'PERCENT'); document.getElementById('result-double-sol-noreinvest').textContent = typeof doubleSolNoReinvestDays === 'number' ? formatNumber(doubleSolNoReinvestDays, 'DAYS') : doubleSolNoReinvestDays; document.getElementById('result-double-usdc-noreinvest').textContent = typeof doubleUsdcNoReinvestDays === 'number' ? formatNumber(doubleUsdcNoReinvestDays, 'DAYS') : doubleUsdcNoReinvestDays; document.getElementById('result-double-sol-reinvest').textContent = typeof doubleSolReinvestDays === 'number' ? formatNumber(doubleSolReinvestDays, 'DAYS') : doubleSolReinvestDays; document.getElementById('result-double-usdc-reinvest').textContent = typeof doubleUsdcReinvestDays === 'number' ? formatNumber(doubleUsdcReinvestDays, 'DAYS') : doubleUsdcReinvestDays; document.getElementById('result-final-balance-sol').textContent = formatNumber(finalSolBalance, 'SOL'); document.getElementById('result-final-balance-usdc').textContent = formatNumber(finalUsdcBalance, 'USDC'); document.getElementById('result-final-balance-usd-total').textContent = formatNumber(finalUsdBalanceTotal, 'USD'); document.getElementById('result-profit-total-usd').textContent = formatNumber(totalProfitUsd, 'USD');
         }
-
-        /**
-         * Clears all calculated results from the display area.
-         * @param {string} [message=""] - An optional message to log to the console.
-         */
-        function clearResults(message = "") {
-             document.getElementById('result-profit-user-sol').textContent = '0 SOL';
-             document.getElementById('result-profit-user-usdc').textContent = '0 USDC';
-             document.getElementById('result-profit-ref-sol').textContent = '0 SOL';
-             document.getElementById('result-profit-ref-usdc').textContent = '0 USDC';
-             document.getElementById('result-profit-total-sol').textContent = '0 SOL';
-             document.getElementById('result-profit-total-usdc').textContent = '0 USDC';
-             document.getElementById('result-profit-percent-sol').textContent = '0 %';
-             document.getElementById('result-profit-percent-usdc').textContent = '0 %';
-             document.getElementById('result-double-sol-noreinvest').textContent = 'N/A';
-             document.getElementById('result-double-usdc-noreinvest').textContent = 'N/A';
-             document.getElementById('result-double-sol-reinvest').textContent = 'N/A';
-             document.getElementById('result-double-usdc-reinvest').textContent = 'N/A';
-             document.getElementById('result-final-balance-sol').textContent = '0 SOL';
-             document.getElementById('result-final-balance-usdc').textContent = '0 USDC';
-             document.getElementById('result-final-balance-usd-total').textContent = '0 $';
-             // --- Clear new Total Profit USD element ---
-             document.getElementById('result-profit-total-usd').textContent = '0 $';
-             if (message) { console.warn(message); }
+        function clearResults(message = "") { /* ... */
+             document.getElementById('result-profit-user-sol').textContent = '0 SOL'; document.getElementById('result-profit-user-usdc').textContent = '0 USDC'; document.getElementById('result-profit-ref-sol').textContent = '0 SOL'; document.getElementById('result-profit-ref-usdc').textContent = '0 USDC'; document.getElementById('result-profit-total-sol').textContent = '0 SOL'; document.getElementById('result-profit-total-usdc').textContent = '0 USDC'; document.getElementById('result-profit-percent-sol').textContent = '0 %'; document.getElementById('result-profit-percent-usdc').textContent = '0 %'; document.getElementById('result-double-sol-noreinvest').textContent = 'N/A'; document.getElementById('result-double-usdc-noreinvest').textContent = 'N/A'; document.getElementById('result-double-sol-reinvest').textContent = 'N/A'; document.getElementById('result-double-usdc-reinvest').textContent = 'N/A'; document.getElementById('result-final-balance-sol').textContent = '0 SOL'; document.getElementById('result-final-balance-usdc').textContent = '0 USDC'; document.getElementById('result-final-balance-usd-total').textContent = '0 $'; document.getElementById('result-profit-total-usd').textContent = '0 $'; if (message) { console.warn(message); }
         }
 
         // --- Collapsible Section Function ---
-        function toggleReferralsSection() { /* ... (toggleReferralsSection function remains the same) ... */
-            const referralsContainer = document.getElementById('referralsContainer');
-            if (referralsContainer) {
-                referralsContainer.classList.toggle('collapsed');
-                saveData();
-            }
+        function toggleReferralsSection() { /* ... */
+            const referralsContainer = document.getElementById('referralsContainer'); if (referralsContainer) { referralsContainer.classList.toggle('collapsed'); saveData(); }
         }
 
         // --- Event Listener Setup ---
-        function setupEventListeners() { /* ... (setupEventListeners function remains the same) ... */
-             document.querySelectorAll('.input-group input, .checkbox-container input').forEach(element => {
-                 element.addEventListener('change', saveData);
-             });
+        function setupEventListeners() { /* ... */
+             document.querySelectorAll('.input-group input, .checkbox-container input').forEach(element => { element.addEventListener('change', saveData); });
              document.getElementById('languageToggleButton').addEventListener('click', toggleLanguage);
              document.getElementById('addReferralButton').addEventListener('click', addReferral);
              document.getElementById('saveReferralButton').addEventListener('click', saveReferralData);
              document.getElementById('cancelReferralButton').addEventListener('click', closeEditModal);
-             document.getElementById('editReferralModal').addEventListener('click', (event) => {
-                 if (event.target === event.currentTarget) { closeEditModal(); }
-             });
+             document.getElementById('editReferralModal').addEventListener('click', (event) => { if (event.target === event.currentTarget) { closeEditModal(); } });
              document.getElementById('calculateButton').addEventListener('click', calculate);
              document.getElementById('h3-referrals').addEventListener('click', toggleReferralsSection);
         }
 
         // --- Initialization ---
-        document.addEventListener('DOMContentLoaded', function() { /* ... (DOMContentLoaded handler remains the same) ... */
+        document.addEventListener('DOMContentLoaded', function() { /* ... */
             currentLanguage = localStorage.getItem('fomoFarmCalc_language') || 'en';
             loadData();
             setupEventListeners();
