@@ -34,14 +34,25 @@
         .input-group > div { padding: 10px; border: 1px solid #1f2937; border-radius: 8px; background-color: #111827; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; }
 
         /* --- Label Styles --- */
-        label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; /* Ensure enough line height for icons */ }
+        label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; }
         .input-group > div > label { height: auto; min-height: 0; }
+
+        /* === NEW: Styles for labels containing icons === */
+        #label-user-staked-sol,
+        #label-user-staked-usdc,
+        #label-user-profit-percent-sol,
+        #label-user-profit-percent-usdc {
+            display: inline-flex; /* Use inline-flex to allow alignment */
+            align-items: center; /* Vertically center text and icon */
+            gap: 0; /* Prevent extra gap if needed */
+            /* line-height: 1; Might need adjustment if text wraps weirdly */
+        }
+        /* === END NEW === */
+
         /* Style for icons within labels */
         label img {
-            width: 16px; /* Explicit width */
-            height: 16px; /* Explicit height */
-            display: inline-block;
-            vertical-align: middle; /* Align icon with text */
+            width: 15px;
+            height: 15px;
             margin-left: 5px; /* Space between text and icon */
         }
 
@@ -333,10 +344,10 @@
         // --- Translations Object ---
         const translations = {
             'en': {
-                labelUserStakedSol: 'Staked', // Text only
-                labelUserProfitPercentSol: 'Profit % / day', // Text only
-                labelUserStakedUsdc: 'Staked', // Text only
-                labelUserProfitPercentUsdc: 'Profit % / day', // Text only
+                labelUserStakedSol: 'Staked (SOL):', // Restored
+                labelUserProfitPercentSol: 'Profit % / day (SOL):', // Restored
+                labelUserStakedUsdc: 'Staked (USDC):', // Restored
+                labelUserProfitPercentUsdc: 'Profit % / day (USDC):', // Restored
                 labelPlatformFee: 'FomoFarm Fee (%)', labelSolUsd: 'SOL / USD', labelDays: 'Days',
                 labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
@@ -361,10 +372,10 @@
                 solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
             },
             'ru': {
-                labelUserStakedSol: 'Вложено', // Text only
-                labelUserProfitPercentSol: 'Профит % / день', // Text only
-                labelUserStakedUsdc: 'Вложено', // Text only
-                labelUserProfitPercentUsdc: 'Профит % / день', // Text only
+                labelUserStakedSol: 'Вложено (SOL):', // Restored
+                labelUserProfitPercentSol: 'Профит % / день (SOL):', // Restored
+                labelUserStakedUsdc: 'Вложено (USDC):', // Restored
+                labelUserProfitPercentUsdc: 'Профит % / день (USDC):', // Restored
                 labelPlatformFee: 'Комиссия FomoFarm (%)', labelSolUsd: 'SOL / USD', labelDays: 'Дней',
                 labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов', calculate: 'Рассчитать',
                 pFooter: 'Сделано', langButtonText: 'Язык RU', h3Referrals: 'Рефералы', addReferral: 'Добавить реферала',
@@ -438,11 +449,7 @@
             const h3ReferralsTextElement = document.getElementById('h3-referrals-text');
             if (h3ReferralsTextElement && trans.h3Referrals) { h3ReferralsTextElement.textContent = trans.h3Referrals; }
 
-            // Define IMG tags for icons (assuming files are in the same folder)
-            // IMPORTANT: Make sure solana_icon.svg and usdc_icon.svg exist in your repository!
-            const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-left: 5px;">`;
-            const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-left: 5px;">`;
-
+            // --- Reverted idToKeyMap to include stake labels ---
             const idToKeyMap = {
                 'label-user-staked-sol': 'labelUserStakedSol',
                 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
@@ -468,14 +475,14 @@
                 'languageToggleButton': 'langButtonText'
             };
 
-            // Loop for standard elements
+            // Loop for standard elements - now updates all labels via textContent
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
                 if (element && trans[key] !== undefined) {
                      if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
                          if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
-                         else { element.textContent = trans[key]; } // Set base text content
+                         else { element.textContent = trans[key]; } // Use textContent for all
                      }
                 } else if (element && id === 'p-footer') {
                      if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
@@ -483,18 +490,7 @@
                 }
             }
 
-            // --- Append icons to specific labels ---
-            const labelSolStake = document.getElementById('label-user-staked-sol');
-            const labelUsdcStake = document.getElementById('label-user-staked-usdc');
-            const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
-            const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
-
-            // Append icons using innerHTML AFTER setting textContent in the loop
-            if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
-            if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
-            if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
-            if (labelUsdcProfit) { labelUsdcProfit.innerHTML += usdcIconImg; }
-            // --- End Icon Appending ---
+            // --- Removed specific label update logic with icons ---
 
             renderReferralsTable();
         }
