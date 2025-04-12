@@ -30,27 +30,12 @@
         h4 { font-size: 16px; color: #dfdfdf; text-transform: uppercase; font-weight: 600; margin-top: 15px; margin-bottom: 8px; border-bottom: 1px dashed #374151; padding-bottom: 4px; }
 
         /* --- Input Group Styles (Grid Layout) --- */
-        .input-group { display: grid; grid-template-columns: 1fr 1.5fr 2fr; gap: 10px; margin-bottom: 20px; }
+        .input-group { display: grid; grid-template-columns: 0.8fr 1fr 2fr; gap: 10px; margin-bottom: 20px; }
         .input-group > div { padding: 10px; border: 1px solid #1f2937; border-radius: 8px; background-color: #111827; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; }
-        .input-group > div.periodic-input {
-        
-        }
-     
-        .input-select-pair {
-            display: flex;
-            gap: 10px; /* Space between input and select */
-            margin-top: 5px; /* Space below the label */
-            align-items: center;
-        }
-        .input-select-pair input[type="number"] {
-            flex-grow: 2; /* Input takes less space */
-            min-width: 0; /* Allow shrinking */
-        }
-        .input-select-pair select {
-            flex-grow: 3; /* Select takes more space */
-            min-width: 0; /* Allow shrinking */
-        }
-       
+        .input-group > div.periodic-input { /* Keep styles for periodic input container */ }
+        .input-select-pair { display: flex; gap: 10px; margin-top: 5px; align-items: center; }
+        .input-select-pair input[type="number"] { flex-grow: 2; min-width: 0; }
+        .input-select-pair select { flex-grow: 3; min-width: 0; }
 
 
         /* --- Label Styles --- */
@@ -67,7 +52,9 @@
         #label-modal-stake-usdc,
         #label-modal-profit-usdc,
         #label-periodic-sol,
-        #label-periodic-usdc { 
+        #label-periodic-usdc,
+        #label-periodic-total-sol,
+        #label-periodic-total-usdc {
             display: inline-flex;
             align-items: center;
             gap: 0;
@@ -209,7 +196,7 @@
                 <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
             </div>
              <div class="periodic-input">
-                 <label for="periodicSolAmount" id="label-periodic-sol">Add. Investment SOL</label>
+                 <label for="periodicSolAmount" id="label-periodic-sol">Add. Investment</label>
                  <div class="input-select-pair">
                      <input type="number" id="periodicSolAmount" value="0" step="0.01" min="0">
                      <select id="periodicSolPeriod">
@@ -229,7 +216,7 @@
                 <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
             </div>
             <div class="periodic-input">
-                 <label for="periodicUsdcAmount" id="label-periodic-usdc">Add. Investment USDC</label>
+                 <label for="periodicUsdcAmount" id="label-periodic-usdc">Add. Investment</label>
                  <div class="input-select-pair">
                      <input type="number" id="periodicUsdcAmount" value="0" step="0.01" min="0">
                      <select id="periodicUsdcPeriod">
@@ -253,7 +240,6 @@
                 <input type="number" id="platformFee" value="10" step="0.1" min="0">
             </div>
         </div>
-
         <div class="checkbox-container">
              <div class="checkbox-item">
                  <input type="checkbox" id="reinvestCheckbox"> <label for="reinvestCheckbox" id="label-reinvest">Reinvestment</label>
@@ -289,10 +275,21 @@
                 <div class="result-group"> <h4 id="h4-referral-profit">Profit from referrals</h4> <div class="result-item"> <span class="label" id="label-profit-ref-sol">From SOL Stakes:</span> <span class="value profit-sol" id="result-profit-ref-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-profit-ref-usdc">From USDC Stakes:</span> <span class="value profit-usdc" id="result-profit-ref-usdc">0 USDC</span> </div> </div>
                 <div class="result-group"> <h4 id="h4-total-profit">Total profit</h4> <div class="result-item"> <span class="label" id="label-profit-total-sol">Total SOL:</span> <span class="value profit-sol" id="result-profit-total-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-profit-total-usdc">Total USDC:</span> <span class="value profit-usdc" id="result-profit-total-usdc">0 USDC</span> </div> <div class="result-item"> <span class="label" id="label-profit-percent-sol">Profit SOL (% of initial SOL):</span> <span class="value profit-percent" id="result-profit-percent-sol">0 %</span> </div> <div class="result-item"> <span class="label" id="label-profit-percent-usdc">Profit USDC (% of initial USDC):</span> <span class="value profit-percent" id="result-profit-percent-usdc">0 %</span> </div> </div>
                 <div class="result-group"> <h4 id="h4-doubling-time">Doubling Time (100% Profit)</h4> <div class="result-item"> <span class="label" id="label-double-sol-noreinvest">SOL Stake (No Reinvest):</span> <span class="value doubling" id="result-double-sol-noreinvest">N/A</span> </div> <div class="result-item"> <span class="label" id="label-double-sol-reinvest">SOL Stake (With Reinvest):</span> <span class="value doubling" id="result-double-sol-reinvest">N/A</span> </div> <div class="result-item"> <span class="label" id="label-double-usdc-noreinvest">USDC Stake (No Reinvest):</span> <span class="value doubling" id="result-double-usdc-noreinvest">N/A</span> </div> <div class="result-item"> <span class="label" id="label-double-usdc-reinvest">USDC Stake (With Reinvest):</span> <span class="value doubling" id="result-double-usdc-reinvest">N/A</span> </div> </div>
-                <div class="result-group"> <h4 id="h4-final-balance">Final Balance</h4> <div class="result-item"> <span class="label" id="label-final-balance-sol">Balance SOL:</span> <span class="value" id="result-final-balance-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-final-balance-usdc">Balance USDC:</span> <span class="value" id="result-final-balance-usdc">0 USDC</span> </div> <div class="result-item"> <span class="label" id="label-final-balance-usd">Total Balance (USD):</span> <span class="value balance-usd" id="result-final-balance-usd-total">0 $</span> </div> </div>
-                <div class="result-group"> <h4 id="h4-total-profit-usd">Total Profit (USD)</h4> <div class="result-item"> <span class="label" id="label-profit-total-usd">Total Profit (USD):</span> <span class="value balance-usd" id="result-profit-total-usd">0 $</span> </div> </div>
-            </div>
+                 <div class="result-group">
+                    <h4 id="h4-periodic-total">Total Add. Investments</h4>
+                    <div class="result-item">
+                        <span class="label" id="label-periodic-total-sol">Added SOL:</span>
+                        <span class="value" id="result-periodic-total-sol">0</span>
+                    </div>
+                    <div class="result-item">
+                        <span class="label" id="label-periodic-total-usdc">Added USDC:</span>
+                        <span class="value" id="result-periodic-total-usdc">0</span>
+                    </div>
+                </div>
+                <div class="result-group"> <h4 id="h4-final-balance">Final Balance</h4> <div class="result-item"> <span class="label" id="label-final-balance-sol">Balance SOL:</span> <span class="value" id="result-final-balance-sol">0 SOL</span> </div> <div class="result-item"> <span class="label" id="label-final-balance-usdc">Balance USDC:</span> <span class="value" id="result-final-balance-usdc">0 USDC</span> </div> <div class="result-item"> <span class="label" id="label-final-balance-usd">Total Balance (USD):</span> <span class="value balance-usd" id="result-final-balance-usd-total">0 $</span> </div><div class="result-item"> <span class="label" id="label-profit-total-usd">Total Profit (USD):</span> <span class="value balance-usd" id="result-profit-total-usd">0 $</span> </div> </div>
+                </div>
         </div>
+
 
         <div class="textContent">
              <p id="p-footer">Made by <i class="fab fa-telegram-plane"></i> AslChernov</p>
@@ -326,7 +323,7 @@
             'en': {
                 labelUserStakedSol: 'Staked', labelUserProfitPercentSol: 'Profit % / day', labelUserStakedUsdc: 'Staked', labelUserProfitPercentUsdc: 'Profit % / day',
                 labelPlatformFee: 'FomoFarm Fee %', labelSolUsd: 'SOL / USD', labelDays: 'Days',
-                labelPeriodicSol: 'Additon investment', labelPeriodicUsdc: 'Additon investment',
+                labelPeriodicSol: 'Add. Investment', labelPeriodicUsdc: 'Add. Investment',
                 optionNo: 'No', optionWeekly: 'Weekly', optionMonthly: 'Monthly', optionQuarterly: 'Quarterly',
                 labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
@@ -344,7 +341,10 @@
                 labelDoubleSolReinvest: 'SOL Stake | With Reinvest:', labelDoubleUsdcReinvest: 'USDC Stake | With Reinvest:',
                 h4FinalBalance: 'Final Balance',
                 labelFinalBalanceSol: 'Balance SOL:', labelFinalBalanceUsdc: 'Balance USDC:', labelFinalBalanceUsd: 'Total Balance USD:',
-                h4TotalProfitUsd: 'Total Profit USD', labelProfitTotalUsd: 'Total Profit:',
+                // --- UPDATED Translation Keys ---
+                h4PeriodicTotal: 'Total Add. Investments', labelPeriodicTotalSol: 'Added SOL:', labelPeriodicTotalUsdc: 'Added USDC:',
+                labelProfitTotalUsd: 'Total Profit USD:', // Keep label for the value
+                // --- END UPDATE ---
                 roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
                 invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
                 solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
@@ -370,7 +370,8 @@
                 labelDoubleSolReinvest: 'Стейк SOL | С реинвестом:', labelDoubleUsdcReinvest: 'Стейк USDC | С реинвестом:',
                 h4FinalBalance: 'Итоговый баланс',
                 labelFinalBalanceSol: 'Баланс SOL:', labelFinalBalanceUsdc: 'Баланс USDC:', labelFinalBalanceUsd: 'Общий Баланс USD:',
-                h4TotalProfitUsd: 'Общий Профит USD', labelProfitTotalUsd: 'Общий Профит:',
+                h4PeriodicTotal: 'Всего довложений', labelPeriodicTotalSol: 'Довложено SOL:', labelPeriodicTotalUsdc: 'Довложено USDC:',
+                labelProfitTotalUsd: 'Общий Профит USD:',
                 roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
                 invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
                 solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.'
@@ -439,7 +440,7 @@
                 'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
                 'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
                 'label-platform-fee': 'labelPlatformFee', 'label-sol-usd': 'labelSolUsd', 'label-days': 'labelDays',
-                'label-periodic-sol': 'labelPeriodicSol', 'label-periodic-usdc': 'labelPeriodicUsdc', // New labels
+                'label-periodic-sol': 'labelPeriodicSol', 'label-periodic-usdc': 'labelPeriodicUsdc',
                 'label-reinvest': 'labelReinvest', 'label-enable-referrals': 'labelEnableReferrals',
                 'addReferralButton': 'addReferral', 'th-referral-num': 'thReferralNum',
                 'th-ref-stakes': 'thRefStakes', 'th-actions': 'thActions', 'calculateButton': 'calculate', 'h2-results': 'h2Results',
@@ -452,15 +453,14 @@
                 'label-double-sol-reinvest': 'labelDoubleSolReinvest', 'label-double-usdc-reinvest': 'labelDoubleUsdcReinvest',
                 'h4-final-balance': 'h4FinalBalance', 'label-final-balance-sol': 'labelFinalBalanceSol',
                 'label-final-balance-usdc': 'labelFinalBalanceUsdc', 'label-final-balance-usd': 'labelFinalBalanceUsd',
-                'h4-total-profit-usd': 'h4TotalProfitUsd', 'label-profit-total-usd': 'labelProfitTotalUsd',
+                'h4-periodic-total': 'h4PeriodicTotal', 'label-periodic-total-sol': 'labelPeriodicTotalSol', 'label-periodic-total-usdc': 'labelPeriodicTotalUsdc', // Updated results labels
+                'label-profit-total-usd': 'labelProfitTotalUsd', // Kept label for value
                 'label-modal-stake-sol': 'labelModalStakeSol', 'label-modal-profit-sol': 'labelModalProfitSol',
                 'label-modal-stake-usdc': 'labelModalStakeUsdc', 'label-modal-profit-usdc': 'labelModalProfitUsdc',
                 'saveReferralButton': 'saveButton', 'cancelReferralButton': 'cancelButton',
                 'languageToggleButton': 'langButtonText',
-                // --- NEW: Option keys ---
                 'option-sol-none': 'optionNo', 'option-sol-weekly': 'optionWeekly', 'option-sol-monthly': 'optionMonthly', 'option-sol-quarterly': 'optionQuarterly',
                 'option-usdc-none': 'optionNo', 'option-usdc-weekly': 'optionWeekly', 'option-usdc-monthly': 'optionMonthly', 'option-usdc-quarterly': 'optionQuarterly'
-                // --- END NEW ---
             };
 
             // Loop for standard elements - sets base text
@@ -468,10 +468,8 @@
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
                 if (element && trans[key] !== undefined) {
-                     // Handle OPTION elements separately
-                     if (element.tagName === 'OPTION') {
-                         element.textContent = trans[key];
-                     } else if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
+                     if (element.tagName === 'OPTION') { element.textContent = trans[key]; }
+                     else if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
                          if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
                          else { element.textContent = trans[key]; }
                      }
@@ -486,15 +484,16 @@
             const labelUsdcStake = document.getElementById('label-user-staked-usdc');
             const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
             const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
-            const labelPeriodicSol = document.getElementById('label-periodic-sol'); // New
-            const labelPeriodicUsdc = document.getElementById('label-periodic-usdc'); // New
+            const labelPeriodicSol = document.getElementById('label-periodic-sol');
+            const labelPeriodicUsdc = document.getElementById('label-periodic-usdc');
+            // Icons for periodic totals labels are removed as icons will be next to values
 
             if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
             if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
             if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
             if (labelUsdcProfit) { labelUsdcProfit.innerHTML += usdcIconImg; }
-            if (labelPeriodicSol) { labelPeriodicSol.innerHTML += solanaIconImg; } // New
-            if (labelPeriodicUsdc) { labelPeriodicUsdc.innerHTML += usdcIconImg; } // New
+            if (labelPeriodicSol) { labelPeriodicSol.innerHTML += solanaIconImg; }
+            if (labelPeriodicUsdc) { labelPeriodicUsdc.innerHTML += usdcIconImg; }
             // --- End Icon Appending ---
 
             renderReferralsTable();
@@ -515,14 +514,13 @@
             referralsData.forEach((ref, index) => { ref.id = index + 1; }); nextReferralId = referralsData.length + 1;
             renderReferralsTable(); saveData();
         }
-        function renderReferralsTable() { /* ... (No changes needed here from previous step) ... */
+        function renderReferralsTable() { /* ... (No changes needed here) ... */
             const referralsListBody = document.getElementById('referralsList');
             if (!referralsListBody) return;
             referralsListBody.innerHTML = '';
             const trans = translations[currentLanguage];
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
-
             if (referralsData.length === 0) {
                  const row = document.createElement('tr');
                  row.innerHTML = `<td colspan="3" style="text-align:center; color:#6b7280;">${trans.noReferrals}</td>`;
@@ -550,7 +548,7 @@
 
 
         // --- Modal Management Functions ---
-        function openEditModal(referralId) { /* ... (No changes needed here from previous step) ... */
+        function openEditModal(referralId) { /* ... (No changes needed here) ... */
             const modal = document.getElementById('editReferralModal');
             const modalTitle = document.getElementById('modalTitle');
             const editingIdInput = document.getElementById('editingReferralId');
@@ -635,7 +633,9 @@
 
             // Calculate Daily Referral Profit
             let dailyNetProfit_RefSol = 0; let dailyNetProfit_RefUsdc = 0;
-            if (referralsEnabled) { referralsData.forEach(referral => { if (referral.stakedSol > 0 && referral.profitPercentSol > 0) { const refProfitRateSol = referral.profitPercentSol / 100; const grossProfit = referral.stakedSol * refProfitRateSol; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefSol += ((grossProfit - fee) * 0.08); } if (referral.stakedUsdc > 0 && referral.profitPercentUsdc > 0) { const refProfitRateUsdc = referral.profitPercentUsdc / 100; const grossProfit = referral.stakedUsdc * refProfitRateUsdc; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefUsdc += ((grossProfit - fee) * 0.08); } }); }
+            if (referralsEnabled) { /* ... referral profit calculation ... */
+                referralsData.forEach(referral => { if (referral.stakedSol > 0 && referral.profitPercentSol > 0) { const refProfitRateSol = referral.profitPercentSol / 100; const grossProfit = referral.stakedSol * refProfitRateSol; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefSol += ((grossProfit - fee) * 0.08); } if (referral.stakedUsdc > 0 && referral.profitPercentUsdc > 0) { const refProfitRateUsdc = referral.profitPercentUsdc / 100; const grossProfit = referral.stakedUsdc * refProfitRateUsdc; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefUsdc += ((grossProfit - fee) * 0.08); } });
+             }
 
             // Calculate Doubling Time (No Reinvestment, based on initial)
             let doubleSolNoReinvestDays = "N/A"; let doubleUsdcNoReinvestDays = "N/A";
@@ -652,18 +652,30 @@
             let totalSolProfitAccumulated = 0; let totalUsdcProfitAccumulated = 0;
             let doubleSolReinvestDays = "N/A"; let doubleUsdcReinvestDays = "N/A";
             let solDoubled = false; let usdcDoubled = false;
+            // --- UPDATED: Track total periodic investments ---
+            let totalPeriodicSolAdded = 0;
+            let totalPeriodicUsdcAdded = 0;
+            // --- END UPDATE ---
 
             for (let day = 1; day <= days; day++) {
                 // Add periodic investments BEFORE calculating daily profit
-                if (periodicSolAmount > 0 && periodicSolPeriod > 0 && day % periodicSolPeriod === 0) { currentSolStake += periodicSolAmount; }
-                if (periodicUsdcAmount > 0 && periodicUsdcPeriod > 0 && day % periodicUsdcPeriod === 0) { currentUsdcStake += periodicUsdcAmount; }
+                if (periodicSolAmount > 0 && periodicSolPeriod > 0 && day % periodicSolPeriod === 0) {
+                    currentSolStake += periodicSolAmount;
+                    totalPeriodicSolAdded += periodicSolAmount; // Sum total added
+                }
+                if (periodicUsdcAmount > 0 && periodicUsdcPeriod > 0 && day % periodicUsdcPeriod === 0) {
+                    currentUsdcStake += periodicUsdcAmount;
+                    totalPeriodicUsdcAdded += periodicUsdcAmount; // Sum total added
+                }
 
                 const profitTodaySol_User = currentSolStake * userProfitRateSol * (1 - platformFeeRate);
                 const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate);
                 const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol;
                 const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc;
-                totalSolProfitAccumulated += profitTodaySol_Total; totalUsdcProfitAccumulated += profitTodayUsdc_Total;
-                accumulatedSolProfit += profitTodaySol_Total; accumulatedUsdcProfit += profitTodayUsdc_Total;
+                totalSolProfitAccumulated += profitTodaySol_Total;
+                totalUsdcProfitAccumulated += profitTodayUsdc_Total;
+                accumulatedSolProfit += profitTodaySol_Total;
+                accumulatedUsdcProfit += profitTodayUsdc_Total;
                 if (reinvestEnabled) { if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) { currentSolStake += accumulatedSolProfit; accumulatedSolProfit = 0; } if (accumulatedUsdcProfit >= REINVEST_THRESHOLD_USDC) { currentUsdcStake += accumulatedUsdcProfit; accumulatedUsdcProfit = 0; } }
                 if (!solDoubled && initialUserStakedSol > 0 && currentSolStake >= initialUserStakedSol * 2) { doubleSolReinvestDays = day; solDoubled = true; }
                 if (!usdcDoubled && initialUserStakedUsdc > 0 && currentUsdcStake >= initialUserStakedUsdc * 2) { doubleUsdcReinvestDays = day; usdcDoubled = true; }
@@ -696,6 +708,10 @@
             document.getElementById('result-final-balance-usdc').innerHTML = formatNumber(finalUsdcBalance, 'USDC', false) + usdcIconImg;
             document.getElementById('result-final-balance-usd-total').textContent = formatNumber(finalUsdBalanceTotal, 'USD');
             document.getElementById('result-profit-total-usd').textContent = formatNumber(totalProfitUsd, 'USD');
+            // --- UPDATED: Display total periodic investments ---
+            document.getElementById('result-periodic-total-sol').innerHTML = formatNumber(totalPeriodicSolAdded, 'SOL', false) + solanaIconImg;
+            document.getElementById('result-periodic-total-usdc').innerHTML = formatNumber(totalPeriodicUsdcAdded, 'USDC', false) + usdcIconImg;
+            // --- END UPDATE ---
         }
         function clearResults(message = "") {
              const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
@@ -716,6 +732,10 @@
              document.getElementById('result-final-balance-usdc').innerHTML = '0.00' + usdcIconImg;
              document.getElementById('result-final-balance-usd-total').textContent = '0 $';
              document.getElementById('result-profit-total-usd').textContent = '0 $';
+             // --- UPDATED: Clear periodic investment totals ---
+             document.getElementById('result-periodic-total-sol').innerHTML = '0' + solanaIconImg;
+             document.getElementById('result-periodic-total-usdc').innerHTML = '0.00' + usdcIconImg;
+             // --- END UPDATE ---
              if (message) { console.warn(message); }
         }
 
