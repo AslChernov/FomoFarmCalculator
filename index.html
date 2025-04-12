@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=650, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=700, initial-scale=1.0, maximum-scale=1.0">
     <title>FomoFarm Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
             min-height: 100vh; padding-bottom: 50px;
         }
         .container {
-            max-width: 650px; width: 100%; margin: auto;
+            max-width: 700px; width: 100%; margin: auto;
             background: linear-gradient(to top, #000000, #05001d); padding: 20px;
             border: 1px solid #4ade80; border-radius: 8px; box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
         }
@@ -30,8 +30,28 @@
         h4 { font-size: 16px; color: #dfdfdf; text-transform: uppercase; font-weight: 600; margin-top: 15px; margin-bottom: 8px; border-bottom: 1px dashed #374151; padding-bottom: 4px; }
 
         /* --- Input Group Styles (Grid Layout) --- */
-        .input-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 20px; }
+        .input-group { display: grid; grid-template-columns: 1fr 1.5fr 2fr; gap: 10px; margin-bottom: 20px; }
         .input-group > div { padding: 10px; border: 1px solid #1f2937; border-radius: 8px; background-color: #111827; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; }
+        .input-group > div.periodic-input {
+        
+        }
+     
+        .input-select-pair {
+            display: flex;
+            gap: 10px; /* Space between input and select */
+            margin-top: 5px; /* Space below the label */
+            align-items: center;
+        }
+        .input-select-pair input[type="number"] {
+            flex-grow: 2; /* Input takes less space */
+            min-width: 0; /* Allow shrinking */
+        }
+        .input-select-pair select {
+            flex-grow: 3; /* Select takes more space */
+            min-width: 0; /* Allow shrinking */
+        }
+       
+
 
         /* --- Label Styles --- */
         label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; }
@@ -45,7 +65,9 @@
         #label-modal-stake-sol,
         #label-modal-profit-sol,
         #label-modal-stake-usdc,
-        #label-modal-profit-usdc {
+        #label-modal-profit-usdc,
+        #label-periodic-sol,
+        #label-periodic-usdc { 
             display: inline-flex;
             align-items: center;
             gap: 0;
@@ -55,16 +77,13 @@
         label img, .result-item img, .stakes-summary img {
             width: 16px;
             height: 16px;
-            vertical-align: middle; /* Fallback alignment */
+            vertical-align: middle;
         }
-        /* Apply left margin only where needed (after text in labels/results values) */
          label img, .result-item .value img {
              margin-left: 5px;
          }
-         /* Apply right margin for icons inside summary (before number) */
          .referrals td.stakes-summary img {
-             margin-right: 4px; /* Space between icon and number */
-             margin-left: 0;
+             margin-left: 4px;
          }
 
 
@@ -98,33 +117,14 @@
         /* --- Referrals Section Styles --- */
         .referrals { margin-top: 15px; text-align: center; }
         .referrals table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; letter-spacing: inherit; table-layout: fixed; }
-        .referrals th, .referrals td { padding: 8px 10px; text-align: center; font-size: 16px; font-weight: 500; background-color: #111827; border: 1px solid #1f2937; letter-spacing: inherit; word-wrap: break-word; vertical-align: middle; }
+        .referrals th, .referrals td { padding: 8px 10px; text-align: center; font-size: 15px; font-weight: 500; background-color: #111827; border: 1px solid #1f2937; letter-spacing: inherit; word-wrap: break-word; vertical-align: middle; }
          .referrals th { font-weight: 900; color: #9ca3af; }
          .referrals th:nth-child(1) { width: 10%; } /* № */
          .referrals th:nth-child(2) { width: 55%; } /* Stakes Summary */
          .referrals th:nth-child(3) { width: 35%; } /* Actions */
-         /* --- UPDATED: Added text-align:center back, removed flex from TD --- */
-         .referrals td.stakes-summary {
-            font-size: 15px;
-            color: #d1d5db;
-            text-align: center; /* Center the inline-flex spans */
-            font-weight: 500;
-            white-space: pre-wrap;
-          }
-         /* Style for the spans within the summary cell */
-         .referrals td.stakes-summary span {
-            display: inline-flex;  /* Align icon and text within the span */
-            align-items: center;
-            margin: 0 5px; /* Add space around each span */
-            white-space: nowrap;
-         }
-         /* Remove margin from last span is no longer needed with text-align: center */
-         /* Style for the icon specifically within the summary span */
-         .referrals td.stakes-summary span img {
-             margin-right: 4px; /* Space AFTER icon, before number */
-             margin-left: 0;
-         }
-         /* --- END UPDATE --- */
+         .referrals td.stakes-summary { font-size: 14px; color: #d1d5db; text-align: center; font-weight: 500; white-space: pre-wrap; }
+         .referrals td.stakes-summary span { display: inline-flex; align-items: center; margin: 0 5px; white-space: nowrap; }
+         .referrals td.stakes-summary span img { margin-right: 4px; margin-left: 0; }
          .referrals td.actions-cell { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 5px; }
          .referrals td .action-button { margin: 0; padding: 6px 8px; font-size: 12px; border-radius: 4px; font-weight: 500; text-transform: none; min-width: 65px; text-align: center; }
          .referrals td .edit-button { background-color: #f59e0b; }
@@ -146,10 +146,10 @@
         .result-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #283141; font-size: 14px; }
         .result-item:last-child { border-bottom: none; }
         .result-item .label { color: #9ca3af; }
-        .result-item .value { color: #ffffff; font-weight: 600; text-align: right; display: inline-flex; align-items: center; }
-        .result-item .value.profit-sol, .result-item .value.profit-usdc, .result-item .value.profit-percent { color: #4ade80; }
-        .result-item .value.roi, .result-item .value.doubling { color: #fbbf24; }
-        .result-item .value.balance-usd { color: #60a5fa; }
+        .result-item .value { color: #ffffff; font-weight: 900; text-align: right; display: inline-flex; align-items: center; }
+        .result-item .value.profit-sol, .result-item .value.profit-usdc, .result-item .value.profit-percent { color: #4ade80; font-weight: 900; }
+        .result-item .value.roi, .result-item .value.doubling { color: #fbbf24; font-weight: 900; }
+        .result-item .value.balance-usd { color: #60a5fa; font-weight: 900; }
 
         /* Calculate Button Style */
         #calculateButton { background-color: #22c55e; margin-top: 25px; margin-right: 0; display: block; width: auto; max-width: 200px; margin-left: auto; margin-right: auto; }
@@ -208,11 +208,19 @@
                 <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day</label>
                 <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
             </div>
+             <div class="periodic-input">
+                 <label for="periodicSolAmount" id="label-periodic-sol">Add. Investment SOL</label>
+                 <div class="input-select-pair">
+                     <input type="number" id="periodicSolAmount" value="0" step="0.01" min="0">
+                     <select id="periodicSolPeriod">
+                         <option value="0" id="option-sol-none">No</option>
+                         <option value="7" id="option-sol-weekly">Weekly</option>
+                         <option value="30" id="option-sol-monthly">Monthly</option>
+                         <option value="91" id="option-sol-quarterly">Quarterly</option>
+                     </select>
+                 </div>
+             </div>
              <div>
-                <label for="days" id="label-days">Days</label>
-                <input type="number" id="days" value="0" step="1" min="0">
-            </div>
-            <div>
                  <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label>
                 <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
             </div>
@@ -220,13 +228,29 @@
                 <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day</label>
                 <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
             </div>
-             <div id="platformFeeContainer">
-                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee %</label>
-                <input type="number" id="platformFee" value="10" step="0.1" min="0">
+            <div class="periodic-input">
+                 <label for="periodicUsdcAmount" id="label-periodic-usdc">Add. Investment USDC</label>
+                 <div class="input-select-pair">
+                     <input type="number" id="periodicUsdcAmount" value="0" step="0.01" min="0">
+                     <select id="periodicUsdcPeriod">
+                         <option value="0" id="option-usdc-none">No</option>
+                         <option value="7" id="option-usdc-weekly">Weekly</option>
+                         <option value="30" id="option-usdc-monthly">Monthly</option>
+                         <option value="91" id="option-usdc-quarterly">Quarterly</option>
+                     </select>
+                 </div>
+             </div>
+             <div>
+                <label for="days" id="label-days">Days</label>
+                <input type="number" id="days" value="0" step="1" min="0">
             </div>
             <div>
                 <label for="solToUsd" id="label-sol-usd">SOL / USD</label>
                 <input type="number" id="solToUsd" value="0" step="0.01" min="0">
+            </div>
+             <div id="platformFeeContainer">
+                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)</label>
+                <input type="number" id="platformFee" value="10" step="0.1" min="0">
             </div>
         </div>
 
@@ -301,7 +325,9 @@
         const translations = {
             'en': {
                 labelUserStakedSol: 'Staked', labelUserProfitPercentSol: 'Profit % / day', labelUserStakedUsdc: 'Staked', labelUserProfitPercentUsdc: 'Profit % / day',
-                labelPlatformFee: 'FomoFarm Fee %', labelSolUsd: 'SOL / USD', labelDays: 'Days',
+                labelPlatformFee: 'FomoFarm Fee (%)', labelSolUsd: 'SOL / USD', labelDays: 'Days',
+                labelPeriodicSol: 'Additon investment', labelPeriodicUsdc: 'Additon investment',
+                optionNo: 'No', optionWeekly: 'Weekly', optionMonthly: 'Monthly', optionQuarterly: 'Quarterly',
                 labelReinvest: 'Reinvestment', labelEnableReferrals: 'Enable Referrals', calculate: 'Calculate',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
                 thReferralNum: '№', thRefStakes: 'Stakes Summary', thActions: 'Actions', editButtonShort: 'Edit',
@@ -326,6 +352,8 @@
             'ru': {
                 labelUserStakedSol: 'Вложено', labelUserProfitPercentSol: 'Профит % / день', labelUserStakedUsdc: 'Вложено', labelUserProfitPercentUsdc: 'Профит % / день',
                 labelPlatformFee: 'Комиссия FomoFarm %', labelSolUsd: 'SOL / USD', labelDays: 'Дней',
+                labelPeriodicSol: 'Довложения', labelPeriodicUsdc: 'Довложения', // Updated (colon removed)
+                optionNo: 'Нет', optionWeekly: 'Раз в неделю', optionMonthly: 'Раз в месяц', optionQuarterly: 'Раз в 3 месяца',
                 labelReinvest: 'Реинвест', labelEnableReferrals: 'Включить рефералов', calculate: 'Рассчитать',
                 pFooter: 'Сделано', langButtonText: 'Язык RU', h3Referrals: 'Рефералы', addReferral: 'Добавить реферала',
                 thReferralNum: '№', thRefStakes: 'Сводка стейков', thActions: 'Действия', editButtonShort: 'Изм.',
@@ -336,13 +364,13 @@
                 labelProfitUserSol: 'От стейка SOL:', labelProfitUserUsdc: 'От стейка USDC:',
                 h4ReferralProfit: 'Профит от рефералов', labelProfitRefSol: 'От стейков SOL:', labelProfitRefUsdc: 'От стейков USDC:',
                 h4TotalProfit: 'Общий профит', labelProfitTotalSol: 'Всего SOL:', labelProfitTotalUsdc: 'Всего USDC:',
-                labelProfitPercentSol: 'Профит SOL в %:', labelProfitPercentUsdc: 'Профит USDC в %:',
-                h4DoublingTime: 'Время удвоения | 100% Профит',
-                labelDoubleSolNoreinvest: 'Стейк SOL | Без реинвеста:', labelDoubleUsdcNoreinvest: 'Стейк USDC | Без реинвеста:',
-                labelDoubleSolReinvest: 'Стейк SOL | С реинвестом:', labelDoubleUsdcReinvest: 'Стейк USDC | С реинвестом:',
+                labelProfitPercentSol: 'Профит SOL (% от нач. SOL):', labelProfitPercentUsdc: 'Профит USDC (% от нач. USDC):',
+                h4DoublingTime: 'Время удвоения (100% Профит)',
+                labelDoubleSolNoreinvest: 'Стейк SOL (Без реинвеста):', labelDoubleUsdcNoreinvest: 'Стейк USDC (Без реинвеста):',
+                labelDoubleSolReinvest: 'Стейк SOL (С реинвестом):', labelDoubleUsdcReinvest: 'Стейк USDC (С реинвестом):',
                 h4FinalBalance: 'Итоговый баланс',
-                labelFinalBalanceSol: 'Баланс SOL:', labelFinalBalanceUsdc: 'Баланс USDC:', labelFinalBalanceUsd: 'Общий Баланс USD:',
-                h4TotalProfitUsd: 'Общий Профит USD', labelProfitTotalUsd: 'Общий Профит:',
+                labelFinalBalanceSol: 'Баланс SOL:', labelFinalBalanceUsdc: 'Баланс USDC:', labelFinalBalanceUsd: 'Общий Баланс (USD):',
+                h4TotalProfitUsd: 'Общий Профит (USD)', labelProfitTotalUsd: 'Общий Профит (USD):',
                 roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
                 invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
                 solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.'
@@ -356,6 +384,8 @@
                     userStakedSolAmount: document.getElementById('userStakedSolAmount').value, userProfitPercentSol: document.getElementById('userProfitPercentSol').value,
                     userStakedUsdcAmount: document.getElementById('userStakedUsdcAmount').value, userProfitPercentUsdc: document.getElementById('userProfitPercentUsdc').value,
                     platformFee: document.getElementById('platformFee').value, solToUsd: document.getElementById('solToUsd').value, days: document.getElementById('days').value,
+                    periodicSolAmount: document.getElementById('periodicSolAmount').value, periodicSolPeriod: document.getElementById('periodicSolPeriod').value,
+                    periodicUsdcAmount: document.getElementById('periodicUsdcAmount').value, periodicUsdcPeriod: document.getElementById('periodicUsdcPeriod').value,
                     reinvest: document.getElementById('reinvestCheckbox').checked.toString(), includeReferrals: document.getElementById('includeReferralsCheckbox').checked.toString(),
                     referralsData: JSON.stringify(referralsData || []), nextReferralId: nextReferralId,
                     referralsCollapsed: document.getElementById('referralsContainer')?.classList.contains('collapsed').toString() || 'false'
@@ -374,6 +404,10 @@
                 document.getElementById('days').value = localStorage.getItem('fomoFarmCalc_days') || '0';
                 document.getElementById('reinvestCheckbox').checked = (localStorage.getItem('fomoFarmCalc_reinvest') || 'true') === 'true';
                 document.getElementById('includeReferralsCheckbox').checked = (localStorage.getItem('fomoFarmCalc_includeReferrals') || 'true') === 'true';
+                document.getElementById('periodicSolAmount').value = localStorage.getItem('fomoFarmCalc_periodicSolAmount') || '0';
+                document.getElementById('periodicSolPeriod').value = localStorage.getItem('fomoFarmCalc_periodicSolPeriod') || '0';
+                document.getElementById('periodicUsdcAmount').value = localStorage.getItem('fomoFarmCalc_periodicUsdcAmount') || '0';
+                document.getElementById('periodicUsdcPeriod').value = localStorage.getItem('fomoFarmCalc_periodicUsdcPeriod') || '0';
                 const savedReferrals = localStorage.getItem('fomoFarmCalc_referralsData');
                 referralsData = savedReferrals ? JSON.parse(savedReferrals) : [];
                 if (!Array.isArray(referralsData)) { referralsData = []; }
@@ -400,10 +434,12 @@
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
+            // --- Updated idToKeyMap ---
             const idToKeyMap = {
                 'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
                 'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
                 'label-platform-fee': 'labelPlatformFee', 'label-sol-usd': 'labelSolUsd', 'label-days': 'labelDays',
+                'label-periodic-sol': 'labelPeriodicSol', 'label-periodic-usdc': 'labelPeriodicUsdc', // New labels
                 'label-reinvest': 'labelReinvest', 'label-enable-referrals': 'labelEnableReferrals',
                 'addReferralButton': 'addReferral', 'th-referral-num': 'thReferralNum',
                 'th-ref-stakes': 'thRefStakes', 'th-actions': 'thActions', 'calculateButton': 'calculate', 'h2-results': 'h2Results',
@@ -420,14 +456,22 @@
                 'label-modal-stake-sol': 'labelModalStakeSol', 'label-modal-profit-sol': 'labelModalProfitSol',
                 'label-modal-stake-usdc': 'labelModalStakeUsdc', 'label-modal-profit-usdc': 'labelModalProfitUsdc',
                 'saveReferralButton': 'saveButton', 'cancelReferralButton': 'cancelButton',
-                'languageToggleButton': 'langButtonText'
+                'languageToggleButton': 'langButtonText',
+                // --- NEW: Option keys ---
+                'option-sol-none': 'optionNo', 'option-sol-weekly': 'optionWeekly', 'option-sol-monthly': 'optionMonthly', 'option-sol-quarterly': 'optionQuarterly',
+                'option-usdc-none': 'optionNo', 'option-usdc-weekly': 'optionWeekly', 'option-usdc-monthly': 'optionMonthly', 'option-usdc-quarterly': 'optionQuarterly'
+                // --- END NEW ---
             };
 
+            // Loop for standard elements - sets base text
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
                 if (element && trans[key] !== undefined) {
-                     if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
+                     // Handle OPTION elements separately
+                     if (element.tagName === 'OPTION') {
+                         element.textContent = trans[key];
+                     } else if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
                          if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
                          else { element.textContent = trans[key]; }
                      }
@@ -442,10 +486,15 @@
             const labelUsdcStake = document.getElementById('label-user-staked-usdc');
             const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
             const labelUsdcProfit = document.getElementById('label-user-profit-percent-usdc');
+            const labelPeriodicSol = document.getElementById('label-periodic-sol'); // New
+            const labelPeriodicUsdc = document.getElementById('label-periodic-usdc'); // New
+
             if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
             if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
             if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
             if (labelUsdcProfit) { labelUsdcProfit.innerHTML += usdcIconImg; }
+            if (labelPeriodicSol) { labelPeriodicSol.innerHTML += solanaIconImg; } // New
+            if (labelPeriodicUsdc) { labelPeriodicUsdc.innerHTML += usdcIconImg; } // New
             // --- End Icon Appending ---
 
             renderReferralsTable();
@@ -466,7 +515,7 @@
             referralsData.forEach((ref, index) => { ref.id = index + 1; }); nextReferralId = referralsData.length + 1;
             renderReferralsTable(); saveData();
         }
-        function renderReferralsTable() {
+        function renderReferralsTable() { /* ... (No changes needed here from previous step) ... */
             const referralsListBody = document.getElementById('referralsList');
             if (!referralsListBody) return;
             referralsListBody.innerHTML = '';
@@ -482,23 +531,13 @@
                 referralsData.forEach(referral => {
                      const row = document.createElement('tr');
                      const numCell = document.createElement('td'); numCell.textContent = referral.id;
-
-                     const summaryCell = document.createElement('td');
-                     summaryCell.className = 'stakes-summary'; // Keep class for potential styling
+                     const summaryCell = document.createElement('td'); summaryCell.className = 'stakes-summary';
                      let summaryContent = [];
                      const formatOptionsNoSuffix = { maximumFractionDigits: 5, minimumFractionDigits: 2 };
                      const usdcFormatOptionsNoSuffix = { maximumFractionDigits: 2, minimumFractionDigits: 2 };
-
-                     // --- UPDATED: Icon before number, space via margin ---
-                     if (referral.stakedSol > 0) {
-                         summaryContent.push(`<span>${solanaIconImg}${formatNumber(referral.stakedSol, 'SOL', false)}</span>`);
-                     }
-                     if (referral.stakedUsdc > 0) {
-                         summaryContent.push(`<span>${usdcIconImg}${formatNumber(referral.stakedUsdc, 'USDC', false)}</span>`);
-                     }
-                     summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join(' ') : trans.refSummaryNone; // Join with space
-                     // --- END UPDATE ---
-
+                     if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatNumber(referral.stakedSol, 'SOL', false)}</span>`); }
+                     if (referral.stakedUsdc > 0) { summaryContent.push(`<span>${usdcIconImg}${formatNumber(referral.stakedUsdc, 'USDC', false)}</span>`); }
+                     summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join(' ') : trans.refSummaryNone;
                      const actionCell = document.createElement('td'); actionCell.className = 'actions-cell';
                      const editButton = document.createElement('button'); editButton.textContent = trans.editButtonShort; editButton.className = 'action-button edit-button'; editButton.onclick = () => openEditModal(referral.id);
                      const removeButton = document.createElement('button'); removeButton.textContent = trans.removeButtonShort; removeButton.className = 'action-button remove-button'; removeButton.onclick = () => removeReferral(referral.id);
@@ -511,35 +550,29 @@
 
 
         // --- Modal Management Functions ---
-        function openEditModal(referralId) {
+        function openEditModal(referralId) { /* ... (No changes needed here from previous step) ... */
             const modal = document.getElementById('editReferralModal');
             const modalTitle = document.getElementById('modalTitle');
             const editingIdInput = document.getElementById('editingReferralId');
             const trans = translations[currentLanguage];
             const referral = referralsData.find(ref => ref.id === referralId);
             if (!referral || !modal || !modalTitle || !editingIdInput) return;
-
             modalTitle.textContent = `${trans.modalTitlePrefix}${referral.id}`;
             editingIdInput.value = referral.id;
             document.getElementById('modal-stake-sol').value = referral.stakedSol || 0;
             document.getElementById('modal-profit-sol').value = referral.profitPercentSol || 0;
             document.getElementById('modal-stake-usdc').value = referral.stakedUsdc || 0;
             document.getElementById('modal-profit-usdc').value = referral.profitPercentUsdc || 0;
-
-            // --- Update modal labels with icons ---
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
             const labelModalStakeSol = document.getElementById('label-modal-stake-sol');
             const labelModalProfitSol = document.getElementById('label-modal-profit-sol');
             const labelModalStakeUsdc = document.getElementById('label-modal-stake-usdc');
             const labelModalProfitUsdc = document.getElementById('label-modal-profit-usdc');
-
             if(labelModalStakeSol) { labelModalStakeSol.textContent = trans.labelModalStakeSol; labelModalStakeSol.innerHTML += solanaIconImg; }
             if(labelModalProfitSol) { labelModalProfitSol.textContent = trans.labelModalProfitSol; labelModalProfitSol.innerHTML += solanaIconImg; }
             if(labelModalStakeUsdc) { labelModalStakeUsdc.textContent = trans.labelModalStakeUsdc; labelModalStakeUsdc.innerHTML += usdcIconImg; }
             if(labelModalProfitUsdc) { labelModalProfitUsdc.textContent = trans.labelModalProfitUsdc; labelModalProfitUsdc.innerHTML += usdcIconImg; }
-            // --- End modal label update ---
-
             modal.style.display = 'flex';
          }
         function closeEditModal() { /* ... */
@@ -574,29 +607,81 @@
 
 
         // --- Calculation Logic ---
-        function calculate() { /* ... calculation logic ... */
-            const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100; const solToUsd = parseFloat(document.getElementById('solToUsd').value) || 0;
-            const days = parseInt(document.getElementById('days').value) || 0; const reinvestEnabled = document.getElementById('reinvestCheckbox').checked;
-            const referralsEnabled = document.getElementById('includeReferralsCheckbox').checked; const trans = translations[currentLanguage];
-            const initialUserStakedSol = parseFloat(document.getElementById('userStakedSolAmount').value) || 0; const userProfitRateSol = (parseFloat(document.getElementById('userProfitPercentSol').value) || 0) / 100;
-            const initialUserStakedUsdc = parseFloat(document.getElementById('userStakedUsdcAmount').value) || 0; const userProfitRateUsdc = (parseFloat(document.getElementById('userProfitPercentUsdc').value) || 0) / 100;
-            if (days <= 0 || solToUsd < 0 || initialUserStakedSol < 0 || userProfitRateSol < 0 || initialUserStakedUsdc < 0 || userProfitRateUsdc < 0) { clearResults(trans.invalidInputError); return; }
-            let needsSolUsdRate = (initialUserStakedUsdc > 0); const hasUsdcReferralStake = referralsData.some(ref => (ref.stakedUsdc || 0) > 0);
-            if (referralsEnabled && hasUsdcReferralStake) { needsSolUsdRate = true; } if (needsSolUsdRate && solToUsd <= 0) { clearResults(trans.solUsdRateError); return; }
+        function calculate() {
+            // Get input values
+            const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100;
+            const solToUsd = parseFloat(document.getElementById('solToUsd').value) || 0;
+            const days = parseInt(document.getElementById('days').value) || 0;
+            const reinvestEnabled = document.getElementById('reinvestCheckbox').checked;
+            const referralsEnabled = document.getElementById('includeReferralsCheckbox').checked;
+            const trans = translations[currentLanguage];
+            const initialUserStakedSol = parseFloat(document.getElementById('userStakedSolAmount').value) || 0;
+            const userProfitRateSol = (parseFloat(document.getElementById('userProfitPercentSol').value) || 0) / 100;
+            const initialUserStakedUsdc = parseFloat(document.getElementById('userStakedUsdcAmount').value) || 0;
+            const userProfitRateUsdc = (parseFloat(document.getElementById('userProfitPercentUsdc').value) || 0) / 100;
+            const periodicSolAmount = parseFloat(document.getElementById('periodicSolAmount').value) || 0;
+            const periodicSolPeriod = parseInt(document.getElementById('periodicSolPeriod').value) || 0;
+            const periodicUsdcAmount = parseFloat(document.getElementById('periodicUsdcAmount').value) || 0;
+            const periodicUsdcPeriod = parseInt(document.getElementById('periodicUsdcPeriod').value) || 0;
+
+            // Input Validation
+            if (days <= 0 || solToUsd < 0 || initialUserStakedSol < 0 || userProfitRateSol < 0 || initialUserStakedUsdc < 0 || userProfitRateUsdc < 0 || periodicSolAmount < 0 || periodicUsdcAmount < 0) {
+                clearResults(trans.invalidInputError); return;
+            }
+            let needsSolUsdRate = (initialUserStakedUsdc > 0 || periodicUsdcAmount > 0);
+            const hasUsdcReferralStake = referralsData.some(ref => (ref.stakedUsdc || 0) > 0);
+            if (referralsEnabled && hasUsdcReferralStake) { needsSolUsdRate = true; }
+            if (needsSolUsdRate && solToUsd <= 0) { clearResults(trans.solUsdRateError); return; }
+
+            // Calculate Daily Referral Profit
             let dailyNetProfit_RefSol = 0; let dailyNetProfit_RefUsdc = 0;
             if (referralsEnabled) { referralsData.forEach(referral => { if (referral.stakedSol > 0 && referral.profitPercentSol > 0) { const refProfitRateSol = referral.profitPercentSol / 100; const grossProfit = referral.stakedSol * refProfitRateSol; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefSol += ((grossProfit - fee) * 0.08); } if (referral.stakedUsdc > 0 && referral.profitPercentUsdc > 0) { const refProfitRateUsdc = referral.profitPercentUsdc / 100; const grossProfit = referral.stakedUsdc * refProfitRateUsdc; const fee = grossProfit * platformFeeRate; dailyNetProfit_RefUsdc += ((grossProfit - fee) * 0.08); } }); }
-            let doubleSolNoReinvestDays = "N/A"; let doubleUsdcNoReinvestDays = "N/A"; const dailyNetProfit_UserSol = initialUserStakedSol * userProfitRateSol * (1 - platformFeeRate); const dailyNetProfit_UserUsdc = initialUserStakedUsdc * userProfitRateUsdc * (1 - platformFeeRate); const totalDailySolProfit = dailyNetProfit_UserSol + dailyNetProfit_RefSol; const totalDailyUsdcProfit = dailyNetProfit_UserUsdc + dailyNetProfit_RefUsdc;
-            if (totalDailySolProfit > 0 && initialUserStakedSol > 0) { doubleSolNoReinvestDays = Math.ceil(initialUserStakedSol / totalDailySolProfit); } else if (initialUserStakedSol > 0) { doubleSolNoReinvestDays = trans.roiNever; } if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = Math.ceil(initialUserStakedUsdc / totalDailyUsdcProfit); } else if (initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = trans.roiNever; }
-            let currentSolStake = initialUserStakedSol; let currentUsdcStake = initialUserStakedUsdc; let accumulatedSolProfit = 0; let accumulatedUsdcProfit = 0; let totalSolProfitAccumulated = 0; let totalUsdcProfitAccumulated = 0; let doubleSolReinvestDays = "N/A"; let doubleUsdcReinvestDays = "N/A"; let solDoubled = false; let usdcDoubled = false;
-            for (let day = 1; day <= days; day++) { const profitTodaySol_User = currentSolStake * userProfitRateSol * (1 - platformFeeRate); const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate); const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol; const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc; totalSolProfitAccumulated += profitTodaySol_Total; totalUsdcProfitAccumulated += profitTodayUsdc_Total; accumulatedSolProfit += profitTodaySol_Total; accumulatedUsdcProfit += profitTodayUsdc_Total; if (reinvestEnabled) { if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) { currentSolStake += accumulatedSolProfit; accumulatedSolProfit = 0; } if (accumulatedUsdcProfit >= REINVEST_THRESHOLD_USDC) { currentUsdcStake += accumulatedUsdcProfit; accumulatedUsdcProfit = 0; } } if (!solDoubled && initialUserStakedSol > 0 && currentSolStake >= initialUserStakedSol * 2) { doubleSolReinvestDays = day; solDoubled = true; } if (!usdcDoubled && initialUserStakedUsdc > 0 && currentUsdcStake >= initialUserStakedUsdc * 2) { doubleUsdcReinvestDays = day; usdcDoubled = true; } }
-            if (!solDoubled) { if (totalDailySolProfit > 0 && initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiNever; else doubleSolReinvestDays = "N/A"; } if (!usdcDoubled) { if (totalDailyUsdcProfit > 0 && initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiNever; else doubleUsdcReinvestDays = "N/A"; }
+
+            // Calculate Doubling Time (No Reinvestment, based on initial)
+            let doubleSolNoReinvestDays = "N/A"; let doubleUsdcNoReinvestDays = "N/A";
+            const dailyNetProfit_UserSol_Initial = initialUserStakedSol * userProfitRateSol * (1 - platformFeeRate);
+            const dailyNetProfit_UserUsdc_Initial = initialUserStakedUsdc * userProfitRateUsdc * (1 - platformFeeRate);
+            const totalDailySolProfit_Initial = dailyNetProfit_UserSol_Initial + dailyNetProfit_RefSol;
+            const totalDailyUsdcProfit_Initial = dailyNetProfit_UserUsdc_Initial + dailyNetProfit_RefUsdc;
+            if (totalDailySolProfit_Initial > 0 && initialUserStakedSol > 0) { doubleSolNoReinvestDays = Math.ceil(initialUserStakedSol / totalDailySolProfit_Initial); } else if (initialUserStakedSol > 0) { doubleSolNoReinvestDays = trans.roiNever; }
+            if (totalDailyUsdcProfit_Initial > 0 && initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = Math.ceil(initialUserStakedUsdc / totalDailyUsdcProfit_Initial); } else if (initialUserStakedUsdc > 0) { doubleUsdcNoReinvestDays = trans.roiNever; }
+
+            // Simulate Day-by-Day Profit
+            let currentSolStake = initialUserStakedSol; let currentUsdcStake = initialUserStakedUsdc;
+            let accumulatedSolProfit = 0; let accumulatedUsdcProfit = 0;
+            let totalSolProfitAccumulated = 0; let totalUsdcProfitAccumulated = 0;
+            let doubleSolReinvestDays = "N/A"; let doubleUsdcReinvestDays = "N/A";
+            let solDoubled = false; let usdcDoubled = false;
+
+            for (let day = 1; day <= days; day++) {
+                // Add periodic investments BEFORE calculating daily profit
+                if (periodicSolAmount > 0 && periodicSolPeriod > 0 && day % periodicSolPeriod === 0) { currentSolStake += periodicSolAmount; }
+                if (periodicUsdcAmount > 0 && periodicUsdcPeriod > 0 && day % periodicUsdcPeriod === 0) { currentUsdcStake += periodicUsdcAmount; }
+
+                const profitTodaySol_User = currentSolStake * userProfitRateSol * (1 - platformFeeRate);
+                const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate);
+                const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol;
+                const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc;
+                totalSolProfitAccumulated += profitTodaySol_Total; totalUsdcProfitAccumulated += profitTodayUsdc_Total;
+                accumulatedSolProfit += profitTodaySol_Total; accumulatedUsdcProfit += profitTodayUsdc_Total;
+                if (reinvestEnabled) { if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) { currentSolStake += accumulatedSolProfit; accumulatedSolProfit = 0; } if (accumulatedUsdcProfit >= REINVEST_THRESHOLD_USDC) { currentUsdcStake += accumulatedUsdcProfit; accumulatedUsdcProfit = 0; } }
+                if (!solDoubled && initialUserStakedSol > 0 && currentSolStake >= initialUserStakedSol * 2) { doubleSolReinvestDays = day; solDoubled = true; }
+                if (!usdcDoubled && initialUserStakedUsdc > 0 && currentUsdcStake >= initialUserStakedUsdc * 2) { doubleUsdcReinvestDays = day; usdcDoubled = true; }
+            }
+
+            // Final Calculations & Display
+             if (!solDoubled) { if (totalDailySolProfit_Initial > 0 && initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiNever; else doubleSolReinvestDays = "N/A"; }
+             if (!usdcDoubled) { if (totalDailyUsdcProfit_Initial > 0 && initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiOverDays.replace('{days}', days); else if (initialUserStakedUsdc > 0) doubleUsdcReinvestDays = trans.roiNever; else doubleUsdcReinvestDays = "N/A"; }
             const finalSolBalance = currentSolStake + accumulatedSolProfit; const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit; const finalUsdBalanceTotal = (solToUsd > 0 ? finalSolBalance * solToUsd : 0) + finalUsdcBalance; const profitPercentSol = initialUserStakedSol > 0 ? (totalSolProfitAccumulated / initialUserStakedSol) * 100 : 0; const profitPercentUsdc = initialUserStakedUsdc > 0 ? (totalUsdcProfitAccumulated / initialUserStakedUsdc) * 100 : 0; const totalReferralProfitOverPeriodSol = dailyNetProfit_RefSol * days; const totalReferralProfitOverPeriodUsdc = dailyNetProfit_RefUsdc * days; const totalProfitUsd = (solToUsd > 0 ? totalSolProfitAccumulated * solToUsd : 0) + totalUsdcProfitAccumulated;
+
+            let userProfitSol = totalSolProfitAccumulated - totalReferralProfitOverPeriodSol; if (Math.abs(userProfitSol) < 1e-9) userProfitSol = 0;
+            let userProfitUsdc = totalUsdcProfitAccumulated - totalReferralProfitOverPeriodUsdc; if (Math.abs(userProfitUsdc) < 1e-9) userProfitUsdc = 0;
 
             const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
             const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
-            document.getElementById('result-profit-user-sol').innerHTML = formatNumber(totalSolProfitAccumulated - totalReferralProfitOverPeriodSol, 'SOL', false) + solanaIconImg;
-            document.getElementById('result-profit-user-usdc').innerHTML = formatNumber(totalUsdcProfitAccumulated - totalReferralProfitOverPeriodUsdc, 'USDC', false) + usdcIconImg;
+            document.getElementById('result-profit-user-sol').innerHTML = formatNumber(userProfitSol, 'SOL', false) + solanaIconImg;
+            document.getElementById('result-profit-user-usdc').innerHTML = formatNumber(userProfitUsdc, 'USDC', false) + usdcIconImg;
             document.getElementById('result-profit-ref-sol').innerHTML = formatNumber(totalReferralProfitOverPeriodSol, 'SOL', false) + solanaIconImg;
             document.getElementById('result-profit-ref-usdc').innerHTML = formatNumber(totalReferralProfitOverPeriodUsdc, 'USDC', false) + usdcIconImg;
             document.getElementById('result-profit-total-sol').innerHTML = formatNumber(totalSolProfitAccumulated, 'SOL', false) + solanaIconImg;
@@ -640,8 +725,12 @@
         }
 
         // --- Event Listener Setup ---
-        function setupEventListeners() { /* ... */
-             document.querySelectorAll('.input-group input, .checkbox-container input').forEach(element => { element.addEventListener('change', saveData); });
+        function setupEventListeners() {
+             // --- UPDATED selector to include new inputs/selects ---
+             document.querySelectorAll('.input-group input, .input-group select, .checkbox-container input').forEach(element => {
+                 element.addEventListener('change', saveData);
+             });
+             // --- END UPDATE ---
              document.getElementById('languageToggleButton').addEventListener('click', toggleLanguage);
              document.getElementById('addReferralButton').addEventListener('click', addReferral);
              document.getElementById('saveReferralButton').addEventListener('click', saveReferralData);
