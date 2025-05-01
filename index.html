@@ -551,7 +551,7 @@
 
         const REINVEST_THRESHOLD_SOL = 0.1;
         const REINVEST_THRESHOLD_USDC = 20;
-        const commissionRates = { 1: 0.08, 2: 0.05, 3: 0.03, 4: 0.01, 5: 0.03, 6: 0.05, 7: 0.07 };
+        const commissionRates = { 1: 0.08, 2: 0.05, 3: 0.03, 4: 0.01, 5: 0.03, 6: 0.05, 7: 0.08 };
         const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
         const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
@@ -1496,10 +1496,54 @@
                     return;
                 }
                  if (fromType === 'fiat' && toType === 'fiat') {
-                    statusSpan.textContent = trans.convertErrorFiatToFiat;
-                    statusSpan.className = 'error';
-                    return;
-                }
+                    // Fiat-to-Fiat conversion via USD
+                     console.log(`Converting ${fromId} to ${toId} via USD (Fiat-Fiat)`);
+                     statusSpan.textContent = trans.convertStatusLoading;
+                     statusSpan.className = 'loading';
+                     try {
+                         // Fetch USD price in terms of 'from' currency (e.g., how many EUR per USD)
+                         const rateFromUsd = await fetchCoinPrice('usd', fromId);
+                         // Fetch USD price in terms of 'to' currency (e.g., how many RUB per USD)
+                         const rateToUsd = await fetchCoinPrice('usd', toId);
+
+                         console.log(`USD/${fromId} rate:`, rateFromUsd);
+                         console.log(`USD/${toId} rate:`, rateToUsd);
+
+                         if (rateFromUsd === 0) throw new Error(`Cannot divide by zero rate for USD/${fromId}`);
+
+                         // Calculate the cross rate: (amount in fromId) * (USD / fromId) * (toId / USD)
+                         // rate = (1 / rateFromUsd) * rateToUsd
+                         const rate = rateToUsd / rateFromUsd;
+                         const convertedAmount = amount * rate;
+
+                         resultInput.value = convertedAmount.toFixed(2); // Fiat always 2 decimals
+                         resultDisplaySpan.textContent = formatDisplayNumberCustom(convertedAmount, 2);
+
+                         statusSpan.textContent = trans.convertStatusSuccess;
+                         statusSpan.className = 'success';
+
+                     } catch (error) {
+                         console.error('Ошибка конвертации фиат-фиат:', error);
+                         let userErrorMessage = trans.convertErrorApi;
+                         if (error.message && error.message.includes('missing data')) {
+                             userErrorMessage = trans.convertErrorPairNotFound || 'Currency pair not found.';
+                         } else if (error.message && !error.message.startsWith('HTTP error')) {
+                             userErrorMessage = error.message;
+                         }
+                         statusSpan.textContent = userErrorMessage;
+                         statusSpan.className = 'error';
+                         resultInput.value = '';
+                         resultDisplaySpan.textContent = '';
+                     } finally {
+                         setTimeout(() => {
+                             if (statusSpan.className !== 'loading') {
+                                 statusSpan.textContent = '';
+                                 statusSpan.className = '';
+                             }
+                         }, 3000);
+                     }
+                     return; // Exit after handling fiat-fiat
+                 }
                 if (amount === 0) {
                     resultInput.value = (0).toFixed(toType === 'crypto' ? 5 : 2);
                      resultDisplaySpan.textContent = formatDisplayNumberCustom(0, toType === 'crypto' ? 5 : 2); // Use custom formatting
@@ -1512,7 +1556,7 @@
 
                 try {
                     let rate;
-                    // Case 1: Crypto to Crypto (via USD)
+                    // Case 1: Crypto to Crypto (via USD) - Remains the same
                     if (fromType === 'crypto' && toType === 'crypto') {
                         console.log(`Converting ${fromId} to ${toId} via USD`);
                         const [rateFromUsd, rateToUsd] = await Promise.all([
@@ -1524,7 +1568,7 @@
                         if (rateToUsd === 0) throw new Error(`Cannot divide by zero rate for ${toId}/USD`);
                         rate = rateFromUsd / rateToUsd;
                     }
-                    // Case 2: Fiat to Crypto (inverted call)
+                    // Case 2: Fiat to Crypto (inverted call) - Remains the same
                     else if (fromType === 'fiat' && toType === 'crypto') {
                         console.log(`Converting ${fromId} to ${toId} (inverted)`);
                         const directRate = await fetchCoinPrice(toId, fromId); // Get crypto price in fiat
@@ -1532,8 +1576,8 @@
                         if (directRate === 0) throw new Error(`API returned zero rate for ${toId}/${fromId}`);
                         rate = 1 / directRate;
                     }
-                    // Case 3: Crypto to Fiat (standard call)
-                    else {
+                    // Case 3: Crypto to Fiat (standard call) - Remains the same
+                    else { // fromType === 'crypto' && toType === 'fiat'
                         console.log(`Converting ${fromId} to ${toId} (standard)`);
                         rate = await fetchCoinPrice(fromId, toId);
                         console.log(`${fromId}/${toId} rate:`, rate);
@@ -1578,7 +1622,7 @@
         }
 
         /**
-         * Formats a number for display with space as thousands separator and comma as decimal separator.
+         * Formats a number for display with custom separators (space for thousands, comma for decimal).
          * @param {number} number - The number to format.
          * @param {number} maximumFractionDigits - Maximum decimal places.
          * @returns {string} Formatted number string.
@@ -1597,7 +1641,6 @@
             let integerPart = parts[0];
             let fractionalPart = parts.length > 1 ? parts[1] : '';
 
-            // Pad with zeros if needed (e.g., for fiat 1 -> 1.00)
             if (fractionalPart.length < minimumFractionDigits) {
                 fractionalPart = fractionalPart.padEnd(minimumFractionDigits, '0');
             }
