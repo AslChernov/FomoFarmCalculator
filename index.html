@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=750, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=700, initial-scale=1.0, maximum-scale=1.0">
     <title>FomoFarm Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
@@ -17,7 +17,7 @@
             min-height: 100vh; padding-bottom: 50px;
         }
         .container {
-            max-width: 750px; width: 100%; margin: auto;
+            max-width: 700px; width: 100%; margin: auto;
             background: linear-gradient(to top, #000000, #05001d); padding: 20px;
             border: 1px solid #4ade80; border-radius: 8px; box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
         }
@@ -43,14 +43,17 @@
         #fetchSolPriceButton:hover { background-color: #2563eb; }
         .label-status-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         #solPriceStatus { font-size: 11px; color: #6b7280; min-height: 14px; }
-        #solPriceStatus.loading { color: #fbbf24; } #solPriceStatus.success { color: #4ade80; } #solPriceStatus.error { color: #ef4444; }
+        #solPriceStatus.loading, #converterStatus.loading { color: #fbbf24; }
+        #solPriceStatus.success, #converterStatus.success { color: #4ade80; }
+        #solPriceStatus.error, #converterStatus.error { color: #ef4444; }
+
 
         /* --- Label Styles --- */
         label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; }
         .input-group > div > label { height: auto; min-height: 0; }
         #label-user-staked-sol, #label-user-staked-usdc, #label-user-profit-percent-sol, #label-user-profit-percent-usdc,
         #label-modal-stake-sol, #label-modal-profit-sol, #label-modal-stake-usdc, #label-modal-profit-usdc,
-        #label-periodic-sol, #label-periodic-usdc, /* Removed periodic total labels from icon list */
+        #label-periodic-sol, #label-periodic-usdc,
         #label-sol-usd, #label-modal-level, #label-platform-fee {
             display: inline-flex; align-items: center; gap: 0;
         }
@@ -86,7 +89,7 @@
         input[type=number] { -moz-appearance: textfield; }
 
         /* --- Checkbox Styles --- */
-        .checkbox-container { display: flex; justify-content: center; gap: 40px; margin-top: 0; margin-bottom: 25px; padding: 10px 0; flex-wrap: wrap; }
+        .checkbox-container { display: flex; justify-content: center; gap: 40px; margin-top: 25px; margin-bottom: 25px; padding: 10px 0; flex-wrap: wrap; }
         .checkbox-item { display: flex; align-items: center; gap: 8px; justify-content: center; }
         .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: #4ade80; border: 1px solid #374151; border-radius: 3px; vertical-align: middle; flex-shrink: 0; }
         .checkbox-item input[type="checkbox"]:focus { outline: 1px solid #4ade80; outline-offset: 1px; }
@@ -106,7 +109,7 @@
         #languageToggleButton:disabled:hover { background-color: #4b5563;}
 
         /* --- Referrals Section Styles --- */
-        .referrals { margin-top: 15px; text-align: center; }
+        .referrals { margin-top: 25px; text-align: center; }
         .referrals table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; letter-spacing: inherit; table-layout: fixed; }
         .referrals th, .referrals td { padding: 8px 10px; text-align: center; font-size: 15px; font-weight: 500; background-color: #111827; border: 1px solid #1f2937; letter-spacing: inherit; word-wrap: break-word; vertical-align: middle; }
          .referrals th { font-weight: 900; color: #9ca3af; }
@@ -147,6 +150,117 @@
         .chart-container { margin-top: 30px; padding: 15px; background-color: #111827; border: 1px solid #1f2937; border-radius: 8px; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; }
         #balanceChart { max-height: 300px; }
 
+        /* --- Converter Styles --- */
+        .converter-container {
+            margin-top: 25px;
+            padding: 20px; background-color: #111827;
+            border: 1px solid #1f2937; border-radius: 8px;
+            box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset;
+        }
+        /* New style for the header row */
+        .converter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px; /* Space between header and inputs */
+        }
+        /* Adjusted styles for the title inside the header */
+        #h3-converter-title {
+            font-size: 20px; /* Reduced font size */
+            margin: 0; /* Remove default margins */
+            text-align: left; /* Align left */
+            font-weight: 700;
+            color: #e5e7eb;
+        }
+        /* Adjusted styles for the status inside the header */
+        #converterStatus {
+            font-size: 11px;
+            color: #6b7280;
+            min-height: 14px;
+            text-align: right;
+            /* Remove margin-top and width */
+        }
+        .converter-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .converter-block {
+            display: flex;
+            flex-grow: 1;
+            border: 1px solid #374151;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #000000;
+            position: relative; /* Needed for absolute positioning of the display span */
+        }
+        .converter-block input[type="number"] {
+            flex-grow: 1;
+            border: none;
+            border-radius: 0;
+            padding-right: 5px;
+            min-width: 80px;
+            color: #ffffff; /* Make input text visible again */
+            caret-color: #ffffff;
+            text-align: left;
+        }
+        .converter-block select {
+            border: none;
+            border-left: 1px solid #374151;
+            border-radius: 0;
+            background-color: #111827;
+            padding-left: 10px;
+            max-width: 150px;
+            flex-shrink: 0;
+        }
+        .converter-block.result-block {
+             background-color: #111827;
+             position: relative;
+        }
+        #convertResultAmount {
+            background-color: transparent; /* Make input background transparent */
+            cursor: default;
+            color: transparent; /* Hide the raw number text */
+            position: relative;
+            z-index: 1;
+        }
+        .converter-result-display {
+            position: absolute;
+            top: 0;
+            left: 0;
+            /* Adjust width calculation if needed, considering padding */
+            width: calc(100% - 150px - 20px); /* Approx width minus select and padding */
+            height: 100%;
+            padding: 8px 10px;
+            font-size: 14px;
+            font-family: 'Manrope', sans-serif;
+            color: #ffffff; /* Visible formatted text */
+            background-color: transparent;
+            pointer-events: none; /* Click through */
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            overflow: hidden;
+            z-index: 2;
+        }
+        #swapCurrenciesButton {
+            padding: 6px 10px;
+            font-size: 14px;
+            background-color: #374151;
+            color: #cbd5e1;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            line-height: 1;
+            flex-shrink: 0;
+            height: 36px;
+            min-width: 40px;
+        }
+        #swapCurrenciesButton:hover {
+            background-color: #4b5563;
+        }
+
+
         /* --- Control Buttons Styles --- */
         .control-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
         #calculateButton { background-color: #22c55e; margin: 0; }
@@ -157,7 +271,7 @@
         #exportButton:hover, #importButton:hover { background-color: #2563eb; }
 
         /* --- Footer Styles --- */
-        .textContent { text-align: center; margin-top: 20px; font-size: 15px; color: #6b7280; }
+        .textContent { text-align: center; margin-top: 30px; font-size: 15px; color: #6b7280; }
         .textContent p { display: block; margin-block-start: 0em; margin-block-end: 0em; margin-inline-start: 0px; margin-inline-end: 0px; unicode-bidi: isolate; }
         .textContent i { color: #6b7280; margin: 0 2px; }
         .textContent a { color: #3b82f6; text-decoration: none; }
@@ -184,9 +298,15 @@
             .input-group { grid-template-columns: 1fr; }
             .results-grid-container { grid-template-columns: 1fr; gap: 20px; }
             h1 { font-size: 26px; }
-            h2, h3 { font-size: 24px; }
+            h2 { font-size: 24px; }
+            h3#h3-converter-title { font-size: 18px; } /* Smaller title on mobile */
             .control-buttons { flex-direction: column; align-items: center; }
             .control-buttons button { width: 100%; max-width: 250px; }
+            /* Adjust converter layout for mobile */
+            .converter-wrapper { flex-direction: column; gap: 15px; }
+            #swapCurrenciesButton { transform: rotate(90deg); margin: 0 auto; } /* Rotate swap button */
+            .converter-block { width: 100%; } /* Make blocks full width */
+            .converter-result-display { width: calc(100% - 150px - 20px); /* May need adjustment for mobile */ }
         }
     </style>
 </head>
@@ -285,7 +405,24 @@
                 <input type="number" id="platformFee" value="10" step="0.1" min="0">
                  <span class="error-message" id="error-platformFee"></span>
             </div>
-        </div>
+        </div> <div class="converter-container">
+            <div class="converter-header">
+                <h3 id="h3-converter-title">Currency Converter</h3>
+                <span id="converterStatus"></span> </div>
+            <div class="converter-wrapper">
+                <div class="converter-block">
+                    <input type="number" id="convertAmountFrom" value="1" step="any" min="0">
+                    <select id="convertFrom"></select>
+                </div>
+                <button id="swapCurrenciesButton" title="Swap currencies">
+                    <i class="fas fa-exchange-alt"></i>
+                </button>
+                <div class="converter-block result-block"> <input type="number" id="convertResultAmount" value="" readonly>
+                    <span id="convertResultDisplay" class="converter-result-display"></span>
+                    <select id="convertTo"></select>
+                </div>
+            </div>
+            </div>
 
         <div class="checkbox-container">
              <div class="checkbox-item">
@@ -409,11 +546,27 @@
         let nextReferralId = 1;
         let currentLanguage = 'en';
         let balanceChartInstance = null;
+        let conversionTimeout = null; // Timeout for debouncing conversion requests
+        const CONVERSION_DEBOUNCE_DELAY = 500; // Delay in ms for API calls
+
         const REINVEST_THRESHOLD_SOL = 0.1;
         const REINVEST_THRESHOLD_USDC = 20;
-        const commissionRates = { 1: 0.08, 2: 0.05, 3: 0.03, 4: 0.01, 5: 0.03, 6: 0.05, 7: 0.08 };
+        const commissionRates = { 1: 0.08, 2: 0.05, 3: 0.03, 4: 0.01, 5: 0.03, 6: 0.05, 7: 0.07 };
         const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
         const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
+
+        // Currencies for the converter (CoinGecko IDs and display names)
+        const converterCurrencies = [
+            { id: 'solana', name: 'Solana (SOL)', type: 'crypto' },
+            { id: 'usd-coin', name: 'USD Coin (USDC)', type: 'crypto' },
+            { id: 'bitcoin', name: 'Bitcoin (BTC)', type: 'crypto' },
+            { id: 'ethereum', name: 'Ethereum (ETH)', type: 'crypto' },
+            { id: 'usd', name: 'US Dollar (USD)', type: 'fiat' },
+            { id: 'eur', name: 'Euro (EUR)', type: 'fiat' },
+            { id: 'rub', name: 'RU Ruble (RUB)', type: 'fiat' }
+        ];
+        // Helper to check currency type by ID
+        const getCurrencyType = (id) => converterCurrencies.find(c => c.id === id)?.type || 'crypto'; // Default to crypto if not found
 
         // --- Translations Object ---
         const translations = {
@@ -445,7 +598,18 @@
                 tooltipProfitSol: 'Daily profit percentage for SOL stake', tooltipProfitUsdc: 'Daily profit percentage for USDC stake', tooltipPlatformFee: 'Platform commission percentage',
                 roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
                 invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
-                solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.'
+                solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.',
+                // Converter translations
+                h3ConverterTitle: 'Currency Converter',
+                swapButtonTitle: 'Swap currencies',
+                convertStatusLoading: 'Converting...',
+                convertStatusSuccess: 'Success!',
+                convertStatusError: 'Error',
+                convertErrorInvalidAmount: 'Invalid amount.',
+                convertErrorApi: 'API Error.',
+                convertErrorPairNotFound: 'Currency pair not found.', // More specific error
+                convertErrorSameCurrency: 'Cannot convert to the same currency.',
+                convertErrorFiatToFiat: 'Direct fiat-to-fiat conversion not supported.'
             },
             'ru': {
                 labelUserStakedSol: 'Вложено', labelUserProfitPercentSol: 'Профит % / день', labelUserStakedUsdc: 'Вложено', labelUserProfitPercentUsdc: 'Профит % / день',
@@ -475,7 +639,18 @@
                 tooltipProfitSol: 'Дневной процент прибыли для стейка SOL', tooltipProfitUsdc: 'Дневной процент прибыли для стейка USDC', tooltipPlatformFee: 'Процент комиссии платформы',
                 roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
                 invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
-                solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.'
+                solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.',
+                // Converter translations
+                h3ConverterTitle: 'Конвертер Валют',
+                swapButtonTitle: 'Поменять валюты',
+                convertStatusLoading: 'Конвертация...',
+                convertStatusSuccess: 'Успешно!',
+                convertStatusError: 'Ошибка',
+                convertErrorInvalidAmount: 'Неверная сумма.',
+                convertErrorApi: 'Ошибка API.',
+                convertErrorPairNotFound: 'Валютная пара не найдена.', // More specific error
+                convertErrorSameCurrency: 'Нельзя конвертировать в ту же валюту.',
+                convertErrorFiatToFiat: 'Прямая конвертация фиат-фиат не поддерживается.'
             }
         };
 
@@ -518,7 +693,6 @@
                 document.getElementById('periodicUsdcAmount').value = localStorage.getItem('fomoFarmCalc_periodicUsdcAmount') || '0';
                 document.getElementById('periodicUsdcPeriod').value = localStorage.getItem('fomoFarmCalc_periodicUsdcPeriod') || '0';
 
-                // Загрузка и валидация данных рефералов
                 const savedReferrals = localStorage.getItem('fomoFarmCalc_referralsData');
                 referralsData = savedReferrals ? JSON.parse(savedReferrals) : [];
                 if (!Array.isArray(referralsData)) { referralsData = []; }
@@ -529,7 +703,6 @@
                      ref.level = ref.level || 1;
                 });
 
-                // Определение следующего ID реферала
                 const savedNextId = parseInt(localStorage.getItem('fomoFarmCalc_nextReferralId'));
                 if (referralsData.length > 0) {
                     const maxId = referralsData.reduce((max, ref) => Math.max(max, ref.id || 0), 0);
@@ -538,14 +711,12 @@
                     nextReferralId = savedNextId || 1;
                 }
 
-                // Восстановление состояния свернутости секции рефералов
                 const referralsContainer = document.getElementById('referralsContainer');
                 const savedCollapseState = localStorage.getItem('fomoFarmCalc_referralsCollapsed');
                 if (referralsContainer && savedCollapseState === 'true') { referralsContainer.classList.add('collapsed'); }
 
             } catch (error) {
                 console.error("Ошибка загрузки данных из localStorage:", error);
-                // Сброс полей в случае ошибки
                 referralsData = [];
                 nextReferralId = 1;
             }
@@ -554,18 +725,15 @@
         // --- UI Update Functions ---
         /**
          * Обновляет тексты и иконки в интерфейсе в соответствии с выбранным языком.
-         * @param {string} lang - Код языка ('en' или 'ru').
          */
         function updateUI(lang) {
             currentLanguage = lang;
             const trans = translations[lang];
             document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
 
-            // Обновление заголовка секции рефералов
             const h3ReferralsTextElement = document.getElementById('h3-referrals-text');
             if (h3ReferralsTextElement && trans.h3Referrals) { h3ReferralsTextElement.textContent = trans.h3Referrals; }
 
-            // Карта ID элементов к ключам переводов
             const idToKeyMap = {
                 'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
                 'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
@@ -593,27 +761,28 @@
                 'option-sol-none': 'optionNo', 'option-sol-weekly': 'optionWeekly', 'option-sol-monthly': 'optionMonthly', 'option-sol-quarterly': 'optionQuarterly',
                 'option-usdc-none': 'optionNo', 'option-usdc-weekly': 'optionWeekly', 'option-usdc-monthly': 'optionMonthly', 'option-usdc-quarterly': 'optionQuarterly',
                 'fetchSolPriceButton': 'fetchSolPriceButton',
-                'tooltip-profit-sol': 'tooltipProfitSol', 'tooltip-profit-usdc': 'tooltipProfitUsdc', 'tooltip-platform-fee': 'tooltipPlatformFee'
+                'tooltip-profit-sol': 'tooltipProfitSol', 'tooltip-profit-usdc': 'tooltipProfitUsdc', 'tooltip-platform-fee': 'tooltipPlatformFee',
+                'h3-converter-title': 'h3ConverterTitle',
+                'swapCurrenciesButton': 'swapButtonTitle'
             };
 
-            // Применение переводов к элементам
             for (const id in idToKeyMap) {
                 const element = document.getElementById(id);
                 const key = idToKeyMap[id];
                 if (element && trans[key] !== undefined) {
                      if (element.classList.contains('tooltip-text')) { element.textContent = trans[key]; }
                      else if (element.tagName === 'OPTION') { element.textContent = trans[key]; }
-                     else if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
-                         if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; } // Обновляем текст, сохраняя иконку
+                     else if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H3' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
+                         if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
+                         else if (id === 'swapCurrenciesButton') { element.title = trans[key]; }
                          else { element.textContent = trans[key]; }
                      }
-                } else if (element && id === 'p-footer') { // Обработка случая, если перевод для футера не найден
+                } else if (element && id === 'p-footer') {
                      if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
                      element.childNodes[0].nodeValue = (trans.pFooter || 'Made by') + ' ';
                 }
             }
 
-            // --- Добавление иконок к нужным меткам (labels) ---
             const labelSolStake = document.getElementById('label-user-staked-sol');
             const labelUsdcStake = document.getElementById('label-user-staked-usdc');
             const labelSolProfit = document.getElementById('label-user-profit-percent-sol');
@@ -625,7 +794,6 @@
             const labelModalStakeUsdc = document.getElementById('label-modal-stake-usdc');
             const labelModalProfitUsdc = document.getElementById('label-modal-profit-usdc');
 
-            // Очищаем иконки перед добавлением, чтобы избежать дублирования при переключении языка
             [labelSolStake, labelUsdcStake, labelSolProfit, labelUsdcProfit, labelPeriodicSol, labelPeriodicUsdc,
              labelModalStakeSol, labelModalProfitSol, labelModalStakeUsdc, labelModalProfitUsdc].forEach(label => {
                 if (label) {
@@ -634,7 +802,6 @@
                 }
             });
 
-            // Добавляем иконки
             if (labelSolStake) { labelSolStake.innerHTML += solanaIconImg; }
             if (labelUsdcStake) { labelUsdcStake.innerHTML += usdcIconImg; }
             if (labelSolProfit) { labelSolProfit.innerHTML += solanaIconImg; }
@@ -646,11 +813,17 @@
             if(labelModalStakeUsdc) { labelModalStakeUsdc.innerHTML += usdcIconImg; }
             if(labelModalProfitUsdc) { labelModalProfitUsdc.innerHTML += usdcIconImg; }
 
-            // Сброс статуса загрузки цены SOL
-            const statusElement = document.getElementById('solPriceStatus');
-            if (statusElement) { statusElement.textContent = ''; statusElement.className = ''; }
+            const solStatusElement = document.getElementById('solPriceStatus');
+            if (solStatusElement) { solStatusElement.textContent = ''; solStatusElement.className = ''; }
+            const converterStatusElement = document.getElementById('converterStatus');
+            if (converterStatusElement) { converterStatusElement.textContent = ''; converterStatusElement.className = ''; }
+            // Reset converter result fields on UI update
+            const converterResultInput = document.getElementById('convertResultAmount');
+            const converterResultDisplay = document.getElementById('convertResultDisplay');
+            if (converterResultInput) { converterResultInput.value = ''; }
+            if (converterResultDisplay) { converterResultDisplay.textContent = ''; }
 
-            // Перерисовка таблицы рефералов с учетом языка
+
             renderReferralsTable();
         }
 
@@ -661,6 +834,7 @@
             const newLang = currentLanguage === 'en' ? 'ru' : 'en';
             localStorage.setItem('fomoFarmCalc_language', newLang);
             updateUI(newLang);
+            triggerConversion();
          }
 
         // --- Referral Management Functions ---
@@ -677,7 +851,6 @@
 
         /**
          * Удаляет реферала из списка по его ID.
-         * @param {number} referralIdToRemove - ID реферала для удаления.
          */
         function removeReferral(referralIdToRemove) {
             referralsData = referralsData.filter(ref => ref.id !== referralIdToRemove);
@@ -710,8 +883,8 @@
                     const summaryCell = document.createElement('td');
                     summaryCell.className = 'stakes-summary';
                     let summaryContent = [];
-                    if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatNumber(referral.stakedSol, 'SOL', false)}</span>`); }
-                    if (referral.stakedUsdc > 0) { summaryContent.push(`<span>${usdcIconImg}${formatNumber(referral.stakedUsdc, 'USDC', false)}</span>`); }
+                    if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatDisplayNumberCustom(referral.stakedSol, 5)}</span>`); } // Use custom format
+                    if (referral.stakedUsdc > 0) { summaryContent.push(`<span>${usdcIconImg}${formatDisplayNumberCustom(referral.stakedUsdc, 2)}</span>`); } // Use custom format
                     summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join(' ') : trans.refSummaryNone;
 
                     const actionCell = document.createElement('td');
@@ -739,7 +912,6 @@
         // --- Modal Management Functions ---
         /**
          * Открывает модальное окно для редактирования данных реферала.
-         * @param {number} referralId - ID реферала для редактирования.
          */
         function openEditModal(referralId) {
             const modal = document.getElementById('editReferralModal');
@@ -758,7 +930,6 @@
             document.getElementById('modal-stake-usdc').value = referral.stakedUsdc || 0;
             document.getElementById('modal-profit-usdc').value = referral.profitPercentUsdc || 0;
 
-            // Обновление текстов и иконок в модальном окне
             const labelModalStakeSol = document.getElementById('label-modal-stake-sol');
             const labelModalProfitSol = document.getElementById('label-modal-profit-sol');
             const labelModalStakeUsdc = document.getElementById('label-modal-stake-usdc');
@@ -769,7 +940,7 @@
                 if (label) {
                     const icon = label.querySelector('img');
                     if (icon) label.removeChild(icon);
-                    const key = label.id.replace('label-', '').replace(/-/g, '_'); // Преобразование ID в ключ перевода
+                    const key = label.id.replace('label-', '').replace(/-/g, '_');
                     if (trans[key]) label.textContent = trans[key];
                 }
             });
@@ -778,7 +949,7 @@
             if(labelModalProfitSol) { labelModalProfitSol.innerHTML += solanaIconImg; }
             if(labelModalStakeUsdc) { labelModalStakeUsdc.innerHTML += usdcIconImg; }
             if(labelModalProfitUsdc) { labelModalProfitUsdc.innerHTML += usdcIconImg; }
-            if(labelModalLevel && trans.labelModalLevel) { labelModalLevel.textContent = trans.labelModalLevel; } // Уровень без иконки
+            if(labelModalLevel && trans.labelModalLevel) { labelModalLevel.textContent = trans.labelModalLevel; }
 
             modal.style.display = 'flex';
          }
@@ -821,28 +992,37 @@
 
         // --- Formatting Function ---
         /**
-         * Форматирует число в соответствии с валютой или типом данных.
-         * @param {number} number - Число для форматирования.
-         * @param {string} currency - Тип ('USD', 'SOL', 'USDC', 'PERCENT', 'DAYS', 'default').
-         * @param {boolean} includeSuffix - Включать ли суффикс (например, ' SOL', '$').
-         * @returns {string} Отформатированная строка.
+         * Formats a number for display with custom separators (space for thousands, comma for decimal).
+         * @param {number} number - The number to format.
+         * @param {number} maximumFractionDigits - Maximum decimal places.
+         * @returns {string} Formatted number string.
          */
-        function formatNumber(number, currency = 'default', includeSuffix = true) {
-            if (isNaN(number) || number === null) {
-                return currency === 'USD' ? '0.00 $' : (currency === 'RUB' ? '0.00 ₽' : (currency === 'USDC' ? '0.00' : '0.00000'));
+        function formatDisplayNumberCustom(number, maximumFractionDigits) {
+            if (isNaN(number) || number === null) return '';
+
+            // Determine the minimum fraction digits based on maximum
+            const minimumFractionDigits = maximumFractionDigits < 2 ? maximumFractionDigits : 2;
+
+            // 1. Get the number with fixed decimal places (using dot as separator)
+            let numStr = number.toFixed(maximumFractionDigits);
+
+            // Ensure minimum fractional digits are present after toFixed
+            let parts = numStr.split('.');
+            let integerPart = parts[0];
+            let fractionalPart = parts.length > 1 ? parts[1] : '';
+
+            if (fractionalPart.length < minimumFractionDigits) {
+                fractionalPart = fractionalPart.padEnd(minimumFractionDigits, '0');
             }
-            const daysSuffix = translations[currentLanguage].daysSuffix;
-            const config = {
-                'USD': { locale: 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' $' },
-                'SOL': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: ' SOL' },
-                'USDC': { locale: 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' USDC' },
-                'PERCENT': { locale: currentLanguage === 'ru' ? 'ru-RU' : 'en-US', options: { maximumFractionDigits: 2, minimumFractionDigits: 2 }, suffix: ' %' },
-                'DAYS': { locale: currentLanguage === 'ru' ? 'ru-RU' : 'en-US', options: { maximumFractionDigits: 0, minimumFractionDigits: 0 }, suffix: daysSuffix },
-                'default': { locale: 'en-US', options: { maximumFractionDigits: 5, minimumFractionDigits: 2 }, suffix: '' }
-            };
-            const { locale, options, suffix } = config[currency] || config.default;
-            return number.toLocaleString(locale, options) + (includeSuffix ? suffix : '');
-         }
+             // No need to trim here as toFixed already handles max digits
+
+            // 3. Add space as thousands separator to the integer part
+            integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+            // 4. Combine parts with a comma as decimal separator
+            return fractionalPart ? `${integerPart},${fractionalPart}` : integerPart;
+        }
+
 
         // --- Fetch SOL Price Function ---
         /**
@@ -868,7 +1048,7 @@
                     solInput.value = price.toFixed(2);
                     statusElement.textContent = trans.statusSuccess;
                     statusElement.className = 'success';
-                    saveData(); // Сохраняем новую цену
+                    saveData();
                 } else {
                     throw new Error('Invalid API response structure');
                 }
@@ -877,7 +1057,6 @@
                 statusElement.textContent = trans.statusError;
                 statusElement.className = 'error';
             } finally {
-                 // Скрываем статус через 3 секунды, если это не "загрузка"
                  setTimeout(() => {
                      if (statusElement.className !== 'loading') {
                          statusElement.textContent = '';
@@ -892,6 +1071,7 @@
          * Выполняет основные расчеты калькулятора.
          */
         function calculate() {
+            console.log("Calculate function called!"); // Added log
             // --- Validation ---
             let isValid = true;
             const inputsToValidate = [
@@ -922,13 +1102,13 @@
             }
 
             if (!isValid) {
-                clearResults(); // Очищаем результаты, если валидация не пройдена
-                if (balanceChartInstance) { balanceChartInstance.destroy(); balanceChartInstance = null; } // Уничтожаем график
+                console.log("Calculation stopped due to invalid input."); // Added log
+                clearResults();
+                if (balanceChartInstance) { balanceChartInstance.destroy(); balanceChartInstance = null; }
                 return;
             }
             // --- End Validation ---
 
-            // Получение входных данных
             const platformFeeRate = (parseFloat(document.getElementById('platformFee').value) || 0) / 100;
             const days = parseInt(document.getElementById('days').value);
             const reinvestEnabled = document.getElementById('reinvestCheckbox').checked;
@@ -942,7 +1122,6 @@
             const periodicUsdcAmount = parseFloat(document.getElementById('periodicUsdcAmount').value) || 0;
             const periodicUsdcPeriod = parseInt(document.getElementById('periodicUsdcPeriod').value) || 0;
 
-            // Расчет дневного дохода от рефералов (если включено)
             let dailyNetProfit_RefSol = 0;
             let dailyNetProfit_RefUsdc = 0;
             if (referralsEnabled) {
@@ -964,7 +1143,6 @@
                 });
             }
 
-            // Расчет времени удвоения без реинвеста
             let doubleSolNoReinvestDays = "N/A";
             let doubleUsdcNoReinvestDays = "N/A";
             const dailyNetProfit_UserSol_Initial = initialUserStakedSol * userProfitRateSol * (1 - platformFeeRate);
@@ -983,7 +1161,6 @@
                 doubleUsdcNoReinvestDays = trans.roiNever;
             }
 
-            // Основной цикл расчета по дням
             let currentSolStake = initialUserStakedSol;
             let currentUsdcStake = initialUserStakedUsdc;
             let accumulatedSolProfit = 0;
@@ -1000,7 +1177,6 @@
             const chartDataUsd = [];
 
             for (let day = 1; day <= days; day++) {
-                // Периодические довложения
                 if (periodicSolAmount > 0 && periodicSolPeriod > 0 && day % periodicSolPeriod === 0) {
                     currentSolStake += periodicSolAmount;
                     totalPeriodicSolAdded += periodicSolAmount;
@@ -1010,21 +1186,17 @@
                     totalPeriodicUsdcAdded += periodicUsdcAmount;
                 }
 
-                // Расчет профита за день
                 const profitTodaySol_User = currentSolStake * userProfitRateSol * (1 - platformFeeRate);
                 const profitTodayUsdc_User = currentUsdcStake * userProfitRateUsdc * (1 - platformFeeRate);
                 const profitTodaySol_Total = profitTodaySol_User + dailyNetProfit_RefSol;
                 const profitTodayUsdc_Total = profitTodayUsdc_User + dailyNetProfit_RefUsdc;
 
-                // Накопление общего профита
                 totalSolProfitAccumulated += profitTodaySol_Total;
                 totalUsdcProfitAccumulated += profitTodayUsdc_Total;
 
-                // Накопление для реинвеста
                 accumulatedSolProfit += profitTodaySol_Total;
                 accumulatedUsdcProfit += profitTodayUsdc_Total;
 
-                // Реинвест (если включен и порог достигнут)
                 if (reinvestEnabled) {
                     if (accumulatedSolProfit >= REINVEST_THRESHOLD_SOL) {
                         currentSolStake += accumulatedSolProfit;
@@ -1036,7 +1208,6 @@
                     }
                 }
 
-                // Проверка удвоения с реинвестом
                 if (!solDoubled && initialUserStakedSol > 0 && (currentSolStake + accumulatedSolProfit) >= initialUserStakedSol * 2) {
                     doubleSolReinvestDays = day;
                     solDoubled = true;
@@ -1046,13 +1217,11 @@
                     usdcDoubled = true;
                 }
 
-                // Данные для графика (общий баланс в USD)
                 const currentTotalBalanceUsd = (solToUsdValue > 0 ? (currentSolStake + accumulatedSolProfit) * solToUsdValue : 0) + (currentUsdcStake + accumulatedUsdcProfit);
                 chartLabels.push(day);
                 chartDataUsd.push(currentTotalBalanceUsd);
             }
 
-            // Определение времени удвоения с реинвестом, если оно не произошло за период
             if (!solDoubled) {
                 if (totalDailySolProfit_Initial > 0 && initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiOverDays.replace('{days}', days);
                 else if (initialUserStakedSol > 0) doubleSolReinvestDays = trans.roiNever;
@@ -1064,7 +1233,6 @@
                 else doubleUsdcReinvestDays = "N/A";
             }
 
-            // Финальные расчеты
             const finalSolBalance = currentSolStake + accumulatedSolProfit;
             const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit;
             const finalUsdBalanceTotal = chartDataUsd.length > 0 ? chartDataUsd[chartDataUsd.length - 1] : 0;
@@ -1074,59 +1242,59 @@
             const totalReferralProfitOverPeriodUsdc = dailyNetProfit_RefUsdc * days;
             const totalProfitUsd = (solToUsdValue > 0 ? totalSolProfitAccumulated * solToUsdValue : 0) + totalUsdcProfitAccumulated;
 
-            // Ваш профит = Общий профит - Профит от рефералов
             let userProfitSol = totalSolProfitAccumulated - totalReferralProfitOverPeriodSol;
             if (Math.abs(userProfitSol) < 1e-9) userProfitSol = 0;
             let userProfitUsdc = totalUsdcProfitAccumulated - totalReferralProfitOverPeriodUsdc;
             if (Math.abs(userProfitUsdc) < 1e-9) userProfitUsdc = 0;
 
-            // Обновление результатов в HTML
-            document.getElementById('result-profit-user-sol').innerHTML = formatNumber(userProfitSol, 'SOL', false) + solanaIconImg;
-            document.getElementById('result-profit-user-usdc').innerHTML = formatNumber(userProfitUsdc, 'USDC', false) + usdcIconImg;
-            document.getElementById('result-profit-ref-sol').innerHTML = formatNumber(totalReferralProfitOverPeriodSol, 'SOL', false) + solanaIconImg;
-            document.getElementById('result-profit-ref-usdc').innerHTML = formatNumber(totalReferralProfitOverPeriodUsdc, 'USDC', false) + usdcIconImg;
-            document.getElementById('result-profit-total-sol').innerHTML = formatNumber(totalSolProfitAccumulated, 'SOL', false) + solanaIconImg;
-            document.getElementById('result-profit-total-usdc').innerHTML = formatNumber(totalUsdcProfitAccumulated, 'USDC', false) + usdcIconImg;
-            document.getElementById('result-profit-percent-sol').textContent = formatNumber(profitPercentSol, 'PERCENT');
-            document.getElementById('result-profit-percent-usdc').textContent = formatNumber(profitPercentUsdc, 'PERCENT');
-            document.getElementById('result-double-sol-noreinvest').textContent = typeof doubleSolNoReinvestDays === 'number' ? formatNumber(doubleSolNoReinvestDays, 'DAYS') : doubleSolNoReinvestDays;
-            document.getElementById('result-double-usdc-noreinvest').textContent = typeof doubleUsdcNoReinvestDays === 'number' ? formatNumber(doubleUsdcNoReinvestDays, 'DAYS') : doubleUsdcNoReinvestDays;
-            document.getElementById('result-double-sol-reinvest').textContent = typeof doubleSolReinvestDays === 'number' ? formatNumber(doubleSolReinvestDays, 'DAYS') : doubleSolReinvestDays;
-            document.getElementById('result-double-usdc-reinvest').textContent = typeof doubleUsdcReinvestDays === 'number' ? formatNumber(doubleUsdcReinvestDays, 'DAYS') : doubleUsdcReinvestDays;
-            document.getElementById('result-periodic-total-sol').innerHTML = formatNumber(totalPeriodicSolAdded, 'SOL', false) + solanaIconImg;
-            document.getElementById('result-periodic-total-usdc').innerHTML = formatNumber(totalPeriodicUsdcAdded, 'USDC', false) + usdcIconImg;
-            document.getElementById('result-final-balance-sol').innerHTML = formatNumber(finalSolBalance, 'SOL', false) + solanaIconImg;
-            document.getElementById('result-final-balance-usdc').innerHTML = formatNumber(finalUsdcBalance, 'USDC', false) + usdcIconImg;
-            document.getElementById('result-final-balance-usd-total').textContent = formatNumber(finalUsdBalanceTotal, 'USD');
-            document.getElementById('result-profit-total-usd').textContent = formatNumber(totalProfitUsd, 'USD');
+             console.log("Updating results:", { userProfitSol, finalSolBalance, userProfitUsdc, finalUsdcBalance, finalUsdBalanceTotal }); // Added log
 
-            // Рендеринг графика
+            // Use formatDisplayNumberCustom for results display where appropriate
+            document.getElementById('result-profit-user-sol').innerHTML = formatDisplayNumberCustom(userProfitSol, 5) + solanaIconImg;
+            document.getElementById('result-profit-user-usdc').innerHTML = formatDisplayNumberCustom(userProfitUsdc, 2) + usdcIconImg;
+            document.getElementById('result-profit-ref-sol').innerHTML = formatDisplayNumberCustom(totalReferralProfitOverPeriodSol, 5) + solanaIconImg;
+            document.getElementById('result-profit-ref-usdc').innerHTML = formatDisplayNumberCustom(totalReferralProfitOverPeriodUsdc, 2) + usdcIconImg;
+            document.getElementById('result-profit-total-sol').innerHTML = formatDisplayNumberCustom(totalSolProfitAccumulated, 5) + solanaIconImg;
+            document.getElementById('result-profit-total-usdc').innerHTML = formatDisplayNumberCustom(totalUsdcProfitAccumulated, 2) + usdcIconImg;
+            document.getElementById('result-profit-percent-sol').textContent = formatDisplayNumberCustom(profitPercentSol, 2) + ' %';
+            document.getElementById('result-profit-percent-usdc').textContent = formatDisplayNumberCustom(profitPercentUsdc, 2) + ' %';
+            document.getElementById('result-double-sol-noreinvest').textContent = typeof doubleSolNoReinvestDays === 'number' ? formatDisplayNumberCustom(doubleSolNoReinvestDays, 0) + trans.daysSuffix : doubleSolNoReinvestDays;
+            document.getElementById('result-double-usdc-noreinvest').textContent = typeof doubleUsdcNoReinvestDays === 'number' ? formatDisplayNumberCustom(doubleUsdcNoReinvestDays, 0) + trans.daysSuffix : doubleUsdcNoReinvestDays;
+            document.getElementById('result-double-sol-reinvest').textContent = typeof doubleSolReinvestDays === 'number' ? formatDisplayNumberCustom(doubleSolReinvestDays, 0) + trans.daysSuffix : doubleSolReinvestDays;
+            document.getElementById('result-double-usdc-reinvest').textContent = typeof doubleUsdcReinvestDays === 'number' ? formatDisplayNumberCustom(doubleUsdcReinvestDays, 0) + trans.daysSuffix : doubleUsdcReinvestDays;
+            document.getElementById('result-periodic-total-sol').innerHTML = formatDisplayNumberCustom(totalPeriodicSolAdded, 5) + solanaIconImg;
+            document.getElementById('result-periodic-total-usdc').innerHTML = formatDisplayNumberCustom(totalPeriodicUsdcAdded, 2) + usdcIconImg;
+            document.getElementById('result-final-balance-sol').innerHTML = formatDisplayNumberCustom(finalSolBalance, 5) + solanaIconImg;
+            document.getElementById('result-final-balance-usdc').innerHTML = formatDisplayNumberCustom(finalUsdcBalance, 2) + usdcIconImg;
+            document.getElementById('result-final-balance-usd-total').textContent = formatDisplayNumberCustom(finalUsdBalanceTotal, 2) + ' $';
+            document.getElementById('result-profit-total-usd').textContent = formatDisplayNumberCustom(totalProfitUsd, 2) + ' $';
+
+
             renderBalanceChart(chartLabels, chartDataUsd);
         }
 
         /**
          * Очищает все поля результатов и график.
-         * @param {string} [message=""] - Необязательное сообщение для вывода в консоль.
          */
         function clearResults(message = "") {
              document.getElementById('result-profit-user-sol').innerHTML = '0' + solanaIconImg;
-             document.getElementById('result-profit-user-usdc').innerHTML = '0.00' + usdcIconImg;
+             document.getElementById('result-profit-user-usdc').innerHTML = '0,00' + usdcIconImg; // Use comma for default
              document.getElementById('result-profit-ref-sol').innerHTML = '0' + solanaIconImg;
-             document.getElementById('result-profit-ref-usdc').innerHTML = '0.00' + usdcIconImg;
+             document.getElementById('result-profit-ref-usdc').innerHTML = '0,00' + usdcIconImg;
              document.getElementById('result-profit-total-sol').innerHTML = '0' + solanaIconImg;
-             document.getElementById('result-profit-total-usdc').innerHTML = '0.00' + usdcIconImg;
-             document.getElementById('result-profit-percent-sol').textContent = '0 %';
-             document.getElementById('result-profit-percent-usdc').textContent = '0 %';
+             document.getElementById('result-profit-total-usdc').innerHTML = '0,00' + usdcIconImg;
+             document.getElementById('result-profit-percent-sol').textContent = '0,00 %';
+             document.getElementById('result-profit-percent-usdc').textContent = '0,00 %';
              document.getElementById('result-double-sol-noreinvest').textContent = 'N/A';
              document.getElementById('result-double-usdc-noreinvest').textContent = 'N/A';
              document.getElementById('result-double-sol-reinvest').textContent = 'N/A';
              document.getElementById('result-double-usdc-reinvest').textContent = 'N/A';
              document.getElementById('result-periodic-total-sol').innerHTML = '0' + solanaIconImg;
-             document.getElementById('result-periodic-total-usdc').innerHTML = '0.00' + usdcIconImg;
+             document.getElementById('result-periodic-total-usdc').innerHTML = '0,00' + usdcIconImg;
              document.getElementById('result-final-balance-sol').innerHTML = '0' + solanaIconImg;
-             document.getElementById('result-final-balance-usdc').innerHTML = '0.00' + usdcIconImg;
-             document.getElementById('result-final-balance-usd-total').textContent = '0 $';
-             document.getElementById('result-profit-total-usd').textContent = '0 $';
+             document.getElementById('result-final-balance-usdc').innerHTML = '0,00' + usdcIconImg;
+             document.getElementById('result-final-balance-usd-total').textContent = '0,00 $';
+             document.getElementById('result-profit-total-usd').textContent = '0,00 $';
              if (balanceChartInstance) { balanceChartInstance.destroy(); balanceChartInstance = null; }
              if (message) { console.warn(message); }
         }
@@ -1153,7 +1321,8 @@
             renderReferralsTable();
             clearResults();
             clearAllValidationErrors();
-            saveData(); // Сохраняем сброшенное состояние
+            resetConverter(); // Reset converter fields
+            saveData();
         }
 
         /**
@@ -1169,84 +1338,74 @@
          */
         function clearValidationError(event) {
             const inputElement = event.target;
-            const errorElement = document.getElementById(`error-${inputElement.id}`);
             inputElement.classList.remove('input-error');
-            if (errorElement) { errorElement.textContent = ''; }
         }
 
         // --- Collapsible Section Function ---
         /**
-         * Переключает видимость секции рефералов (сворачивает/разворачивает).
+         * Переключает видимость секции рефералов.
          */
         function toggleReferralsSection() {
             const referralsContainer = document.getElementById('referralsContainer');
             if (referralsContainer) {
                 referralsContainer.classList.toggle('collapsed');
-                saveData(); // Сохраняем состояние свернутости
+                saveData();
             }
         }
 
         // --- Chart Rendering Function ---
         /**
          * Рендерит график баланса с использованием Chart.js.
-         * Фильтрует точки данных, чтобы их количество совпадало с метками оси X.
-         * @param {Array<number|string>} originalLabels - Исходные метки для оси X (дни).
-         * @param {Array<number>} originalUsdData - Исходные данные для оси Y (баланс в USD).
          */
         function renderBalanceChart(originalLabels, originalUsdData) {
             const ctx = document.getElementById('balanceChart').getContext('2d');
             if (balanceChartInstance) { balanceChartInstance.destroy(); }
 
             const numDays = originalLabels.length;
-            if (numDays === 0) return; // Не рендерить пустой график
+            if (numDays === 0) return;
 
-            let stepSize = 1; // Шаг по умолчанию
-
-            // Определение шага для оси X в зависимости от количества дней
+            let stepSize = 1;
             if (numDays > 365) { stepSize = 30; }
             else if (numDays > 180) { stepSize = 14; }
             else if (numDays > 90) { stepSize = 7; }
             else if (numDays > 60) { stepSize = 3; }
             else if (numDays > 30) { stepSize = 2; }
 
-            // --- Фильтрация данных и меток ---
             const filteredLabels = [];
             const filteredUsdData = [];
 
             if (numDays > 0) {
-                // Всегда добавляем первую точку
                 filteredLabels.push(originalLabels[0]);
                 filteredUsdData.push(originalUsdData[0]);
-
-                // Добавляем точки с шагом stepSize
                 for (let i = stepSize; i < numDays; i += stepSize) {
-                    // Используем i напрямую как индекс, так как labels/data 0-индексированы
-                    filteredLabels.push(originalLabels[i]);
-                    filteredUsdData.push(originalUsdData[i]);
+                    // Correct index: i - 1, as arrays are 0-indexed and labels start from 1
+                    filteredLabels.push(originalLabels[i - 1]);
+                    filteredUsdData.push(originalUsdData[i - 1]);
                 }
-
-                // Всегда добавляем последнюю точку, если она еще не добавлена
                 const lastOriginalIndex = numDays - 1;
-                if (filteredLabels[filteredLabels.length - 1] !== originalLabels[lastOriginalIndex]) {
-                    filteredLabels.push(originalLabels[lastOriginalIndex]);
-                    filteredUsdData.push(originalUsdData[lastOriginalIndex]);
+                // Ensure the last label is added if it wasn't included by the step
+                if (filteredLabels.length === 0 || filteredLabels[filteredLabels.length - 1] !== originalLabels[lastOriginalIndex]) {
+                     // Add the last point if stepSize > 1 or if it's the only point
+                     if (stepSize > 1 || filteredLabels.length === 0) {
+                         filteredLabels.push(originalLabels[lastOriginalIndex]);
+                         filteredUsdData.push(originalUsdData[lastOriginalIndex]);
+                     }
                 }
             }
-            // --- Конец фильтрации ---
 
 
             balanceChartInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: filteredLabels, // Используем отфильтрованные метки
+                    labels: filteredLabels,
                     datasets: [{
                         label: 'Total Balance (USD)',
-                        data: filteredUsdData, // Используем отфильтрованные данные
+                        data: filteredUsdData,
                         borderColor: '#60a5fa',
                         backgroundColor: 'rgba(96, 165, 250, 0.1)',
                         borderWidth: 2,
                         tension: 0.1,
-                        pointRadius: numDays > 90 ? 0 : 2, // Скрываем точки на основе *исходного* кол-ва дней
+                        pointRadius: numDays > 90 ? 0 : 2,
                         pointHoverRadius: 4
                     }]
                 },
@@ -1254,35 +1413,274 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: { color: '#9ca3af' },
-                            grid: { color: 'rgba(156, 163, 175, 0.2)' }
-                        },
-                        x: {
-                            ticks: {
-                                color: '#9ca3af',
-                                // stepSize больше не нужен здесь, так как метки уже отфильтрованы
-                                autoSkip: false, // Отключаем автопропуск, так как мы сами фильтруем
-                                maxRotation: 0,
-                                minRotation: 0
-                            },
-                            grid: { display: false }
-                        }
+                        y: { beginAtZero: true, ticks: { color: '#9ca3af' }, grid: { color: 'rgba(156, 163, 175, 0.2)' } },
+                        x: { ticks: { color: '#9ca3af', autoSkip: false, maxRotation: 0, minRotation: 0 }, grid: { display: false } }
                     },
-                    plugins: {
-                        legend: { labels: { color: '#e5e7eb' } },
-                        tooltip: {
-                            mode: 'index', // Показывает тултип для ближайшей точки по X
-                            intersect: false
-                        }
-                    },
-                    hover: {
-                        mode: 'nearest',
-                        intersect: true
-                    }
+                    plugins: { legend: { labels: { color: '#e5e7eb' } }, tooltip: { mode: 'index', intersect: false } },
+                    hover: { mode: 'nearest', intersect: true }
                 }
             });
+        }
+
+        // --- Currency Converter Functions ---
+        /**
+         * Заполняет выпадающие списки валют конвертера.
+         */
+        function populateCurrencyDropdowns() {
+            const fromSelect = document.getElementById('convertFrom');
+            const toSelect = document.getElementById('convertTo');
+            if (!fromSelect || !toSelect) return;
+
+            fromSelect.innerHTML = '';
+            toSelect.innerHTML = '';
+
+            converterCurrencies.forEach(currency => {
+                const optionFrom = document.createElement('option');
+                optionFrom.value = currency.id;
+                optionFrom.textContent = currency.name;
+                fromSelect.appendChild(optionFrom);
+
+                const optionTo = document.createElement('option');
+                optionTo.value = currency.id;
+                optionTo.textContent = currency.name;
+                toSelect.appendChild(optionTo);
+            });
+
+            fromSelect.value = 'solana';
+            toSelect.value = 'usd';
+        }
+
+        /**
+         * Выполняет конвертацию валют с использованием CoinGecko API (с debounce).
+         * Handles crypto-crypto conversion via USD.
+         */
+        function triggerConversion() {
+            clearTimeout(conversionTimeout); // Clear previous timeout
+            conversionTimeout = setTimeout(async () => { // Set new timeout
+                const amountInput = document.getElementById('convertAmountFrom');
+                const fromSelect = document.getElementById('convertFrom');
+                const toSelect = document.getElementById('convertTo');
+                const resultInput = document.getElementById('convertResultAmount');
+                const resultDisplaySpan = document.getElementById('convertResultDisplay'); // Get the display span
+                const statusSpan = document.getElementById('converterStatus');
+                const trans = translations[currentLanguage];
+
+                if (!amountInput || !fromSelect || !toSelect || !resultInput || !statusSpan || !resultDisplaySpan) return;
+
+                const amount = parseFloat(amountInput.value);
+                const fromId = fromSelect.value;
+                const toId = toSelect.value;
+                const fromType = getCurrencyType(fromId);
+                const toType = getCurrencyType(toId);
+
+                // Reset state before conversion
+                amountInput.classList.remove('input-error');
+                resultInput.value = ''; // Clear hidden input value
+                resultDisplaySpan.textContent = ''; // Clear display span text
+                statusSpan.textContent = '';
+                statusSpan.className = '';
+
+                // --- Basic Validations ---
+                if (isNaN(amount) || amount < 0) {
+                    amountInput.classList.add('input-error');
+                    statusSpan.textContent = trans.convertErrorInvalidAmount;
+                    statusSpan.className = 'error';
+                    return;
+                }
+                if (fromId === toId) {
+                    statusSpan.textContent = trans.convertErrorSameCurrency;
+                    statusSpan.className = 'error';
+                    // Display the input amount directly
+                    resultInput.value = amount.toFixed(fromType === 'crypto' ? 5 : 2);
+                    resultDisplaySpan.textContent = formatDisplayNumberCustom(amount, fromType === 'crypto' ? 5 : 2); // Use custom formatting
+                    return;
+                }
+                 if (fromType === 'fiat' && toType === 'fiat') {
+                    statusSpan.textContent = trans.convertErrorFiatToFiat;
+                    statusSpan.className = 'error';
+                    return;
+                }
+                if (amount === 0) {
+                    resultInput.value = (0).toFixed(toType === 'crypto' ? 5 : 2);
+                     resultDisplaySpan.textContent = formatDisplayNumberCustom(0, toType === 'crypto' ? 5 : 2); // Use custom formatting
+                    return;
+                }
+                // --- End Basic Validations ---
+
+                statusSpan.textContent = trans.convertStatusLoading;
+                statusSpan.className = 'loading';
+
+                try {
+                    let rate;
+                    // Case 1: Crypto to Crypto (via USD)
+                    if (fromType === 'crypto' && toType === 'crypto') {
+                        console.log(`Converting ${fromId} to ${toId} via USD`);
+                        const [rateFromUsd, rateToUsd] = await Promise.all([
+                            fetchCoinPrice(fromId, 'usd'),
+                            fetchCoinPrice(toId, 'usd')
+                        ]);
+                         console.log(`${fromId}/USD rate:`, rateFromUsd);
+                         console.log(`${toId}/USD rate:`, rateToUsd);
+                        if (rateToUsd === 0) throw new Error(`Cannot divide by zero rate for ${toId}/USD`);
+                        rate = rateFromUsd / rateToUsd;
+                    }
+                    // Case 2: Fiat to Crypto (inverted call)
+                    else if (fromType === 'fiat' && toType === 'crypto') {
+                        console.log(`Converting ${fromId} to ${toId} (inverted)`);
+                        const directRate = await fetchCoinPrice(toId, fromId); // Get crypto price in fiat
+                        console.log(`${toId}/${fromId} direct rate:`, directRate);
+                        if (directRate === 0) throw new Error(`API returned zero rate for ${toId}/${fromId}`);
+                        rate = 1 / directRate;
+                    }
+                    // Case 3: Crypto to Fiat (standard call)
+                    else {
+                        console.log(`Converting ${fromId} to ${toId} (standard)`);
+                        rate = await fetchCoinPrice(fromId, toId);
+                        console.log(`${fromId}/${toId} rate:`, rate);
+                    }
+
+                    const convertedAmount = amount * rate;
+
+                    // Set hidden input value (raw number with dot decimal)
+                    resultInput.value = convertedAmount.toFixed(toType === 'crypto' ? 5 : 2);
+
+                    // Set display span text (formatted number with space/comma)
+                    resultDisplaySpan.textContent = formatDisplayNumberCustom(convertedAmount, toType === 'crypto' ? 5 : 2);
+
+
+                    statusSpan.textContent = trans.convertStatusSuccess;
+                    statusSpan.className = 'success';
+
+                } catch (error) {
+                    console.error('Ошибка конвертации валюты:', error);
+                    console.error('Error message:', error.message);
+
+                    let userErrorMessage = trans.convertErrorApi; // Default API error
+                    if (error.message && error.message.includes('missing data')) {
+                        userErrorMessage = trans.convertErrorPairNotFound || 'Currency pair not found.';
+                    } else if (error.message && !error.message.startsWith('HTTP error')) {
+                         userErrorMessage = error.message; // Use specific error if not just HTTP
+                    }
+
+                    statusSpan.textContent = userErrorMessage;
+                    statusSpan.className = 'error';
+                    resultInput.value = ''; // Clear result on error
+                    resultDisplaySpan.textContent = ''; // Clear display span on error
+                } finally {
+                    setTimeout(() => {
+                        if (statusSpan.className !== 'loading') {
+                            statusSpan.textContent = '';
+                            statusSpan.className = '';
+                        }
+                    }, 3000);
+                }
+            }, CONVERSION_DEBOUNCE_DELAY); // Apply debounce delay
+        }
+
+        /**
+         * Formats a number for display with space as thousands separator and comma as decimal separator.
+         * @param {number} number - The number to format.
+         * @param {number} maximumFractionDigits - Maximum decimal places.
+         * @returns {string} Formatted number string.
+         */
+        function formatDisplayNumberCustom(number, maximumFractionDigits) {
+            if (isNaN(number) || number === null) return '';
+
+            // Determine the minimum fraction digits based on maximum
+            const minimumFractionDigits = maximumFractionDigits < 2 ? maximumFractionDigits : 2;
+
+            // 1. Get the number with fixed decimal places (using dot as separator)
+            let numStr = number.toFixed(maximumFractionDigits);
+
+            // Ensure minimum fractional digits are present after toFixed
+            let parts = numStr.split('.');
+            let integerPart = parts[0];
+            let fractionalPart = parts.length > 1 ? parts[1] : '';
+
+            // Pad with zeros if needed (e.g., for fiat 1 -> 1.00)
+            if (fractionalPart.length < minimumFractionDigits) {
+                fractionalPart = fractionalPart.padEnd(minimumFractionDigits, '0');
+            }
+             // No need to trim here as toFixed already handles max digits
+
+            // 3. Add space as thousands separator to the integer part
+            integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
+            // 4. Combine parts with a comma as decimal separator
+            return fractionalPart ? `${integerPart},${fractionalPart}` : integerPart;
+        }
+
+
+        /**
+         * Helper function to fetch price for a single pair from CoinGecko.
+         * Throws an error if the pair is not found or the API call fails.
+         */
+        async function fetchCoinPrice(primaryId, secondaryId) {
+            const apiUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${primaryId}&vs_currencies=${secondaryId}`;
+            let responseDataText = ""; // For logging raw response on error
+            try {
+                const response = await fetch(apiUrl);
+                if (!response.ok) {
+                    let errorDetails = `HTTP error! status: ${response.status}`;
+                    try {
+                        responseDataText = await response.text();
+                        console.error("Raw API Error Response:", responseDataText);
+                        const errorData = JSON.parse(responseDataText);
+                        if (errorData && errorData.error) {
+                            errorDetails += ` - ${errorData.error}`;
+                        }
+                    } catch (e) {
+                        errorDetails += ` - Unable to parse error response: ${responseDataText.substring(0, 100)}`;
+                    }
+                    throw new Error(errorDetails);
+                }
+                const data = await response.json();
+
+                // More robust check for missing data
+                if (!data || !data[primaryId] || data[primaryId][secondaryId] === undefined || data[primaryId][secondaryId] === null) {
+                    console.error("API Error: Pair not found in response. Primary:", primaryId, "Secondary:", secondaryId, "Response:", data);
+                    throw new Error(`missing data for ${secondaryId} against ${primaryId}`); // Specific error message
+                }
+                return data[primaryId][secondaryId];
+            } catch (error) {
+                 // Re-throw the error to be caught by the main conversion logic
+                 console.error(`Failed to fetch price for ${primaryId}/${secondaryId}:`, error.message); // Log specific message
+                 throw error; // Propagate the error
+            }
+        }
+
+
+        /**
+         * Меняет местами выбранные валюты и запускает конвертацию.
+         */
+        function swapCurrencies() {
+            const fromSelect = document.getElementById('convertFrom');
+            const toSelect = document.getElementById('convertTo');
+            const amountInput = document.getElementById('convertAmountFrom');
+            const resultInput = document.getElementById('convertResultAmount');
+            const resultDisplaySpan = document.getElementById('convertResultDisplay'); // Get the display span
+
+
+            if (!fromSelect || !toSelect || !amountInput || !resultInput || !resultDisplaySpan) return;
+
+            const tempCurrency = fromSelect.value;
+            fromSelect.value = toSelect.value;
+            toSelect.value = tempCurrency;
+
+            // Use the hidden input's value (raw number string with dot decimal)
+            const resultValue = parseFloat(resultInput.value); // Directly parse
+
+            if (!isNaN(resultValue)) {
+                amountInput.value = resultValue; // Set the parsed number
+                 resultInput.value = ''; // Clear hidden input
+                 resultDisplaySpan.textContent = ''; // Clear display span
+            } else {
+                 amountInput.value = '1'; // Default to 1 if result wasn't a number
+                 resultInput.value = '';
+                 resultDisplaySpan.textContent = '';
+            }
+
+            triggerConversion();
         }
 
 
@@ -1333,7 +1731,6 @@
                         throw new Error("Неверный формат файла.");
                     }
 
-                    // Применение импортированных данных
                     document.getElementById('userStakedSolAmount').value = importedData.userStakedSolAmount || '0';
                     document.getElementById('userProfitPercentSol').value = importedData.userProfitPercentSol || '0';
                     document.getElementById('userStakedUsdcAmount').value = importedData.userStakedUsdcAmount || '0';
@@ -1348,7 +1745,6 @@
                     document.getElementById('reinvestCheckbox').checked = importedData.reinvest === true || importedData.reinvest === 'true';
                     document.getElementById('includeReferralsCheckbox').checked = importedData.includeReferrals === true || importedData.includeReferrals === 'true';
 
-                    // Импорт и валидация рефералов
                     if (Array.isArray(importedData.referralsData)) {
                         referralsData = importedData.referralsData.filter(ref => typeof ref === 'object' && ref !== null && ref.hasOwnProperty('id'));
                         referralsData.forEach(ref => {
@@ -1358,11 +1754,9 @@
                         });
                     } else { referralsData = []; }
 
-                    // Определение следующего ID
                     const maxId = referralsData.reduce((max, ref) => Math.max(max, ref.id || 0), 0);
                     nextReferralId = Math.max(maxId + 1, parseInt(importedData.nextReferralId) || 1);
 
-                    // Восстановление состояния свернутости
                     const referralsContainer = document.getElementById('referralsContainer');
                     if (referralsContainer) {
                         if (importedData.referralsCollapsed === true || importedData.referralsCollapsed === 'true') {
@@ -1372,13 +1766,12 @@
                         }
                     }
 
-                    // Установка языка
                     currentLanguage = importedData.currentLanguage || 'en';
 
-                    // Обновление UI, очистка результатов, сохранение
                     updateUI(currentLanguage);
                     renderReferralsTable();
                     clearResults();
+                    resetConverter();
                     saveData();
 
                     alert("Данные успешно импортированы!");
@@ -1398,6 +1791,7 @@
          * Устанавливает все необходимые обработчики событий.
          */
         function setupEventListeners() {
+             // Калькулятор
              document.querySelectorAll('.input-group input, .input-group select, .checkbox-container input').forEach(element => {
                  element.addEventListener('change', saveData);
                  if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
@@ -1405,6 +1799,13 @@
                  }
              });
 
+             // Конвертер (автоматический запуск)
+             document.getElementById('convertAmountFrom')?.addEventListener('input', triggerConversion);
+             document.getElementById('convertFrom')?.addEventListener('change', triggerConversion);
+             document.getElementById('convertTo')?.addEventListener('change', triggerConversion);
+             document.getElementById('swapCurrenciesButton')?.addEventListener('click', swapCurrencies);
+
+             // Общие кнопки
              document.getElementById('languageToggleButton').addEventListener('click', toggleLanguage);
              document.getElementById('addReferralButton').addEventListener('click', addReferral);
              document.getElementById('saveReferralButton').addEventListener('click', saveReferralData);
@@ -1421,6 +1822,30 @@
              document.getElementById('importFile').addEventListener('change', importData);
         }
 
+        /**
+         * Сбрасывает поля конвертера к значениям по умолчанию.
+         */
+        function resetConverter() {
+            const amountInput = document.getElementById('convertAmountFrom');
+            const resultInput = document.getElementById('convertResultAmount');
+            const resultDisplaySpan = document.getElementById('convertResultDisplay'); // Get the display span
+            const statusSpan = document.getElementById('converterStatus');
+            const fromSelect = document.getElementById('convertFrom');
+            const toSelect = document.getElementById('convertTo');
+
+            if (amountInput) amountInput.value = '1';
+            if (resultInput) resultInput.value = '';
+            if (resultDisplaySpan) resultDisplaySpan.textContent = ''; // Clear display span
+            if (statusSpan) {
+                statusSpan.textContent = '';
+                statusSpan.className = '';
+            }
+            if (amountInput) amountInput.classList.remove('input-error');
+            if (fromSelect) fromSelect.value = 'solana';
+            if (toSelect) toSelect.value = 'usd';
+            triggerConversion(); // Выполнить конвертацию с дефолтными значениями
+        }
+
         // --- Initialization ---
         /**
          * Инициализация калькулятора при загрузке DOM.
@@ -1428,10 +1853,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             currentLanguage = localStorage.getItem('fomoFarmCalc_language') || 'en';
             loadData();
+            populateCurrencyDropdowns();
             setupEventListeners();
             updateUI(currentLanguage);
             clearResults();
             renderReferralsTable();
+            triggerConversion(); // Первичная конвертация при загрузке
         });
 
     </script>
