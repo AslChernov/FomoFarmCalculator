@@ -514,28 +514,6 @@
                  <input type="checkbox" id="includeReferralsCheckbox"> <label for="includeReferralsCheckbox" id="label-enable-referrals">Enable Referrals</label>
              </div>
         </div>
-
-        <div class="collapsible-section" id="referralsSection">
-             <div class="collapsible-header" id="referralsHeader">
-                 <h3 id="h3-referrals-text">Referrals</h3>
-                 <i class="fas fa-chevron-down toggle-icon"></i>
-             </div>
-             <div class="collapsible-content referrals">
-                 <button id="addReferralButton">Add Referral</button>
-                 <table id="referralsTable">
-                     <thead>
-                         <tr>
-                             <th id="th-referral-num">№</th>
-                             <th id="th-level" class="sortable" data-sort-key="level">Level <span class="sort-icon"></span></th>
-                             <th id="th-ref-stakes" class="sortable" data-sort-key="stakes">Stakes Summary <span class="sort-icon"></span></th>
-                             <th id="th-actions">Actions</th>
-                         </tr>
-                     </thead>
-                     <tbody id="referralsList"></tbody>
-                 </table> <div id="paginationControls" class="pagination-controls"></div>
-            </div>
-        </div>
-
         <div class="control-buttons">
             <button id="calculateButton">Calculate</button>
             <button id="resetButton" type="button">Reset</button>
@@ -744,7 +722,26 @@
                  </div>
              </div>
         </div>
-
+        <div class="collapsible-section" id="referralsSection">
+            <div class="collapsible-header" id="referralsHeader">
+                <h3 id="h3-referrals-text">Referrals</h3>
+                <i class="fas fa-chevron-down toggle-icon"></i>
+            </div>
+            <div class="collapsible-content referrals">
+                <button id="addReferralButton">Add Referral</button>
+                <table id="referralsTable">
+                    <thead>
+                        <tr>
+                            <th id="th-referral-num">№</th>
+                            <th id="th-level" class="sortable" data-sort-key="level">Level <span class="sort-icon"></span></th>
+                            <th id="th-ref-stakes" class="sortable" data-sort-key="stakes">Stakes Summary <span class="sort-icon"></span></th>
+                            <th id="th-actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="referralsList"></tbody>
+                </table> <div id="paginationControls" class="pagination-controls"></div>
+           </div>
+       </div>
         <div class="collapsible-section" id="chartSection">
             <div class="collapsible-header" id="chartHeader">
                  <h3 id="h3-chart-title">Доходность (USD)</h3> <i class="fas fa-chevron-down toggle-icon"></i>
