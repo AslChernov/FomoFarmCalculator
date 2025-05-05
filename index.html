@@ -358,6 +358,45 @@
             .converter-block { width: 100%; } /* Make blocks full width */
             .converter-result-display { width: calc(100% - 150px - 20px); /* May need adjustment for mobile */ }
         }
+
+        /* --- Pagination Styles --- */
+        .pagination-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            margin-top: 15px; /* Отступ сверху */
+            flex-wrap: wrap; /* Перенос кнопок на новую строку при необходимости */
+        }
+        .pagination-controls button {
+            padding: 6px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: none; /* Убрать uppercase */
+            min-width: 35px;
+            border: 1px solid #374151;
+            background-color: #1f2937;
+            color: #cbd5e1;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+        .pagination-controls button:hover:not(:disabled) {
+            background-color: #374151;
+        }
+        .pagination-controls button:disabled {
+            background-color: #111827;
+            color: #4b5563;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        .pagination-controls button.active {
+            background-color: #4ade80; /* Активная страница */
+            color: #111827;
+            border-color: #4ade80;
+            font-weight: 700;
+        }
+
     </style>
 </head>
 <body>
@@ -487,7 +526,7 @@
                          </tr>
                      </thead>
                      <tbody id="referralsList"></tbody>
-                 </table>
+                 </table> <div id="paginationControls" class="pagination-controls"></div>
             </div>
         </div>
 
@@ -769,6 +808,8 @@
         const domElements = {}; // Object to cache DOM elements
 
         // --- Global Variables & Constants ---
+        let currentPage = 1;
+        const itemsPerPage = 10; // Количество рефералов на странице
         let referralsData = [];
         let nextReferralId = 1;
         let currentLanguage = 'en';
@@ -812,6 +853,8 @@
                 labelSupportAuthor: 'Support the author',
                 copyButtonTitle: 'Copy address',
                 copiedMessage: 'Copied!',
+                paginationPrevious: 'Previous',
+                paginationNext: 'Next',
                 resetButton: 'Reset All', exportButton: 'Export Data', importButton: 'Import Data',
                 pFooter: 'Made by', langButtonText: 'Language EN', h3Referrals: 'Referrals', addReferral: 'Add Referral',
                 thReferralNum: '№', thLevel: 'Level', thRefStakes: 'Stakes Summary', thActions: 'Actions',
@@ -868,6 +911,8 @@
                 labelSupportAuthor: 'Поддержать автора',
                 copyButtonTitle: 'Скопировать адрес',
                 copiedMessage: 'Скопировано!',
+                paginationPrevious: 'Назад',
+                paginationNext: 'Вперед',
                 resetButton: 'Сбросить все', exportButton: 'Экспорт', importButton: 'Импорт',
                 pFooter: 'Сделано', langButtonText: 'Язык RU', h3Referrals: 'Рефералы', addReferral: 'Добавить реферала',
                 thReferralNum: '№', thLevel: 'Уровень', thRefStakes: 'Сводка стейков', thActions: 'Действия',
@@ -990,7 +1035,7 @@
                 if (domElements.referralsSection && referralsCollapsed) domElements.referralsSection.classList.add('collapsed');
                 if (domElements.chartSection && chartCollapsed) domElements.chartSection.classList.add('collapsed');
                 if (domElements.converterSection && converterCollapsed) domElements.converterSection.classList.add('collapsed');
-
+                currentPage = 1;
 
             } catch (error) {
                 console.error("Ошибка загрузки данных из localStorage:", error);
@@ -1125,7 +1170,7 @@
             const newId = nextReferralId++;
             const newReferral = { id: newId, level: 1, stakedSol: 0, profitPercentSol: 0, stakedUsdc: 0, profitPercentUsdc: 0 };
             referralsData.push(newReferral);
-            renderReferralsTable();
+            changePage(Math.ceil(referralsData.length / itemsPerPage) || 1); // Перейти на последнюю страницу
             saveData();
         }
 
@@ -1134,7 +1179,12 @@
          */
         function removeReferral(referralIdToRemove) {
             referralsData = referralsData.filter(ref => ref.id !== referralIdToRemove);
-            renderReferralsTable();
+            const totalPages = Math.ceil(referralsData.length / itemsPerPage);
+            if (currentPage > totalPages && totalPages > 0) {
+                changePage(totalPages); // Переходим на последнюю существующую
+            } else {
+                renderReferralsTable(); // Просто перерисовываем текущую или первую, если данных нет
+            }
             saveData();
         }
 
@@ -1166,8 +1216,9 @@
                  return 0;
              });
 
-             renderReferralsTable();
-             updateSortIcons();
+            changePage(1); // Сбрасываем на первую страницу после сортировки
+            updateSortIcons();
+            // saveData() не нужно, т.к. сортировка не меняет данные для сохранения
         }
 
         /**
@@ -1187,22 +1238,42 @@
         /**
          * Обновляет отображение таблицы рефералов.
          */
-        function renderReferralsTable() {
+        /**
+         * Обновляет отображение таблицы рефералов с учетом пагинации.
+         */
+         function renderReferralsTable() {
             const referralsListBody = domElements.referralsList; // Use cache
             if (!referralsListBody) return;
             referralsListBody.innerHTML = '';
             const trans = translations[currentLanguage];
 
-            if (referralsData.length === 0) {
+            // --- Логика пагинации ---
+            const totalItems = referralsData.length;
+            const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+            // Убедимся, что текущая страница не выходит за пределы после удаления/сортировки
+            if (currentPage > totalPages && totalPages > 0) {
+                currentPage = totalPages;
+            } else if (totalPages === 0) {
+                currentPage = 1; // Если нет данных, страница 1
+            }
+
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedReferrals = referralsData.slice(startIndex, endIndex);
+            // --- Конец логики пагинации ---
+
+            if (totalItems === 0) {
                 const row = document.createElement('tr');
                 row.innerHTML = `<td colspan="4" style="text-align:center; color:#6b7280;">${trans.noReferrals}</td>`;
                 referralsListBody.appendChild(row);
             } else {
-                // Iterate through the potentially sorted data and assign numbers based on index
-                referralsData.forEach((referral, index) => { // Added index parameter
+                // Используем paginatedReferrals для отображения
+                paginatedReferrals.forEach((referral, index) => { // index здесь от 0 до itemsPerPage-1
                     const row = document.createElement('tr');
                     const numCell = document.createElement('td');
-                    numCell.textContent = index + 1; // Use index + 1 for sequential numbering
+                    // Рассчитываем правильный номер для текущей страницы
+                    numCell.textContent = startIndex + index + 1;
 
                     const levelCell = document.createElement('td');
                     levelCell.textContent = referral.level || 1;
@@ -1219,11 +1290,11 @@
                     const editButton = document.createElement('button');
                     editButton.textContent = trans.editButtonShort;
                     editButton.className = 'action-button edit-button';
-                    editButton.onclick = () => openEditModal(referral.id); // Still use referral.id for actions
+                    editButton.onclick = () => openEditModal(referral.id);
                     const removeButton = document.createElement('button');
                     removeButton.textContent = trans.removeButtonShort;
                     removeButton.className = 'action-button remove-button';
-                    removeButton.onclick = () => removeReferral(referral.id); // Still use referral.id for actions
+                    removeButton.onclick = () => removeReferral(referral.id);
                     actionCell.appendChild(editButton);
                     actionCell.appendChild(removeButton);
 
@@ -1234,6 +1305,73 @@
                     referralsListBody.appendChild(row);
                 });
             }
+
+            // Рендерим кнопки пагинации
+            renderPaginationControls(totalPages);
+        }
+
+        /**
+         * Рендерит кнопки управления пагинацией.
+         * @param {number} totalPages - Общее количество страниц.
+         */
+         function renderPaginationControls(totalPages) {
+            const paginationContainer = document.getElementById('paginationControls');
+            if (!paginationContainer) return;
+            paginationContainer.innerHTML = ''; // Очищаем старые кнопки
+            const trans = translations[currentLanguage];
+
+            if (totalPages <= 1) return; // Не показываем пагинацию, если 1 или 0 страниц
+
+            // Кнопка "Назад"
+            const prevButton = document.createElement('button');
+            prevButton.textContent = trans.paginationPrevious;
+            prevButton.disabled = currentPage === 1;
+            prevButton.onclick = () => changePage(currentPage - 1);
+            paginationContainer.appendChild(prevButton);
+
+            // Кнопки с номерами страниц (можно добавить логику для сокращения, если страниц много)
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                if (i === currentPage) {
+                    pageButton.classList.add('active');
+                }
+                pageButton.onclick = () => changePage(i);
+                paginationContainer.appendChild(pageButton);
+            }
+
+            // Кнопка "Вперед"
+            const nextButton = document.createElement('button');
+            nextButton.textContent = trans.paginationNext;
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.onclick = () => changePage(currentPage + 1);
+            paginationContainer.appendChild(nextButton);
+        }
+
+        /**
+         * Изменяет текущую страницу и перерисовывает таблицу.
+         * @param {number} newPage - Номер страницы, на которую нужно перейти.
+         */
+         function changePage(newPage) {
+            const totalItems = referralsData.length;
+            // Убедимся, что totalPages всегда хотя бы 1, даже если рефералов нет
+            const totalPages = Math.ceil(totalItems / itemsPerPage) || 1;
+
+            // Проверка границ - убедимся, что newPage находится в допустимом диапазоне
+            if (newPage < 1) {
+                newPage = 1;
+            } else if (newPage > totalPages) {
+                newPage = totalPages;
+            }
+
+            // Устанавливаем текущую страницу
+            currentPage = newPage;
+
+            // Всегда перерисовываем таблицу и пагинацию после установки страницы
+            renderReferralsTable();
+
+            // Опционально: сохранение текущей страницы
+            // saveData(); // Раскомментируйте, если хотите сохранять номер страницы
         }
 
         // --- Modal Management Functions ---
@@ -1673,6 +1811,8 @@
             domElements.reinvestPercent.value = '100'; // Reset reinvest percent
             domElements.includeReferralsCheckbox.checked = true;
             toggleReinvestPercentInput(); // Update visibility
+            currentPage = 1; // Сброс страницы
+            renderReferralsTable();
             referralsData = [];
             nextReferralId = 1;
             renderReferralsTable();
@@ -2132,7 +2272,9 @@
                     domElements.reinvestCheckbox.checked = importedData.reinvest === true || importedData.reinvest === 'true';
                     domElements.reinvestPercent.value = importedData.reinvestPercent || '100'; // Import reinvest percent
                     domElements.includeReferralsCheckbox.checked = importedData.includeReferrals === true || importedData.includeReferrals === 'true';
-
+                    currentPage = 1; // Сброс страницы при импорте
+                    updateUI(currentLanguage);
+                    renderReferralsTable(); // Убедимся, что таблица и пагинация обновлены
                     toggleReinvestPercentInput(); // Update visibility after loading
 
                     if (Array.isArray(importedData.referralsData)) {
