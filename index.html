@@ -217,9 +217,15 @@
         .result-item:last-child { border-bottom: none; }
         .result-item .label { color: #9ca3af; }
         .result-item .value { color: #ffffff; font-weight: 900; text-align: right; display: inline-flex; align-items: center; }
-        .result-item .value.profit-sol, .result-item .value.profit-usdc, .result-item .value.profit-percent { color: #4ade80; font-weight: 900; }
-        .result-item .value.roi, .result-item .value.doubling { color: #fbbf24; font-weight: 900; }
-        .result-item .value.balance-usd { color: #60a5fa; font-weight: 900; }
+        .result-item .value.value-sol { /* Зеленый для SOL */
+            color: #4ade80;
+        }
+        .result-item .value.value-usdc { /* Синий для USDC */
+            color: #60a5fa;
+        }
+        .result-item .value.profit-percent { color: #4ade80; } /* Можно оставить желтым или сделать белым */
+        .result-item .value.doubling { color: #fbbf24; } /* Желтый для времени удвоения */
+        .result-item .value.balance-usd { color: #60a5fa; } /* Синий для USD итогов (уже есть) */
 
         /* --- Chart Styles --- */
         .chart-content { /* Content wrapper for chart */
@@ -1739,58 +1745,89 @@
 
              console.log("Updating results:", { userProfitSol, finalSolBalance, userProfitUsdc, finalUsdcBalance, finalUsdBalanceTotal }); // Added log
 
-            // Update results using cached elements and custom formatting
-            domElements.resultProfitUserSol.innerHTML = formatDisplayNumberCustom(userProfitSol, 5) + solanaIconImg;
-            domElements.resultProfitUserUsdc.innerHTML = formatDisplayNumberCustom(userProfitUsdc, 2) + usdcIconImg;
-            domElements.resultProfitRefSol.innerHTML = formatDisplayNumberCustom(totalReferralProfitOverPeriodSol, 5) + solanaIconImg;
-            domElements.resultProfitRefUsdc.innerHTML = formatDisplayNumberCustom(totalReferralProfitOverPeriodUsdc, 2) + usdcIconImg;
-            domElements.resultPeriodicTotalSol.innerHTML = formatDisplayNumberCustom(totalPeriodicSolAdded, 5) + solanaIconImg;
-            domElements.resultPeriodicTotalUsdc.innerHTML = formatDisplayNumberCustom(totalPeriodicUsdcAdded, 2) + usdcIconImg;
-            domElements.resultProfitTotalSol.innerHTML = formatDisplayNumberCustom(totalSolProfitAccumulated, 5) + solanaIconImg;
-            domElements.resultProfitTotalUsdc.innerHTML = formatDisplayNumberCustom(totalUsdcProfitAccumulated, 2) + usdcIconImg;
-            domElements.resultFinalBalanceSol.innerHTML = formatDisplayNumberCustom(finalSolBalance, 5) + solanaIconImg;
-            domElements.resultFinalBalanceUsdc.innerHTML = formatDisplayNumberCustom(finalUsdcBalance, 2) + usdcIconImg;
+            // --- Update Results Display ---
+            // Helper function to set content and class
+            const updateResultSpan = (element, value, formatDigits, iconHtml, className) => {
+                if (element) {
+                    element.innerHTML = formatDisplayNumberCustom(value, formatDigits) + (iconHtml || '');
+                    element.className = 'value ' + (className || ''); // Устанавливаем класс
+                }
+            };
 
-            domElements.resultProfitPercentSol.textContent = formatDisplayNumberCustom(profitPercentSol, 2) + ' %';
-            domElements.resultProfitPercentUsdc.textContent = formatDisplayNumberCustom(profitPercentUsdc, 2) + ' %';
-            domElements.resultDoubleSolNoreinvest.textContent = typeof doubleSolNoReinvestDays === 'number' ? formatDisplayNumberCustom(doubleSolNoReinvestDays, 0) + trans.daysSuffix : doubleSolNoReinvestDays;
-            domElements.resultDoubleUsdcNoreinvest.textContent = typeof doubleUsdcNoReinvestDays === 'number' ? formatDisplayNumberCustom(doubleUsdcNoReinvestDays, 0) + trans.daysSuffix : doubleUsdcNoReinvestDays;
-            domElements.resultDoubleSolReinvest.textContent = typeof doubleSolReinvestDays === 'number' ? formatDisplayNumberCustom(doubleSolReinvestDays, 0) + trans.daysSuffix : doubleSolReinvestDays;
-            domElements.resultDoubleUsdcReinvest.textContent = typeof doubleUsdcReinvestDays === 'number' ? formatDisplayNumberCustom(doubleUsdcReinvestDays, 0) + trans.daysSuffix : doubleUsdcReinvestDays;
-            domElements.resultFinalBalanceUsdTotal.textContent = formatDisplayNumberCustom(finalUsdBalanceTotal, 2) + ' $';
-            domElements.resultProfitTotalUsd.textContent = formatDisplayNumberCustom(totalProfitUsd, 2) + ' $';
+            // SOL Results
+            updateResultSpan(domElements.resultProfitUserSol, userProfitSol, 5, solanaIconImg, 'value-sol');
+            updateResultSpan(domElements.resultProfitRefSol, totalReferralProfitOverPeriodSol, 5, solanaIconImg, 'value-sol');
+            updateResultSpan(domElements.resultPeriodicTotalSol, totalPeriodicSolAdded, 5, solanaIconImg, 'value-sol');
+            updateResultSpan(domElements.resultProfitTotalSol, totalSolProfitAccumulated, 5, solanaIconImg, 'value-sol');
+            updateResultSpan(domElements.resultFinalBalanceSol, finalSolBalance, 5, solanaIconImg, 'value-sol');
 
+            // USDC Results
+            updateResultSpan(domElements.resultProfitUserUsdc, userProfitUsdc, 2, usdcIconImg, 'value-usdc');
+            updateResultSpan(domElements.resultProfitRefUsdc, totalReferralProfitOverPeriodUsdc, 2, usdcIconImg, 'value-usdc');
+            updateResultSpan(domElements.resultPeriodicTotalUsdc, totalPeriodicUsdcAdded, 2, usdcIconImg, 'value-usdc');
+            updateResultSpan(domElements.resultProfitTotalUsdc, totalUsdcProfitAccumulated, 2, usdcIconImg, 'value-usdc');
+            updateResultSpan(domElements.resultFinalBalanceUsdc, finalUsdcBalance, 2, usdcIconImg, 'value-usdc');
+
+            // General Results (Percentages, Doubling, USD Totals - use existing classes or specific ones)
+            updateResultSpan(domElements.resultProfitPercentSol, profitPercentSol, 2, ' %', 'profit-percent');
+            updateResultSpan(domElements.resultProfitPercentUsdc, profitPercentUsdc, 2, ' %', 'profit-percent');
+            updateResultSpan(domElements.resultDoubleSolNoreinvest, (typeof doubleSolNoReinvestDays === 'number' ? doubleSolNoReinvestDays : null), 0, (typeof doubleSolNoReinvestDays === 'number' ? trans.daysSuffix : doubleSolNoReinvestDays), 'doubling');
+            updateResultSpan(domElements.resultDoubleUsdcNoreinvest, (typeof doubleUsdcNoReinvestDays === 'number' ? doubleUsdcNoReinvestDays : null), 0, (typeof doubleUsdcNoReinvestDays === 'number' ? trans.daysSuffix : doubleUsdcNoReinvestDays), 'doubling');
+            updateResultSpan(domElements.resultDoubleSolReinvest, (typeof doubleSolReinvestDays === 'number' ? doubleSolReinvestDays : null), 0, (typeof doubleSolReinvestDays === 'number' ? trans.daysSuffix : doubleSolReinvestDays), 'doubling');
+            updateResultSpan(domElements.resultDoubleUsdcReinvest, (typeof doubleUsdcReinvestDays === 'number' ? doubleUsdcReinvestDays : null), 0, (typeof doubleUsdcReinvestDays === 'number' ? trans.daysSuffix : doubleUsdcReinvestDays), 'doubling');
+            updateResultSpan(domElements.resultFinalBalanceUsdTotal, finalUsdBalanceTotal, 2, ' $', 'balance-usd');
+            updateResultSpan(domElements.resultProfitTotalUsd, totalProfitUsd, 2, ' $', 'balance-usd');
+            // --- End Update Results Display ---
 
             renderBalanceChart(chartLabels, chartDataUsd);
-        }
+        } // Конец функции calculate
 
         /**
          * Очищает все поля результатов и график.
          */
-        function clearResults(message = "") {
-             // Use cached elements
-             domElements.resultProfitUserSol.innerHTML = '0' + solanaIconImg;
-             domElements.resultProfitUserUsdc.innerHTML = '0,00' + usdcIconImg; // Use comma for default
-             domElements.resultProfitRefSol.innerHTML = '0' + solanaIconImg;
-             domElements.resultProfitRefUsdc.innerHTML = '0,00' + usdcIconImg;
-             domElements.resultProfitTotalSol.innerHTML = '0' + solanaIconImg;
-             domElements.resultProfitTotalUsdc.innerHTML = '0,00' + usdcIconImg;
-             domElements.resultProfitPercentSol.textContent = '0,00 %';
-             domElements.resultProfitPercentUsdc.textContent = '0,00 %';
-             domElements.resultDoubleSolNoreinvest.textContent = 'N/A';
-             domElements.resultDoubleUsdcNoreinvest.textContent = 'N/A';
-             domElements.resultDoubleSolReinvest.textContent = 'N/A';
-             domElements.resultDoubleUsdcReinvest.textContent = 'N/A';
-             domElements.resultPeriodicTotalSol.innerHTML = '0' + solanaIconImg;
-             domElements.resultPeriodicTotalUsdc.innerHTML = '0,00' + usdcIconImg;
-             domElements.resultFinalBalanceSol.innerHTML = '0' + solanaIconImg;
-             domElements.resultFinalBalanceUsdc.innerHTML = '0,00' + usdcIconImg;
-             domElements.resultFinalBalanceUsdTotal.textContent = '0,00 $';
-             domElements.resultProfitTotalUsd.textContent = '0,00 $';
-             if (balanceChartInstance) { balanceChartInstance.destroy(); balanceChartInstance = null; }
-             if (message) { console.warn(message); }
-        }
+/**
+         * Очищает все поля результатов, график и сбрасывает классы.
+         */
+         function clearResults(message = "") {
+            // Helper function to reset content and class
+            const resetResultSpan = (element, defaultValue, defaultIconHtml, defaultClassName = 'value') => {
+                if (element) {
+                    element.innerHTML = defaultValue + (defaultIconHtml || '');
+                    element.className = defaultClassName; // Сбрасываем класс
+                }
+            };
+            const trans = translations[currentLanguage]; // Нужен для N/A
 
+            // SOL Results
+            resetResultSpan(domElements.resultProfitUserSol, '0', solanaIconImg);
+            resetResultSpan(domElements.resultProfitRefSol, '0', solanaIconImg);
+            resetResultSpan(domElements.resultPeriodicTotalSol, '0', solanaIconImg);
+            resetResultSpan(domElements.resultProfitTotalSol, '0', solanaIconImg);
+            resetResultSpan(domElements.resultFinalBalanceSol, '0', solanaIconImg);
+
+            // USDC Results
+            resetResultSpan(domElements.resultProfitUserUsdc, '0,00', usdcIconImg);
+            resetResultSpan(domElements.resultProfitRefUsdc, '0,00', usdcIconImg);
+            resetResultSpan(domElements.resultPeriodicTotalUsdc, '0,00', usdcIconImg);
+            resetResultSpan(domElements.resultProfitTotalUsdc, '0,00', usdcIconImg);
+            resetResultSpan(domElements.resultFinalBalanceUsdc, '0,00', usdcIconImg);
+
+            // General Results
+            resetResultSpan(domElements.resultProfitPercentSol, '0,00', ' %', 'value profit-percent');
+            resetResultSpan(domElements.resultProfitPercentUsdc, '0,00', ' %', 'value profit-percent');
+            resetResultSpan(domElements.resultDoubleSolNoreinvest, 'N/A', '', 'value doubling');
+            resetResultSpan(domElements.resultDoubleUsdcNoreinvest, 'N/A', '', 'value doubling');
+            resetResultSpan(domElements.resultDoubleSolReinvest, 'N/A', '', 'value doubling');
+            resetResultSpan(domElements.resultDoubleUsdcReinvest, 'N/A', '', 'value doubling');
+            resetResultSpan(domElements.resultFinalBalanceUsdTotal, '0,00', ' $', 'value balance-usd');
+            resetResultSpan(domElements.resultProfitTotalUsd, '0,00', ' $', 'value balance-usd');
+
+            if (balanceChartInstance) {
+                balanceChartInstance.destroy();
+                balanceChartInstance = null;
+            }
+            if (message) { console.warn(message); }
+        }
         /**
          * Сбрасывает все поля ввода, рефералов и результаты к значениям по умолчанию.
          */
