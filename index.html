@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=700, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="viewport" content="width=700">
     <title>FomoFarm Calculator</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
@@ -17,9 +17,10 @@
             min-height: 100vh; padding-bottom: 50px;
         }
         .container {
-            max-width: 700px; width: 100%; margin: auto;
-            background: linear-gradient(to top, #000000, #05001d); padding: 20px;
-            border: 1px solid #4ade80; border-radius: 8px; box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
+        width: 700px;
+        margin: auto;
+        background: linear-gradient(to top, #000000, #05001d); padding: 20px;
+        border: 1px solid #4ade80; border-radius: 8px; box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
         }
 
         /* --- Header Styles --- */
@@ -339,31 +340,6 @@
         #saveReferralButton:hover { background-color: #16a34a; }
         #cancelReferralButton { background-color: #6b7280; }
         #cancelReferralButton:hover { background-color: #4b5563; }
-
-        /* --- Responsive Styles --- */
-        @media (min-width: 601px) and (max-width: 768px) { /* Tablet adjustments */
-             .input-group { grid-template-columns: 1fr; } /* Stack main inputs */
-             .secondary-inputs { grid-template-columns: repeat(3, 1fr); } /* Keep 3 columns */
-             .results-grid-container { grid-template-columns: 1fr; } /* Stack result groups */
-             .result-group[style*="grid-column: 1 / -1;"] > div { grid-template-columns: 1fr; } /* Stack general results inner grid */
-        }
-        @media (max-width: 600px) {
-            .input-group { grid-template-columns: 1fr; } /* Stack main inputs */
-            .secondary-inputs { grid-template-columns: 1fr; } /* Stack secondary inputs */
-            .results-grid-container { grid-template-columns: 1fr; gap: 20px; }
-             .result-group[style*="grid-column: 1 / -1;"] > div { grid-template-columns: 1fr; } /* Stack general results inner grid */
-            h1 { font-size: 26px; }
-            h2 { font-size: 24px; }
-            h3 { font-size: 20px; }
-            h3#h3-converter-title { font-size: 18px; }
-            .control-buttons { flex-direction: column; align-items: center; }
-            .control-buttons button { width: 100%; max-width: 250px; }
-            /* Adjust converter layout for mobile */
-            .converter-wrapper { flex-direction: column; gap: 15px; }
-            #swapCurrenciesButton { transform: rotate(90deg); margin: 0 auto; } /* Rotate swap button */
-            .converter-block { width: 100%; } /* Make blocks full width */
-            .converter-result-display { width: calc(100% - 150px - 20px); /* May need adjustment for mobile */ }
-        }
 
         /* --- Pagination Styles --- */
         .pagination-controls {
