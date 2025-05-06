@@ -8,77 +8,78 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <style>
-        /* --- General Styles --- */
-        * { box-sizing: border-box; }
+    /* --- Общие стили --- */
+    * { box-sizing: border-box; }
         body {
             font-family: 'Manrope', sans-serif; margin: 20px; background-color: #000000;
             color: #ffffff; display: flex; justify-content: center; align-items: flex-start;
             min-height: 100vh; padding-bottom: 50px;
         }
         .container {
-        width: 750px;
-        margin: auto;
-        background: linear-gradient(to top, #000000, #05001d); padding: 20px;
-        border: 1px solid #4ade80; border-radius: 8px; box-shadow: 0 2px 10px rgba(7, 14, 10, 0.5);
+            width: 750px;
+            margin: auto;
+            background-color:#000000;  padding: 20px;
+            border: 2px solid #0ea5e9; border-radius: 20px; 
         }
 
-        /* --- Header Styles --- */
+        /* --- Стили заголовков --- */
         .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         h1 { font-size: 30px; font-weight: 900; margin: 0; letter-spacing: -1px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-grow: 1; justify-content: flex-start; }
-        h1 svg { /* Placeholder */ }
         h1 span#appTitle { background-image: linear-gradient(to right, #0ea5e9, #7dd3fc ); background-clip: text; -webkit-background-clip: text; color: transparent; }
         h2 { margin-block-start: 0em; margin-block-end: 0em; font-size: 30px; text-align: center; text-transform: uppercase; font-weight: 800; letter-spacing: -0.5px; color: #4ade80; margin-top: 0px; margin-bottom: 15px; border-bottom: 1px solid #374151; padding-bottom: 8px; }
-        h3 { font-size: 24px; margin-top: 25px; margin-block-start: 0em; margin-block-end: 0em; text-align: center; text-transform: uppercase; font-weight: 700; letter-spacing: -0.5px; color: #e5e7eb; margin-bottom: 15px; }
-        h4 { font-size: 16px; color: #dfdfdf; text-transform: uppercase; font-weight: 600; margin-top: 15px; margin-bottom: 8px; border-bottom: 1px dashed #374151; padding-bottom: 4px; }
+        h3 { font-size: 24px; margin-top: 25px; margin-block-start: 0em; margin-block-end: 0em; text-align: center; text-transform: uppercase; font-weight: 700; letter-spacing: -0.5px; color: #e5e7eb; margin-bottom: 15px; } /* Общий стиль для h3 */
+        h4 { font-size: 16px; color: #dfdfdf; text-transform: uppercase; font-weight: 600; margin-top: 15px; margin-bottom: 10px; }
 
-        /* --- Input Group Styles (2 Columns) --- */
-        .input-group {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        .input-group { 
+            display: flex;
+            flex-direction: column;
+            gap: 15px; 
             margin-bottom: 20px;
         }
-        .input-column > div {
-            margin-bottom: 15px;
-            padding: 10px; border: 1px solid #1f2937; border-radius: 8px; background-color: #111827; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; position: relative; padding-bottom: 10px;
-        }
-         .input-column > div:last-child { margin-bottom: 0; }
 
-        /* --- Secondary Inputs (3 Columns) --- */
-        .secondary-inputs {
+        .currency-input-row { /* Стиль для каждой строки с 3-мя полями ввода */
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
+            grid-template-columns: 1fr 1.3fr 2fr; /* Три колонки равной ширины */
+            gap: 15px; 
+            align-items: start; 
         }
-         .secondary-inputs > div {
-             padding: 10px; border: 1px solid #1f2937; border-radius: 8px; background-color: #111827; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; position: relative; padding-bottom: 10px;
-         }
 
+        .input-block { /* Стиль для каждого из 3-х блоков в строке */
+            padding: 10px; 
+            border: 1px solid #1f2937; 
+            border-radius: 8px; 
+            background-color: #111827;
+            display: flex;
+            flex-direction: column; /* Лейбл над инпутом */
+        }
 
-        .input-select-pair { display: flex; gap: 10px; margin-top: 0px; align-items: center; }
-        .input-select-pair input[type="number"] { flex-grow: 2; min-width: 0; }
-        .input-select-pair select { flex-grow: 3; min-width: 0; }
-        .input-button-pair-row { display: flex; align-items: center; gap: 8px; margin-top: 0px; }
-        .input-button-pair-row input[type="number"] { flex-grow: 1; min-width: 0; margin-top: 0; }
-        #fetchSolPriceButton { padding: 6px 10px; font-size: 12px; text-transform: none; flex-shrink: 0; background-color: #3b82f6; margin-top: 0; }
+        /* --- Стили для пар инпут+селект и инпут+кнопка --- */
+        .input-select-pair { display: flex; gap: 10px; margin-top: 0px; align-items: center;  }
+        .input-select-pair input[type="number"] { flex-grow: 2; min-width: 0;} /* Настройка распределения места */
+        .input-select-pair select { flex-grow: 3; min-width: 0;}  /* Настройка распределения места */
+
+        .input-button-pair-row { display: flex; align-items: center; gap: 8px; margin-top: 0px;  }
+        .input-button-pair-row input[type="number"] { flex-grow: 1; min-width: 0; margin-top: 0;  }
+        #fetchSolPriceButton { padding: 6px 10px; font-size: 12px; text-transform: none; flex-shrink: 0; background-color: #8b5cf6; margin-top: 0; }
         #fetchSolPriceButton:hover { background-color: #2563eb; }
+        
         .label-status-wrapper { display: flex; justify-content: space-between; align-items: center; width: 100%; }
         #solPriceStatus { font-size: 11px; color: #6b7280; min-height: 14px; }
         #solPriceStatus.loading, #converterStatus.loading { color: #fbbf24; }
         #solPriceStatus.success, #converterStatus.success { color: #4ade80; }
         #solPriceStatus.error, #converterStatus.error { color: #ef4444; }
 
-
-        /* --- Label Styles --- */
+        /* --- Стили Лейблов --- */
         label { display: block; font-size: 14px; font-weight: 500; letter-spacing: inherit; color: #cbd5e1; margin-bottom: 5px; line-height: 1.3; }
-        .input-group > div > label, .secondary-inputs > div > label { height: auto; min-height: 0; }
+
+        .input-block > label { height: auto; min-height: 0; }
+
         #label-user-staked-sol, #label-user-staked-usdc, #label-user-profit-percent-sol, #label-user-profit-percent-usdc,
         #label-modal-stake-sol, #label-modal-profit-sol, #label-modal-stake-usdc, #label-modal-profit-usdc,
         #label-periodic-sol, #label-periodic-usdc,
         #label-sol-usd, #label-modal-level, #label-platform-fee,
-        /* Result labels */
         #label-profit-user-sol, #label-profit-user-usdc, #label-profit-ref-sol, #label-profit-ref-usdc,
         #label-profit-total-sol, #label-profit-total-usdc, #label-profit-percent-sol, #label-profit-percent-usdc,
         #label-double-sol-noreinvest, #label-double-usdc-noreinvest, #label-double-sol-reinvest, #label-double-usdc-reinvest,
@@ -87,68 +88,95 @@
             display: inline-flex; align-items: center; gap: 0;
         }
 
-        /* Style for icons within labels and results */
+        /* Стили для иконок внутри лейблов и результатов */
         label img, .result-item img, .stakes-summary img, .tooltip-icon {
             width: 16px; height: 16px; vertical-align: middle;
         }
-         label img, .result-item .value img { margin-left: 5px; }
-         .referrals td.stakes-summary img { margin-left: 4px; }
+        label img, .result-item .value img { margin-left: 5px; }
+        .referrals td.stakes-summary img { margin-left: 4px; }
 
-        /* --- Tooltip Styles --- */
+        /* --- Стили Тултипов (подсказок) --- */
         .tooltip-container { position: relative; display: inline-flex; align-items: center; margin-left: 5px; }
         .tooltip-icon { color: #6b7280; cursor: help; font-size: 0.9em; }
         .tooltip-text {
-            display: none; position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
-            background-color: #1f2937; color: #e5e7eb; border: 1px solid #374151;
-            padding: 5px 8px; border-radius: 4px; font-size: 12px; white-space: nowrap;
-            z-index: 10; margin-bottom: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
-            pointer-events: none; max-width: 250px; white-space: normal; /* Allow wrap */
+            display: none; 
+            position: absolute; 
+            bottom: 100%; 
+            left: 50%; 
+            transform: translateX(-50%);
+            background-color: #1f2937; 
+            color: #e5e7eb; 
+            border: 1px solid #374151;
+            padding: 5px 8px; 
+            border-radius: 4px; 
+            font-size: 12px; 
+            z-index: 10; 
+            margin-bottom: 5px; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            pointer-events: none; 
+            width: 180px;     /* Максимальная ширина, можешь изменить это значение */
+            white-space: normal;  /* Разрешает нормальный перенос строк по пробелам */
+            text-align: left;
+        }
+        .tooltip-container:hover .tooltip-text {
+            display: block;
         }
         .tooltip-container:hover .tooltip-text { display: block; }
 
-        /* --- Validation Styles --- */
+        /* --- Стили Валидации --- */
         input.input-error, select.input-error { border-color: #ef4444 !important; }
-        .error-message { display: none; /* Hide the error message text */ }
+        .error-message { display: none; /* Сообщения об ошибках по умолчанию скрыты */ }
 
-        /* --- Input & Select Styles --- */
-        input[type="number"], input[type="text"], select { width: 100%; padding: 8px 10px; margin-top: 0; border: 1px solid #374151; border-radius: 6px; font-size: 14px; font-family: 'Manrope', sans-serif; color: #ffffff; background-color: #000000; transition: border-color 0.3s ease; }
-        input[type="number"]:focus, input[type="text"]:focus, select:focus { outline: none; border-color: #4ade80; }
-        select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A"); background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 30px; }
+        /* --- Общие стили для Инпутов и Селектов --- */
+        input[type="number"], input[type="text"], select { 
+            width: 100%; /* Это будет 100% от родительского .input-block или .input-select-pair child */
+            padding: 8px 10px; margin-top: 0;  border: 1px solid #1f2937;  
+            border-radius: 6px; font-size: 14px; font-family: 'Manrope', sans-serif; 
+            color: #ffffff; background-color: #090c14; transition: border-color 0.3s ease; 
+        }
+        input[type="number"]:focus, input[type="text"]:focus, select:focus { outline: none; border-color: #8b5cf6; }
+        select { 
+            appearance: none; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A"); 
+            background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 30px; 
+        }
         input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { -moz-appearance: textfield; }
+        input[type=number] { 
+            -moz-appearance: textfield; 
+            appearance: textfield; 
+        }
 
-        /* --- Checkbox & Reinvest Percentage Styles --- */
+        /* --- Стили Чекбоксов и Поля для процента реинвеста --- */
         .checkbox-container { display: flex; justify-content: center; gap: 40px; margin-top: 25px; margin-bottom: 25px; padding: 10px 0; flex-wrap: wrap; align-items: center; }
         .checkbox-item { display: flex; align-items: center; gap: 8px; justify-content: center; }
         .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; margin: 0; cursor: pointer; accent-color: #4ade80; border: 1px solid #374151; border-radius: 3px; vertical-align: middle; flex-shrink: 0; }
         .checkbox-item input[type="checkbox"]:focus { outline: 1px solid #4ade80; outline-offset: 1px; }
         .checkbox-item label { font-size: 18px; font-weight: 700; color: #cbd5e1; cursor: pointer; margin-bottom: 0; line-height: 1; min-height: auto; display: inline; align-items: initial; padding-bottom: 0; }
-        .reinvest-percent-item { display: none; /* Hidden by default */ align-items: center; gap: 8px; }
+        /* Стили для .reinvest-percent-item остаются, если они используются для чего-то еще, но в текущей HTML структуре поле % реинвеста встроено в .checkbox-item */
+        .reinvest-percent-item { display: none; align-items: center; gap: 8px; }
         .reinvest-percent-item label { font-size: 14px; font-weight: 500; color: #cbd5e1; margin-bottom: 0; }
         .reinvest-percent-item input[type="number"] { width: 70px; padding: 4px 8px; font-size: 13px; text-align: right; }
         .reinvest-percent-item span { color: #9ca3af; font-size: 14px; }
 
-
-        /* --- General Button Styles --- */
+        /* --- Общие Стили Кнопок --- */
         button { width: auto; padding: 10px 20px; border: none; border-radius: 6px; font-size: 15px; text-transform: uppercase; font-family: 'Manrope', sans-serif; background-color: #7c3aed; letter-spacing: inherit; color: #fff; cursor: pointer; font-weight: 700; transition: background-color 0.3s ease, transform 0.1s ease, opacity 0.3s ease; }
         button:hover { background-color: #6d28d9; }
         button:active { transform: scale(0.98); }
         button:disabled { background-color: #585063; cursor: not-allowed; opacity: 0.6; }
         button:disabled:hover { background-color: #585063; }
 
-        /* --- Specific Button Styles --- */
+        /* --- Специфичные Стили Кнопок --- */
         #languageToggleButton { padding: 6px 12px; font-size: 12px; background-color: #374151; text-transform: none; font-weight: 500; margin-top: 0; order: 2; }
         #languageToggleButton:hover { background-color: #4b5563; }
         #languageToggleButton:disabled { background-color: #374151; cursor: pointer; opacity: 1; }
         #languageToggleButton:disabled:hover { background-color: #4b5563;}
 
-        /* --- Collapsible Section Styles --- */
+        /* --- Стили Сворачиваемых Секций --- */
         .collapsible-section { margin-top: 25px; }
         .collapsible-header {
             cursor: pointer; display: flex; align-items: center; justify-content: space-between;
             gap: 8px; user-select: none; margin-bottom: 0;
             padding: 8px 10px; background-color: #1f2937; border-radius: 6px; border: 1px solid #374151;
-            /* transition: border-radius 0.3s ease; /* Removed */
         }
         .collapsible-section:not(.collapsed) .collapsible-header {
              border-bottom-left-radius: 0; border-bottom-right-radius: 0;
@@ -156,60 +184,51 @@
         .collapsible-header h3 {
             font-size: 18px; margin: 0; text-align: left; color: #e5e7eb; font-weight: 600; text-transform: none;
         }
-        .toggle-icon { /* transition: transform 0.3s ease; */ font-size: 0.8em; color: #9ca3af; } /* Removed transition */
+        .toggle-icon { font-size: 0.8em; color: #9ca3af; }
         .collapsible-content {
             padding: 15px; background-color: #111827;
             border: 1px solid #1f2937; border-top: none;
-            border-top-left-radius: 0; /* Ensure top corners are sharp when open */
-            border-top-right-radius: 0;
-            border-bottom-left-radius: 8px; /* Match container */
-            border-bottom-right-radius: 8px; /* Match container */
-            box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset;
+            border-top-left-radius: 0; border-top-right-radius: 0;
+            border-bottom-left-radius: 8px; border-bottom-right-radius: 8px;
             overflow: hidden;
-            /* Removed transition properties */
         }
         .collapsible-section.collapsed .collapsible-content {
-             max-height: 0;
-             padding-top: 0;
-             padding-bottom: 0;
-             border-width: 0 1px 0 1px;
-             opacity: 0;
-             display: none; /* Use display none for instant collapse */
+             max-height: 0; padding-top: 0; padding-bottom: 0;
+             border-width: 0 1px 0 1px; opacity: 0; display: none;
         }
         .collapsible-section:not(.collapsed) .collapsible-content {
-            display: block; /* Ensure content is visible when not collapsed */
+            display: block;
         }
         .collapsible-section.collapsed .toggle-icon { transform: rotate(-90deg); }
 
-
-        /* --- Referrals Section Styles --- */
+        /* --- Стили Секции Рефералов --- */
         .referrals table { width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 15px; letter-spacing: inherit; table-layout: fixed; }
         .referrals th, .referrals td { padding: 8px 10px; text-align: center; font-size: 15px; font-weight: 500; background-color: #111827; border: 1px solid #1f2937; letter-spacing: inherit; word-wrap: break-word; vertical-align: middle; }
-         .referrals th { font-weight: 900; color: #9ca3af; }
-         .referrals th.sortable { cursor: pointer; } /* Style for sortable headers */
-         .referrals th.sortable:hover { background-color: #374151; }
-         .referrals th .sort-icon { margin-left: 5px; font-size: 0.8em; color: #6b7280; }
-         .referrals th:nth-child(1) { width: 8%; }
-         .referrals th:nth-child(2) { width: 15%; }
-         .referrals th:nth-child(3) { width: 45%; }
-         .referrals th:nth-child(4) { width: 30%; }
-         .referrals td.stakes-summary { font-size: 14px; color: #d1d5db; text-align: center; font-weight: 500; white-space: pre-wrap; }
-         .referrals td.stakes-summary span { display: inline-flex; align-items: center; margin: 0 5px; white-space: nowrap; }
-         .referrals td.stakes-summary span img { margin-right: 4px; margin-left: 0; }
-         .referrals td.actions-cell { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 5px; }
-         .referrals td .action-button { margin: 0; padding: 6px 8px; font-size: 12px; border-radius: 4px; font-weight: 500; text-transform: none; min-width: 65px; text-align: center; }
-         .referrals td .edit-button { background-color: #f59e0b; }
-         .referrals td .edit-button:hover { background-color: #d97706; }
-         .referrals td .remove-button { background-color: #ef4444; }
-         .referrals td .remove-button:hover { background-color: #dc2626; }
-         #addReferralButton { background-color: #3b82f6; margin-top: 10px; }
-         #addReferralButton:hover { background-color: #2563eb; }
+        .referrals th { font-weight: 900; color: #9ca3af; }
+        .referrals th.sortable { cursor: pointer; }
+        .referrals th.sortable:hover { background-color: #374151; }
+        .referrals th .sort-icon { margin-left: 5px; font-size: 0.8em; color: #6b7280; }
+        .referrals th:nth-child(1) { width: 8%; }
+        .referrals th:nth-child(2) { width: 15%; }
+        .referrals th:nth-child(3) { width: 45%; }
+        .referrals th:nth-child(4) { width: 30%; }
+        .referrals td.stakes-summary { font-size: 14px; color: #d1d5db; text-align: center; font-weight: 500; white-space: pre-wrap; }
+        .referrals td.stakes-summary span { display: inline-flex; align-items: center; margin: 0 5px; white-space: nowrap; }
+        .referrals td.stakes-summary span img { margin-right: 4px; margin-left: 0; }
+        .referrals td.actions-cell { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 5px; }
+        .referrals td .action-button { margin: 0; padding: 6px 8px; font-size: 12px; border-radius: 4px; font-weight: 500; text-transform: none; min-width: 65px; text-align: center; }
+        .referrals td .edit-button { background-color: #f59e0b; }
+        .referrals td .edit-button:hover { background-color: #d97706; }
+        .referrals td .remove-button { background-color: #ef4444; }
+        .referrals td .remove-button:hover { background-color: #dc2626; }
+        #addReferralButton { background-color: #3b82f6; margin-top: 10px; }
+        #addReferralButton:hover { background-color: #2563eb; }
 
-        /* --- Results Section Styles --- */
-        .results { margin-top: 25px; padding: 20px; background-color: #111827; border: 1px solid #1f2937; box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset; border-radius: 8px; }
+        /* --- Стили Секции Результатов --- */
+        .results { margin-top: 25px; padding: 20px; background-color: #111827; border: 1px solid #1f2937; border-radius: 8px; }
         .results-grid-container {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* Keep 2 columns for grouping */
+            grid-template-columns: repeat(2, 1fr);
             gap: 25px;
             margin-top: 15px;
         }
@@ -218,98 +237,54 @@
         .result-item:last-child { border-bottom: none; }
         .result-item .label { color: #9ca3af; }
         .result-item .value { color: #ffffff; font-weight: 900; text-align: right; display: inline-flex; align-items: center; }
-        .result-item .value.value-sol { /* Зеленый для SOL */
-            color: #4ade80;
-        }
-        .result-item .value.value-usdc { /* Синий для USDC */
-            color: #60a5fa;
-        }
-        .result-item .value.profit-percent { color: #4ade80; } /* Можно оставить желтым или сделать белым */
-        .result-item .value.doubling { color: #fbbf24; } /* Желтый для времени удвоения */
-        .result-item .value.balance-usd { color: #60a5fa; } /* Синий для USD итогов (уже есть) */
+        .result-item .value.value-sol { color: #4ade80; }
+        .result-item .value.value-usdc { color: #60a5fa; }
+        .result-item .value.profit-percent { color: #4ade80; }
+        .result-item .value.doubling { color: #fbbf24; }
+        .result-item .value.balance-usd { color: #60a5fa; }
 
-        /* --- Chart Styles --- */
-        .chart-content { /* Content wrapper for chart */
+        /* --- Стили Графика --- */
+        .chart-content {
              padding: 15px; background-color: #111827;
-             /* Removed border-radius: 8px; */
              border: 1px solid #1f2937;
-             box-shadow: rgba(7, 14, 10, 0.5) 4px 4px 4px 0px inset;
         }
         #balanceChart { max-height: 300px; }
 
-        /* --- Converter Styles --- */
-        .converter-header { /* Header for title and status */
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            /* margin-bottom: 10px; /* Space below header */ /* Removed, handled by collapsible header */
-        }
-        .converter-header h3 { /* Title inside header */
+        /* --- Стили Конвертера --- */
+        .converter-header h3 {
              font-size: 18px; margin: 0; text-align: left; color: #e5e7eb; font-weight: 600; text-transform: none;
         }
-        #converterStatus { /* Status inside header */
+        #converterStatus {
             font-size: 11px; color: #6b7280; min-height: 14px; text-align: right;
         }
         .converter-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 15px; /* Add space below header inside content */
+            display: flex; align-items: center; gap: 10px;
+            margin-top: 15px; 
         }
         .converter-block {
-            display: flex;
-            flex-grow: 1;
-            border: 1px solid #374151;
-            border-radius: 6px;
-            overflow: hidden;
-            background-color: #000000;
-            position: relative;
+            display: flex; flex-grow: 1; border: 1px solid #374151;
+            border-radius: 6px; overflow: hidden; background-color: #090c14; position: relative;
         }
         .converter-block input[type="number"],
-        .converter-block input[type="text"] { /* Apply to both number and text */
-            flex-grow: 1;
-            border: none;
-            border-radius: 0;
-            padding: 8px 10px; /* Match general input padding */
-            min-width: 80px;
-            color: #ffffff;
-            caret-color: #ffffff;
-            text-align: left;
-            background-color: transparent; /* Ensure background is transparent */
+        .converter-block input[type="text"] {
+            flex-grow: 1; border: none; border-radius: 0; padding: 8px 10px;
+            min-width: 80px; color: #ffffff; caret-color: #ffffff;
+            text-align: left; background-color: transparent;
         }
         .converter-block select {
-            border: none;
-            border-left: 1px solid #374151;
-            border-radius: 0;
-            background-color: #111827;
-            padding: 8px 10px; /* Match input padding */
-            padding-right: 30px; /* Keep space for dropdown arrow */
-            max-width: 150px;
-            flex-shrink: 0;
+            border: none; border-left: 1px solid #374151; border-radius: 0;
+            background-color: #111827; padding: 8px 10px; padding-right: 30px;
+            max-width: 150px; flex-shrink: 0;
         }
-        #convertResultAmount { /* Specific style for result input */
-            cursor: default;
-            background-color: #111827; /* Read-only background */
-        }
+        #convertResultAmount { cursor: default; background-color: #111827; }
         #swapCurrenciesButton {
-            padding: 6px 10px;
-            font-size: 14px;
-            background-color: #374151;
-            color: #cbd5e1;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            line-height: 1;
-            flex-shrink: 0;
-            height: 36px;
-            min-width: 40px;
+            padding: 6px 10px; font-size: 14px; background-color: #374151;
+            color: #cbd5e1; border: none; border-radius: 6px; cursor: pointer;
+            line-height: 1; flex-shrink: 0; height: 36px; min-width: 40px;
         }
-        #swapCurrenciesButton:hover {
-            background-color: #4b5563;
-        }
+        #swapCurrenciesButton:hover { background-color: #4b5563; }
 
-
-        /* --- Control Buttons Styles --- */
+        /* --- Стили Управляющих Кнопок --- */
         .control-buttons { display: flex; justify-content: center; gap: 15px; margin-top: 25px; flex-wrap: wrap; }
         #calculateButton { background-color: #22c55e; margin: 0; }
         #calculateButton:hover { background-color: #16a34a; }
@@ -318,68 +293,105 @@
         #exportButton, #importButton { background-color: #3b82f6; margin: 0; }
         #exportButton:hover, #importButton:hover { background-color: #2563eb; }
 
-        /* --- Footer Styles --- */
+        /* --- Стили Подвала --- */
         .textContent { text-align: center; margin-top: 30px; font-size: 15px; color: #6b7280; }
         .textContent p { display: block; margin-block-start: 0em; margin-block-end: 0em; margin-inline-start: 0px; margin-inline-end: 0px; unicode-bidi: isolate; }
         .textContent i { color: #6b7280; margin: 0 2px; }
         .textContent a { color: #3b82f6; text-decoration: none; }
         .textContent a:hover { text-decoration: underline; }
 
-        /* --- Modal Styles (Edit Referral) --- */
-        .modal-overlay { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); justify-content: center; align-items: center; }
-        .modal-content { background: linear-gradient(to bottom, #111827, #05001d); margin: auto; padding: 25px; border: 1px solid #4ade80; border-radius: 8px; width: 90%; max-width: 550px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
-        .modal-header { padding-bottom: 15px; border-bottom: 1px solid #374151; margin-bottom: 20px; }
-        .modal-header h4 { margin: 0; font-size: 20px; font-weight: 700; color: #e5e7eb; }
-        .modal-body { max-height: 60vh; overflow-y: auto; padding-right: 10px; }
-        .modal-body .input-pair { margin-bottom: 15px; }
-        .modal-body .input-pair label { margin-bottom: 5px; font-size: 13px; color: #9ca3af; }
-        .modal-body .input-pair input, .modal-body .input-pair select { width: 100%; font-size: 14px; padding: 6px 8px; }
-        .modal-footer { padding-top: 20px; border-top: 1px solid #374151; margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px; }
+        /* --- Стили Модального Окна (Редактирование Реферала) --- */
+        .modal-overlay { 
+            display: none; position: fixed; z-index: 1000; left: 0; top: 0; 
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); 
+            justify-content: center; align-items: center; 
+        }
+        .modal-content { 
+            background-color: #111827;
+            margin: auto; padding: 25px; 
+            border: 2px solid #0ea5e9;
+            border-radius: 20px; width: 90%; max-width: 500px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; 
+        }
+        .modal-header { 
+            padding-bottom: 15px; 
+            margin-bottom: 20px; 
+        }
+        .modal-header h4 { 
+            margin: 0; font-size: 20px; font-weight: 700; color: #e5e7eb; text-align: center; 
+        }
+        .modal-body { 
+            max-height: 60vh; 
+            overflow-y: auto; 
+            padding-right: 10px; /* Оставляем для скроллбара, если содержимое будет высоким */
+        }
+
+        /* Общий стиль для input-pair в модальном окне остается */
+        .modal-body .input-pair { 
+            margin-bottom: 15px; 
+        }
+
+        .modal-body .input-pair.modal-level-field {
+            max-width: 210px;
+            margin-bottom: 30px;
+        }
+        .modal-body .input-pair label { 
+            margin-bottom: 8px; 
+            font-size: 15px; 
+            color: #9ca3af; 
+        }
+        .modal-body .input-pair input, 
+        .modal-body .input-pair select { 
+            width: 100%; /* По умолчанию инпут/селект занимает всю ширину своего .input-pair */
+            font-size: 14px; 
+            padding: 6px 8px; 
+        }
+
+        /* --- НОВЫЕ СТИЛИ ДЛЯ РАСПОЛОЖЕНИЯ В РЯД --- */
+        .modal-input-row {
+            display: flex; /* Используем flexbox для расположения элементов в ряд */
+            gap: 15px;     /* Пространство между полем стейка и полем процента */
+            align-items: flex-start; /* Выравнивание по верхнему краю, если лейблы разной высоты */
+            margin-bottom: 15px; /* Отступ снизу для всей строки */
+        }
+
+        .modal-input-row .input-pair {
+            flex: 1; /* Позволяет элементам равномерно делить пространство */
+        }
+
+        .modal-footer { 
+            padding-top: 20px; 
+            margin-top: 0px; 
+            display: flex; justify-content: center; gap: 10px; 
+        }
         .modal-footer button { padding: 8px 18px; font-size: 14px; }
         #saveReferralButton { background-color: #22c55e; }
         #saveReferralButton:hover { background-color: #16a34a; }
         #cancelReferralButton { background-color: #6b7280; }
         #cancelReferralButton:hover { background-color: #4b5563; }
 
-        /* --- Pagination Styles --- */
+        /* --- Стили Пагинации --- */
         .pagination-controls {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 5px;
-            margin-top: 15px; /* Отступ сверху */
-            flex-wrap: wrap; /* Перенос кнопок на новую строку при необходимости */
+            display: flex; justify-content: center; align-items: center;
+            gap: 5px; margin-top: 15px; flex-wrap: wrap;
         }
         .pagination-controls button {
-            padding: 6px 12px;
-            font-size: 13px;
-            font-weight: 600;
-            text-transform: none; /* Убрать uppercase */
-            min-width: 35px;
-            border: 1px solid #374151;
-            background-color: #1f2937;
-            color: #cbd5e1;
-            border-radius: 4px;
-            cursor: pointer;
+            padding: 6px 12px; font-size: 13px; font-weight: 600; text-transform: none;
+            min-width: 35px; border: 1px solid #374151; background-color: #1f2937;
+            color: #cbd5e1; border-radius: 4px; cursor: pointer;
             transition: background-color 0.2s ease, color 0.2s ease;
         }
-        .pagination-controls button:hover:not(:disabled) {
-            background-color: #374151;
-        }
+        .pagination-controls button:hover:not(:disabled) { background-color: #374151; }
         .pagination-controls button:disabled {
-            background-color: #111827;
-            color: #4b5563;
-            cursor: not-allowed;
-            opacity: 0.7;
+            background-color: #111827; color: #4b5563;
+            cursor: not-allowed; opacity: 0.7;
         }
         .pagination-controls button.active {
-            background-color: #4ade80; /* Активная страница */
-            color: #111827;
-            border-color: #4ade80;
-            font-weight: 700;
+            background-color: #4ade80; color: #111827;
+            border-color: #4ade80; font-weight: 700;
         }
-
     </style>
+
 </head>
 <body>
     <div class="container">
@@ -393,14 +405,14 @@
              <button id="languageToggleButton"></button>
         </div>
 
-        <div class="input-group">
-            <div class="input-column">
-                <div>
+        <div class="input-group"> 
+            <div class="currency-input-row sol-inputs">
+                <div class="input-block stake-input">
                     <label for="userStakedSolAmount" id="label-user-staked-sol">Staked</label>
                     <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0">
                     <span class="error-message" id="error-userStakedSolAmount"></span>
                 </div>
-                <div>
+                <div class="input-block profit-input">
                     <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day
                         <span class="tooltip-container">
                             <i class="fas fa-question-circle tooltip-icon"></i>
@@ -410,27 +422,28 @@
                     <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
                     <span class="error-message" id="error-userProfitPercentSol"></span>
                 </div>
-                 <div class="periodic-input">
-                     <label for="periodicSolAmount" id="label-periodic-sol">Add. Investment</label>
-                     <div class="input-select-pair">
-                         <input type="number" id="periodicSolAmount" value="0" step="0.01" min="0">
-                         <select id="periodicSolPeriod">
-                             <option value="0" id="option-sol-none">No</option>
-                             <option value="7" id="option-sol-weekly">Weekly</option>
-                             <option value="30" id="option-sol-monthly">Monthly</option>
-                             <option value="91" id="option-sol-quarterly">Quarterly</option>
-                         </select>
-                     </div>
-                      <span class="error-message" id="error-periodicSolAmount"></span>
-                 </div>
+                <div class="input-block periodic-input-container">
+                    <label for="periodicSolAmount" id="label-periodic-sol">Add. Investment</label>
+                    <div class="input-select-pair">
+                        <input type="number" id="periodicSolAmount" value="0" step="0.01" min="0">
+                        <select id="periodicSolPeriod">
+                            <option value="0" id="option-sol-none">No</option>
+                            <option value="7" id="option-sol-weekly">Weekly</option>
+                            <option value="30" id="option-sol-monthly">Monthly</option>
+                            <option value="91" id="option-sol-quarterly">Quarterly</option>
+                        </select>
+                    </div>
+                    <span class="error-message" id="error-periodicSolAmount"></span>
+                </div>
             </div>
-            <div class="input-column">
-                 <div>
-                     <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label>
+
+            <div class="currency-input-row usdc-inputs">
+                <div class="input-block stake-input">
+                    <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label>
                     <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
                     <span class="error-message" id="error-userStakedUsdcAmount"></span>
                 </div>
-                 <div>
+                <div class="input-block profit-input">
                     <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day
                         <span class="tooltip-container">
                             <i class="fas fa-question-circle tooltip-icon"></i>
@@ -438,50 +451,54 @@
                         </span>
                     </label>
                     <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
-                     <span class="error-message" id="error-userProfitPercentUsdc"></span>
+                    <span class="error-message" id="error-userProfitPercentUsdc"></span>
                 </div>
-                <div class="periodic-input">
-                     <label for="periodicUsdcAmount" id="label-periodic-usdc">Add. Investment</label>
-                     <div class="input-select-pair">
-                         <input type="number" id="periodicUsdcAmount" value="0" step="0.01" min="0">
-                         <select id="periodicUsdcPeriod">
-                             <option value="0" id="option-usdc-none">No</option>
-                             <option value="7" id="option-usdc-weekly">Weekly</option>
-                             <option value="30" id="option-usdc-monthly">Monthly</option>
-                             <option value="91" id="option-usdc-quarterly">Quarterly</option>
-                         </select>
-                     </div>
-                     <span class="error-message" id="error-periodicUsdcAmount"></span>
+                <div class="input-block periodic-input-container">
+                    <label for="periodicUsdcAmount" id="label-periodic-usdc">Add. Investment</label>
+                    <div class="input-select-pair">
+                        <input type="number" id="periodicUsdcAmount" value="0" step="0.01" min="0">
+                        <select id="periodicUsdcPeriod">
+                            <option value="0" id="option-usdc-none">No</option>
+                            <option value="7" id="option-usdc-weekly">Weekly</option>
+                            <option value="30" id="option-usdc-monthly">Monthly</option>
+                            <option value="91" id="option-usdc-quarterly">Quarterly</option>
+                        </select>
+                    </div>
+                    <span class="error-message" id="error-periodicUsdcAmount"></span>
                 </div>
             </div>
-        </div> <div class="secondary-inputs">
-            <div>
-                <label for="days" id="label-days">Days</label>
-                <input type="number" id="days" value="0" step="1" min="0">
-                <span class="error-message" id="error-days"></span>
-            </div>
-             <div id="solUsdContainer">
-                <div class="label-status-wrapper">
-                    <label for="solToUsd" id="label-sol-usd">SOL / USD</label>
-                    <span id="solPriceStatus"></span>
+
+            <div class="currency-input-row other-params-row">
+                <div class="input-block">
+                    <label for="days" id="label-days">Days</label>
+                    <input type="number" id="days" value="0" step="1" min="0">
+                    <span class="error-message" id="error-days"></span>
                 </div>
-                <div class="input-button-pair-row">
-                    <input type="number" id="solToUsd" value="0" step="0.01" min="0">
-                    <button id="fetchSolPriceButton" type="button">Update</button>
+                <div class="input-block" id="solUsdContainer">
+                    <div class="label-status-wrapper">
+                        <label for="solToUsd" id="label-sol-usd">SOL / USD</label>
+                        <span id="solPriceStatus"></span>
+                    </div>
+                    <div class="input-button-pair-row">
+                        <input type="number" id="solToUsd" value="0" step="0.01" min="0">
+                        <button id="fetchSolPriceButton" type="button">Update</button>
+                    </div>
+                    <span class="error-message" id="error-solToUsd"></span>
                 </div>
-                 <span class="error-message" id="error-solToUsd"></span>
-             </div>
-             <div id="platformFeeContainer">
-                 <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)
-                    <span class="tooltip-container">
-                        <i class="fas fa-question-circle tooltip-icon"></i>
-                        <span class="tooltip-text" id="tooltip-platform-fee">Platform commission percentage</span>
-                    </span>
-                 </label>
-                <input type="number" id="platformFee" value="10" step="0.1" min="0">
-                 <span class="error-message" id="error-platformFee"></span>
+                <div class="input-block" id="platformFeeContainer">
+                    <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)
+                        <span class="tooltip-container">
+                            <i class="fas fa-question-circle tooltip-icon"></i>
+                            <span class="tooltip-text" id="tooltip-platform-fee">Platform commission percentage</span>
+                        </span>
+                    </label>
+                    <input type="number" id="platformFee" value="10" step="0.1" min="0">
+                    <span class="error-message" id="error-platformFee"></span>
+                </div>
             </div>
-        </div> <div class="checkbox-container">
+
+        </div>
+ <div class="checkbox-container">
              <div class="checkbox-item">
                  <input type="checkbox" id="reinvestCheckbox"> <label for="reinvestCheckbox" id="label-reinvest">Reinvestment</label>
                  <input type="number" id="reinvestPercent" value="100" min="0" max="100" step="1" style="width: 70px; padding: 4px 8px; font-size: 13px; text-align: right; margin-left: 8px; display: none;"> <span id="reinvestPercentSymbol" style="color: #9ca3af; font-size: 14px; display: none;">%</span>
@@ -761,25 +778,43 @@
              </div>
     </div>
     <div id="editReferralModal" class="modal-overlay">
-         <div class="modal-content">
-             <div class="modal-header"> <h4 id="modalTitle">Edit Referral Data</h4> </div>
-             <div class="modal-body">
-                 <input type="hidden" id="editingReferralId">
-                 <div class="input-pair">
-                     <label for="modal-level" id="label-modal-level">Level</label>
-                     <select id="modal-level">
-                         <option value="1">1</option> <option value="2">2</option> <option value="3">3</option>
-                         <option value="4">4</option> <option value="5">5</option> <option value="6">6</option>
-                         <option value="7">7</option>
-                     </select>
-                 </div>
-                 <div class="input-pair"> <label for="modal-stake-sol" id="label-modal-stake-sol">Staked</label> <input type="number" id="modal-stake-sol" step="0.001" min="0"> </div>
-                 <div class="input-pair"> <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day</label> <input type="number" id="modal-profit-sol" step="0.01" min="0"> </div>
-                 <div class="input-pair"> <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked</label> <input type="number" id="modal-stake-usdc" step="0.01" min="0"> </div>
-                 <div class="input-pair"> <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day</label> <input type="number" id="modal-profit-usdc" step="0.01" min="0"> </div>
-             </div>
-             <div class="modal-footer"> <button id="cancelReferralButton">Cancel</button> <button id="saveReferralButton">Save</button> </div>
-         </div>
+        <div class="modal-content">
+            <div class="modal-header"> <h4 id="modalTitle">Edit Referral Data</h4> </div>
+            <div class="modal-body">
+                <input type="hidden" id="editingReferralId">
+                
+                <div class="input-pair modal-level-field">
+                    <label for="modal-level" id="label-modal-level">Level</label>
+                    <select id="modal-level">
+                        <option value="1">1</option> <option value="2">2</option> <option value="3">3</option>
+                        <option value="4">4</option> <option value="5">5</option> <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+
+                <div class="modal-input-row">
+                    <div class="input-pair modal-stake-field"> <label for="modal-stake-sol" id="label-modal-stake-sol">Staked</label> 
+                        <input type="number" id="modal-stake-sol" step="0.001" min="0"> 
+                    </div>
+                    <div class="input-pair modal-profit-field"> <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day</label> 
+                        <input type="number" id="modal-profit-sol" step="0.01" min="0"> 
+                    </div>
+                </div>
+
+                <div class="modal-input-row">
+                    <div class="input-pair modal-stake-field">
+                        <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked</label> 
+                        <input type="number" id="modal-stake-usdc" step="0.01" min="0"> 
+                    </div>
+                    <div class="input-pair modal-profit-field">
+                        <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day</label> 
+                        <input type="number" id="modal-profit-usdc" step="0.01" min="0"> 
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer"> <button id="cancelReferralButton">Cancel</button> <button id="saveReferralButton">Save</button> </div>
+        </div>
     </div>
 
     <script>
@@ -824,7 +859,7 @@
         const translations = {
             'en': {
                 labelUserStakedSol: 'Staked', labelUserProfitPercentSol: 'Profit % / day', labelUserStakedUsdc: 'Staked', labelUserProfitPercentUsdc: 'Profit % / day',
-                labelPlatformFee: 'FomoFarm Fee (%)', labelSolUsd: 'SOL / USD', labelDays: 'Days',
+                labelPlatformFee: 'FomoFarm Fee %', labelSolUsd: 'SOL / USD', labelDays: 'Days',
                 labelPeriodicSol: 'Add. Investment', labelPeriodicUsdc: 'Add. Investment',
                 optionNo: 'No', optionWeekly: 'Weekly', optionMonthly: 'Monthly', optionQuarterly: 'Quarterly',
                 fetchSolPriceButton: 'Update', statusLoading: 'Loading...', statusSuccess: 'Success!', statusError: 'Error',
@@ -1023,16 +1058,17 @@
             }
          }
 
-        // --- UI Update Functions ---
+// --- UI Update Functions ---
         /**
          * Обновляет тексты и иконки в интерфейсе в соответствии с выбранным языком.
+         * @param {string} lang - Код языка ('en' или 'ru').
          */
-        function updateUI(lang) {
+         function updateUI(lang) {
             currentLanguage = lang;
             const trans = translations[lang];
             document.documentElement.lang = lang === 'ru' ? 'ru' : 'en';
 
-            // Карта ID элементов к ключам переводов (добавлены ключи тултипов и заголовков)
+            // Карта ID элементов к их ключам в объекте переводов
             const idToKeyMap = {
                 'label-user-staked-sol': 'labelUserStakedSol', 'label-user-profit-percent-sol': 'labelUserProfitPercentSol',
                 'label-user-staked-usdc': 'labelUserStakedUsdc', 'label-user-profit-percent-usdc': 'labelUserProfitPercentUsdc',
@@ -1042,19 +1078,18 @@
                 'addReferralButton': 'addReferral', 'th-referral-num': 'thReferralNum',
                 'th-level': 'thLevel', 'th-ref-stakes': 'thRefStakes', 'th-actions': 'thActions',
                 'calculateButton': 'calculate', 'resetButton': 'resetButton', 'exportButton': 'exportButton', 'importButton': 'importButton',
-                'h2-results': 'h2Results', 'h4-your-profit': 'h4YourProfit', 'label-profit-user-sol': 'labelProfitUserSol', 'label-profit-user-usdc': 'labelProfitUserUsdc',
-                'h4-referral-profit': 'h4ReferralProfit', 'label-profit-ref-sol': 'labelProfitRefSol', 'label-profit-ref-usdc': 'labelProfitRefUsdc',
-                'h4-total-profit': 'h4TotalProfit', 'label-profit-total-sol': 'labelProfitTotalSol', 'label-profit-total-usdc': 'labelProfitTotalUsdc',
+                'h2-results': 'h2Results',
+                'label-profit-user-sol': 'labelProfitUserSol', 'label-profit-user-usdc': 'labelProfitUserUsdc',
+                'label-profit-ref-sol': 'labelProfitRefSol', 'label-profit-ref-usdc': 'labelProfitRefUsdc',
+                'label-profit-total-sol': 'labelProfitTotalSol', 'label-profit-total-usdc': 'labelProfitTotalUsdc',
                 'label-profit-percent-sol': 'labelProfitPercentSol', 'label-profit-percent-usdc': 'labelProfitPercentUsdc',
-                'h4-doubling-time': 'h4DoublingTime',
                 'label-support-author': 'labelSupportAuthor',
                 'copyWalletButton': 'copyButtonTitle',
                 'label-double-sol-noreinvest': 'labelDoubleSolNoreinvest', 'label-double-usdc-noreinvest': 'labelDoubleUsdcNoreinvest',
                 'label-double-sol-reinvest': 'labelDoubleSolReinvest', 'label-double-usdc-reinvest': 'labelDoubleUsdcReinvest',
-                'h4-periodic-total': 'h4PeriodicTotal', 'label-periodic-total-sol': 'labelPeriodicTotalSol', 'label-periodic-total-usdc': 'labelPeriodicTotalUsdc',
-                'h4-final-balance': 'h4FinalBalance', 'label-final-balance-sol': 'labelFinalBalanceSol',
-                'label-final-balance-usdc': 'labelFinalBalanceUsdc', 'label-final-balance-usd': 'labelFinalBalanceUsd',
-                'label-profit-total-usd': 'labelProfitTotalUsd',
+                'label-periodic-total-sol': 'labelPeriodicTotalSol', 'label-periodic-total-usdc': 'labelPeriodicTotalUsdc',
+                'label-final-balance-sol': 'labelFinalBalanceSol', 'label-final-balance-usdc': 'labelFinalBalanceUsdc',
+                'label-final-balance-usd': 'labelFinalBalanceUsd', 'label-profit-total-usd': 'labelProfitTotalUsd',
                 'label-modal-level': 'labelModalLevel', 'label-modal-stake-sol': 'labelModalStakeSol', 'label-modal-profit-sol': 'labelModalProfitSol',
                 'label-modal-stake-usdc': 'labelModalStakeUsdc', 'label-modal-profit-usdc': 'labelModalProfitUsdc',
                 'saveReferralButton': 'saveButton', 'cancelReferralButton': 'cancelButton',
@@ -1065,7 +1100,6 @@
                 'tooltip-profit-sol': 'tooltipProfitSol', 'tooltip-profit-usdc': 'tooltipProfitUsdc', 'tooltip-platform-fee': 'tooltipPlatformFee',
                 'h3-converter-title': 'h3ConverterTitle', 'h3-chart-title': 'h3ChartTitle', 'h3-referrals-text': 'h3Referrals',
                 'swapCurrenciesButton': 'swapButtonTitle',
-                // Result tooltips
                 'tooltip-profit-user-sol': 'tooltipProfitUserSol', 'tooltip-profit-user-usdc': 'tooltipProfitUserUsdc',
                 'tooltip-profit-ref-sol': 'tooltipProfitRefSol', 'tooltip-profit-ref-usdc': 'tooltipProfitRefUsdc',
                 'tooltip-periodic-total-sol': 'tooltipPeriodicTotalSol', 'tooltip-periodic-total-usdc': 'tooltipPeriodicTotalUsdc',
@@ -1075,60 +1109,127 @@
                 'tooltip-profit-percent-sol': 'tooltipProfitPercentSol', 'tooltip-profit-percent-usdc': 'tooltipProfitPercentUsdc',
                 'tooltip-double-sol-noreinvest': 'tooltipDoubleSolNoreinvest', 'tooltip-double-usdc-noreinvest': 'tooltipDoubleUsdcNoreinvest',
                 'tooltip-double-sol-reinvest': 'tooltipDoubleSolReinvest', 'tooltip-double-usdc-reinvest': 'tooltipDoubleUsdcReinvest',
-                 // Result group titles
-                 'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-general-results': 'h4GeneralResults'
+                'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-general-results': 'h4GeneralResults'
             };
 
-            // Apply translations
+            // Конфигурация для иконок валют, которые добавляются к некоторым меткам
+            const currencyIconConfig = {
+                // Ключи здесь - это camelCase версии ID элементов <label>
+                'labelUserStakedSol': { html: solanaIconImg, class: 'currency-icon-sol' },
+                'labelUserStakedUsdc': { html: usdcIconImg, class: 'currency-icon-usdc' },
+                'labelUserProfitPercentSol': { html: solanaIconImg, class: 'currency-icon-sol' },
+                'labelUserProfitPercentUsdc': { html: usdcIconImg, class: 'currency-icon-usdc' },
+                'labelPeriodicSol': { html: solanaIconImg, class: 'currency-icon-sol' },
+                'labelPeriodicUsdc': { html: usdcIconImg, class: 'currency-icon-usdc' },
+                'labelModalStakeSol': { html: solanaIconImg, class: 'currency-icon-sol' },
+                'labelModalProfitSol': { html: solanaIconImg, class: 'currency-icon-sol' },
+                'labelModalStakeUsdc': { html: usdcIconImg, class: 'currency-icon-usdc' },
+                'labelModalProfitUsdc': { html: usdcIconImg, class: 'currency-icon-usdc' }
+            };
+
+            // Применяем переводы и обновляем структуру элементов
             for (const id in idToKeyMap) {
-                const element = domElements[id] || document.getElementById(id); // Use cache or fallback
-                const key = idToKeyMap[id];
-                if (element && trans[key] !== undefined) {
-                     if (element.classList.contains('tooltip-text')) { element.textContent = trans[key]; }
-                     else if (element.tagName === 'OPTION') { element.textContent = trans[key]; }
-                     else if (element.tagName === 'BUTTON' || element.tagName === 'H2' || element.tagName === 'H3' || element.tagName === 'H4' || element.tagName === 'LABEL' || element.tagName === 'P' || element.tagName === 'SPAN' || element.tagName === 'TH') {
-                         if (id === 'p-footer') { element.childNodes[0].nodeValue = trans[key] + ' '; }
-                         else if (id === 'swapCurrenciesButton' || id === 'copyWalletButton') { element.title = trans[key]; }
-                         else { element.textContent = trans[key]; }
-                     }
-                } else if (element && id === 'p-footer') {
-                     if (element.childNodes.length === 0 || element.childNodes[0].nodeType !== Node.TEXT_NODE) { element.prepend(document.createTextNode(' ')); }
-                     element.childNodes[0].nodeValue = (trans.pFooter || 'Made by') + ' ';
+                const elementIdCamelCase = id.replace(/-([a-z])/g, g => g[1].toUpperCase());
+                const element = domElements[elementIdCamelCase] || document.getElementById(id);
+                const translationKey = idToKeyMap[id];
+
+                if (element && trans[translationKey] !== undefined) {
+                    const translatedText = trans[translationKey];
+
+                    // Проверяем, является ли элемент меткой (настоящим <label> или <span class="label"> в результатах)
+                    const isLabelTag = element.tagName === 'LABEL';
+                    const isSpanLabel = element.tagName === 'SPAN' && element.classList.contains('label');
+
+                    if (isLabelTag || isSpanLabel) {
+                        // --- Специальная обработка для всех типов меток (LABEL и SPAN.label) ---
+                        
+                        // 1. Сохраняем существующий tooltip-container (если есть) и временно удаляем его.
+                        //    Это важно, так как следующий шаг (element.textContent = ...) перезапишет всё.
+                        const existingTooltipContainer = element.querySelector('.tooltip-container');
+                        if (existingTooltipContainer) {
+                            existingTooltipContainer.remove();
+                        }
+
+                        // 2. Если это настоящий <label> (не SPAN.label из результатов),
+                        //    удаляем старую иконку валюты (<img>), если она была.
+                        //    Для SPAN.label в результатах иконки валют не добавляются внутрь них.
+                        if (isLabelTag) {
+                            const oldCurrencyIcon = element.querySelector('img.currency-icon-sol, img.currency-icon-usdc');
+                            if (oldCurrencyIcon) {
+                                oldCurrencyIcon.remove();
+                            }
+                        }
+                        
+                        // 3. Устанавливаем основной текст метки. Это очистит предыдущее содержимое.
+                        element.textContent = translatedText.trim() + ' ';
+
+                        // 4. Если это настоящий <label>, добавляем новую иконку валюты, если для этой метки она предусмотрена.
+                        if (isLabelTag) {
+                            const iconInfo = currencyIconConfig[elementIdCamelCase]; 
+                            if (iconInfo) { // Проверяем, есть ли конфигурация иконки для этого ID метки
+                                const tempDiv = document.createElement('div');
+                                tempDiv.innerHTML = iconInfo.html.trim(); 
+                                const newCurrencyIconElement = tempDiv.firstChild;
+                                if (newCurrencyIconElement) {
+                                    newCurrencyIconElement.classList.add(iconInfo.class); // Класс для идентификации
+                                    element.appendChild(newCurrencyIconElement);
+                                    // Добавляем пробел после иконки валюты, если за ней не последует тултип
+                                    if (!existingTooltipContainer) { // Если тултипа не будет, то пробел точно нужен
+                                        element.appendChild(document.createTextNode(' '));
+                                    } else { // Если тултип будет, то пробел может быть лишним, так как тултип сам отделится
+                                        // Но если между иконкой и тултипом нужен пробел, его можно добавить здесь:
+                                        // element.appendChild(document.createTextNode(' '));
+                                    }
+                                }
+                            }
+                        }
+
+                        // 5. Возвращаем tooltip-container (если он был сохранен) в конец метки/span.label.
+                        if (existingTooltipContainer) {
+                            element.appendChild(existingTooltipContainer);
+                        }
+
+                    } else if (element.classList.contains('tooltip-text')) {
+                        // Текст ВНУТРИ всплывающей подсказки
+                        element.textContent = translatedText;
+                    } else if (element.tagName === 'OPTION') {
+                        element.textContent = translatedText;
+                    } else if (id === 'p-footer') {
+                        // Обработка текста в подвале
+                        const firstChild = element.childNodes[0];
+                        if (firstChild && firstChild.nodeType === Node.TEXT_NODE) {
+                            firstChild.nodeValue = translatedText + ' ';
+                        } else {
+                             element.prepend(document.createTextNode(translatedText + ' '));
+                        }
+                    } else if (id === 'swapCurrenciesButton' || id === 'copyWalletButton' || element.id === 'languageToggleButton') {
+                        // Для этих кнопок обновляем title или textContent
+                        if (element.id === 'languageToggleButton') { // Кнопка языка имеет текст
+                           element.textContent = translatedText;
+                        } else { // Для swap и copy кнопок - только title
+                           element.title = translatedText;
+                        }
+                    } else { 
+                        // Общий случай для H2, H3, H4, SPAN (не .label), TH, и текста на других кнопках
+                        element.textContent = translatedText;
+                    }
+                } else if (element && id === 'p-footer' && trans.pFooter) {
+                    // Запасной вариант для подвала, если он не в idToKeyMap
+                    const firstChild = element.childNodes[0];
+                    if (!firstChild || firstChild.nodeType !== Node.TEXT_NODE) {
+                         element.prepend(document.createTextNode(' '));
+                    }
+                    element.childNodes[0].nodeValue = (trans.pFooter || 'Made by') + ' ';
                 }
-            }
+            } // Конец цикла for (const id in idToKeyMap)
 
-            // Add icons to labels (using cached elements)
-            const labelsWithIcons = [
-                domElements.labelUserStakedSol, domElements.labelUserStakedUsdc, domElements.labelUserProfitPercentSol, domElements.labelUserProfitPercentUsdc,
-                domElements.labelPeriodicSol, domElements.labelPeriodicUsdc, domElements.labelModalStakeSol, domElements.labelModalProfitSol,
-                domElements.labelModalStakeUsdc, domElements.labelModalProfitUsdc
-            ];
-            const icons = [
-                solanaIconImg, usdcIconImg, solanaIconImg, usdcIconImg,
-                solanaIconImg, usdcIconImg, solanaIconImg, solanaIconImg,
-                usdcIconImg, usdcIconImg
-            ];
-
-            labelsWithIcons.forEach((label, index) => {
-                if (label) {
-                    // Remove existing icon first
-                    const existingIcon = label.querySelector('img');
-                    if (existingIcon) label.removeChild(existingIcon);
-                    // Add new icon
-                    label.innerHTML += icons[index];
-                }
-            });
-
-
-            // Reset statuses
+            // Сброс статусов (после всех манипуляций с DOM, чтобы избежать мерцания)
             if (domElements.solPriceStatus) { domElements.solPriceStatus.textContent = ''; domElements.solPriceStatus.className = ''; }
             if (domElements.converterStatus) { domElements.converterStatus.textContent = ''; domElements.converterStatus.className = ''; }
             if (domElements.convertResultAmount) { domElements.convertResultAmount.value = ''; }
-            // if (domElements.convertResultDisplay) { domElements.convertResultDisplay.textContent = ''; } // Removed display span
 
-
-            renderReferralsTable(); // Re-render table to apply potential language changes in summary
-            updateSortIcons(); // Update sort icons after potential language change
+            renderReferralsTable(); // Перерисовываем таблицу рефералов
+            updateSortIcons();      // Обновляем иконки сортировки
         }
 
         /**
@@ -1756,50 +1857,49 @@
         } // Конец функции calculate
 
         /**
-         * Очищает все поля результатов и график.
-         */
-/**
          * Очищает все поля результатов, график и сбрасывает классы.
+         * @param {string} [message=""] - An optional message to log to the console.
          */
          function clearResults(message = "") {
             // Helper function to reset content and class
-            const resetResultSpan = (element, defaultValue, defaultIconHtml, defaultClassName = 'value') => {
+            const resetResultSpan = (element, defaultValue, defaultIconHtml = '', defaultClassName = 'value') => {
                 if (element) {
                     element.innerHTML = defaultValue + (defaultIconHtml || '');
-                    element.className = defaultClassName; // Сбрасываем класс
+                    // Убедимся, что базовый класс 'value' всегда есть, а затем добавляем специфичный для цвета
+                    element.className = 'value ' + defaultClassName; 
                 }
             };
-            const trans = translations[currentLanguage]; // Нужен для N/A
+            const trans = translations[currentLanguage];
 
-            // SOL Results
-            resetResultSpan(domElements.resultProfitUserSol, '0', solanaIconImg);
-            resetResultSpan(domElements.resultProfitRefSol, '0', solanaIconImg);
-            resetResultSpan(domElements.resultPeriodicTotalSol, '0', solanaIconImg);
-            resetResultSpan(domElements.resultProfitTotalSol, '0', solanaIconImg);
-            resetResultSpan(domElements.resultFinalBalanceSol, '0', solanaIconImg);
+            // SOL Results - теперь сразу с классом value-sol
+            resetResultSpan(domElements.resultProfitUserSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
+            resetResultSpan(domElements.resultProfitRefSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
+            resetResultSpan(domElements.resultPeriodicTotalSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol'); // Этот может быть и не цветным, а просто 'value'
+            resetResultSpan(domElements.resultProfitTotalSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
+            resetResultSpan(domElements.resultFinalBalanceSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
 
-            // USDC Results
-            resetResultSpan(domElements.resultProfitUserUsdc, '0,00', usdcIconImg);
-            resetResultSpan(domElements.resultProfitRefUsdc, '0,00', usdcIconImg);
-            resetResultSpan(domElements.resultPeriodicTotalUsdc, '0,00', usdcIconImg);
-            resetResultSpan(domElements.resultProfitTotalUsdc, '0,00', usdcIconImg);
-            resetResultSpan(domElements.resultFinalBalanceUsdc, '0,00', usdcIconImg);
+            // USDC Results - теперь сразу с классом value-usdc
+            resetResultSpan(domElements.resultProfitUserUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc');
+            resetResultSpan(domElements.resultProfitRefUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc');
+            resetResultSpan(domElements.resultPeriodicTotalUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc'); // Этот может быть и не цветным, а просто 'value'
+            resetResultSpan(domElements.resultProfitTotalUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc');
+            resetResultSpan(domElements.resultFinalBalanceUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc');
 
             // General Results
-            resetResultSpan(domElements.resultProfitPercentSol, '0,00', ' %', 'value profit-percent');
-            resetResultSpan(domElements.resultProfitPercentUsdc, '0,00', ' %', 'value profit-percent');
-            resetResultSpan(domElements.resultDoubleSolNoreinvest, 'N/A', '', 'value doubling');
-            resetResultSpan(domElements.resultDoubleUsdcNoreinvest, 'N/A', '', 'value doubling');
-            resetResultSpan(domElements.resultDoubleSolReinvest, 'N/A', '', 'value doubling');
-            resetResultSpan(domElements.resultDoubleUsdcReinvest, 'N/A', '', 'value doubling');
-            resetResultSpan(domElements.resultFinalBalanceUsdTotal, '0,00', ' $', 'value balance-usd');
-            resetResultSpan(domElements.resultProfitTotalUsd, '0,00', ' $', 'value balance-usd');
+            resetResultSpan(domElements.resultProfitPercentSol, formatDisplayNumberCustom(0, 2), ' %', 'profit-percent');
+            resetResultSpan(domElements.resultProfitPercentUsdc, formatDisplayNumberCustom(0, 2), ' %', 'profit-percent');
+            resetResultSpan(domElements.resultDoubleSolNoreinvest, trans.roiNever || 'N/A', '', 'doubling');
+            resetResultSpan(domElements.resultDoubleUsdcNoreinvest, trans.roiNever || 'N/A', '', 'doubling');
+            resetResultSpan(domElements.resultDoubleSolReinvest, trans.roiNever || 'N/A', '', 'doubling');
+            resetResultSpan(domElements.resultDoubleUsdcReinvest, trans.roiNever || 'N/A', '', 'doubling');
+            resetResultSpan(domElements.resultFinalBalanceUsdTotal, formatDisplayNumberCustom(0, 2), ' $', 'balance-usd');
+            resetResultSpan(domElements.resultProfitTotalUsd, formatDisplayNumberCustom(0, 2), ' $', 'balance-usd');
 
             if (balanceChartInstance) {
                 balanceChartInstance.destroy();
                 balanceChartInstance = null;
             }
-            if (message) { console.warn(message); }
+            if (message) { console.warn(message); } // Log warning/error message if provided
         }
         /**
          * Сбрасывает все поля ввода, рефералов и результаты к значениям по умолчанию.
@@ -1911,8 +2011,8 @@
 
             // Create gradient
             const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-            gradient.addColorStop(0, 'rgba(96, 165, 250, 0.3)'); // Start color
-            gradient.addColorStop(1, 'rgba(96, 165, 250, 0)'); // End color (transparent)
+            gradient.addColorStop(0, 'rgba(74, 222, 128, 0.3)'); // Начальный цвет (полупрозрачный #4ade80)
+            gradient.addColorStop(1, 'rgba(74, 222, 128, 0)');   // Конечный цвет (полностью прозрачный #4ade80)
 
 
             balanceChartInstance = new Chart(ctx, {
@@ -1922,15 +2022,15 @@
                     datasets: [{
                         label: 'Total Balance (USD)', // Consider translation if needed
                         data: filteredUsdData,
-                        borderColor: '#60a5fa',
-                        backgroundColor: gradient, // Apply gradient
+                        borderColor: '#4ade80',
+                        backgroundColor: gradient , // Apply gradient
                         fill: true, // Enable fill
                         borderWidth: 2,
                         tension: 0.1,
                         pointRadius: numDays > 90 ? 0 : 2,
                         pointHoverRadius: 5, // Increase hover radius
                         pointHoverBackgroundColor: '#ffffff', // White background on hover
-                        pointHoverBorderColor: '#60a5fa' // Border color on hover
+                        pointHoverBorderColor: '#4ade80' // Border color on hover
                     }]
                 },
                 options: {
@@ -2352,8 +2452,8 @@
                 'platformFee', 'solToUsd', 'days', 'periodicSolAmount', 'periodicSolPeriod',
                 'periodicUsdcAmount', 'periodicUsdcPeriod', 'reinvestCheckbox', 'reinvestPercent',
                 'includeReferralsCheckbox', 'referralsList', 'editReferralModal', 'modalTitle',
-                'editingReferralId', 'modal-level', 'modal-stake-sol', 'modal-profit-sol', // <-- ИСПРАВЛЕНО
-                'modal-stake-usdc', 'modal-profit-usdc', 'balanceChart', 'convertAmountFrom', // <-- ИСПРАВЛЕНО
+                'editingReferralId', 'modal-level', 'modal-stake-sol', 'modal-profit-sol',
+                'modal-stake-usdc', 'modal-profit-usdc', 'balanceChart', 'convertAmountFrom',
                 'convertFrom', 'convertTo', 'convertResultAmount',
                 'converterStatus', 'solPriceStatus',
                 'walletAddress', 
