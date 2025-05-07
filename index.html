@@ -32,6 +32,24 @@
         h3 { font-size: 24px; margin-top: 25px; margin-block-start: 0em; margin-block-end: 0em; text-align: center; text-transform: uppercase; font-weight: 700; letter-spacing: -0.5px; color: #e5e7eb; margin-bottom: 15px; } /* Общий стиль для h3 */
         h4 { font-size: 16px; color: #dfdfdf; text-transform: uppercase; font-weight: 600; margin-top: 15px; margin-bottom: 10px; }
 
+        h1 span.app-version-badge { /* Или #appVersionDisplay, если используешь ID для стилизации */
+            display: inline-block; /* Обязательно для padding и background */
+            font-size: 16px;       /* Уменьшенный размер шрифта */
+            font-weight: 900;      /* Можно сделать жирным или нормальным */
+            line-height: 1;        /* Компактность по высоте */
+            color: #075985;       /* Темно-синий текст (подбери под фон) */
+            background-color: #7dd3fc; /* Светло-голубой фон плашки */
+            padding: 4px 8px;       /* Внутренние отступы плашки */
+            border-radius: 6px;     /* Скругление углов */
+            margin-left: 6px;       /* Отступ от основного заголовка */
+            
+            /* Выравнивание относительно текста заголовка, если h1 - flex-контейнер */
+            /* align-self: center; */ /* Попробуй это */
+            /* Если нужно точнее, можно использовать position: relative */
+             align-self: center;
+             top: 0px; /* Небольшой сдвиг вверх, чтобы лучше смотрелось с большим заголовком */
+        }
+
         .input-group { 
             display: flex;
             flex-direction: column;
@@ -440,7 +458,7 @@
                      <defs> <linearGradient id="linear-gradient" x1="15" y1="75.16" x2="117" y2="14.9" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2573dc"/> <stop offset=".16" stop-color="#3794e5"/> <stop offset=".36" stop-color="#4cbaef"/> <stop offset=".46" stop-color="#55c9f3"/> <stop offset=".65" stop-color="#60def9"/> <stop offset=".84" stop-color="#68edfd"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> <linearGradient id="linear-gradient1" x1="23.33" y1="67.19" x2="115.05" y2="17.36" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2775d9"/> <stop offset=".15" stop-color="#2a7ada"/> <stop offset=".34" stop-color="#338bdf"/> <stop offset=".56" stop-color="#42a6e8"/> <stop offset=".8" stop-color="#56ccf3"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> <linearGradient id="linear-gradient2" x1="5.49" y1="59.23" x2="107.52" y2=".56" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2775d9"/> <stop offset=".17" stop-color="#2979da"/> <stop offset=".35" stop-color="#3085de"/> <stop offset=".54" stop-color="#3b9be4"/> <stop offset=".73" stop-color="#4bb8ed"/> <stop offset=".91" stop-color="#60def8"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> <linearGradient id="linear-gradient3" x1="22.29" y1="69.52" x2="115.96" y2="15.28" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2775d9"/> <stop offset=".14" stop-color="#2b7cdb"/> <stop offset=".36" stop-color="#3691e1"/> <stop offset=".62" stop-color="#48b3eb"/> <stop offset=".91" stop-color="#62e2fa"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> <linearGradient id="linear-gradient4" x1="5.15" y1="58.96" x2="97.33" y2="7.21" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2775d9"/> <stop offset=".26" stop-color="#2877d9"/> <stop offset=".43" stop-color="#2d80dc"/> <stop offset=".58" stop-color="#358fe1"/> <stop offset=".71" stop-color="#41a4e7"/> <stop offset=".84" stop-color="#50c0ef"/> <stop offset=".95" stop-color="#62e1fa"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> <linearGradient id="linear-gradient5" x1="24.22" y1="66.48" x2="116.12" y2="15.04" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2775d9"/> <stop offset=".14" stop-color="#2a7bdb"/> <stop offset=".35" stop-color="#358fe0"/> <stop offset=".6" stop-color="#46aeea"/> <stop offset=".87" stop-color="#5edaf7"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> <linearGradient id="linear-gradient6" x1="1.45" y1="41.31" x2="91.67" y2="-11.99" gradientUnits="userSpaceOnUse"> <stop offset="0" stop-color="#2573dc"/> <stop offset=".24" stop-color="#43a9ea"/> <stop offset=".4" stop-color="#55c9f3"/> <stop offset=".61" stop-color="#60def9"/> <stop offset=".82" stop-color="#68edfd"/> <stop offset="1" stop-color="#6bf2ff"/> </linearGradient> </defs> <polygon points="78.92 14.22 66.17 14.22 19.83 41.17 9.25 67.33 29.87 67.33 33.62 58.9 48.26 50.55 40.94 67.33 55.45 67.33 68.14 39.22 82.43 31.07 66.61 67.33 80.94 67.33 101.06 20.45 105.5 17.92 107 23.75 114.08 8.92 97.75 8 102.07 12.39 18.67 60.34 22.07 52.31 25.22 45.11 78.92 14.22" fill="url(#linear-gradient)"/> <polygon points="44.42 59.36 63.85 48.71 68.14 39.22 48.26 50.55 44.42 59.36" fill="url(#linear-gradient1)"/> <polygon points="59.04 25.55 55.7 33.14 75.53 21.83 78.92 14.22 59.04 25.55" fill="url(#linear-gradient2)"/> <polygon points="82.43 31.07 78.2 40.76 97.32 29.17 101.06 20.45 82.43 31.07" fill="url(#linear-gradient3)"/> <polygon points="25.22 45.11 22.07 52.31 41.69 41.13 44.97 33.75 25.22 45.11" fill="url(#linear-gradient4)"/> <polygon points="29.87 67.33 33.62 58.9 15.53 67.33 29.87 67.33" fill="url(#linear-gradient5)"/> <polygon points="38.44 14.22 32.5 27.83 52.55 16.36 53.5 14.22 38.44 14.22" fill="url(#linear-gradient6)"/>
                  </svg>
                  <span id="appTitle">FomoFarm Calculator</span>
-             </h1>
+                 <span id="appVersionDisplay" class="app-version-badge"></span> </h1>
              <button id="languageToggleButton"></button>
         </div>
 
@@ -870,6 +888,7 @@
         const domElements = {}; // Object to cache DOM elements
 
         // --- Global Variables & Constants ---
+        const APP_VERSION = "3.1"; // Замени на актуальную версию
         let currentPage = 1;
         const itemsPerPage = 10; // Количество рефералов на странице
         let referralsData = [];
@@ -2742,7 +2761,10 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Cache elements first
             setupEventListeners(); // This now includes caching in domElements object
-
+                const appVersionDisplay = document.getElementById('appVersionDisplay');
+                if (appVersionDisplay) {
+                appVersionDisplay.textContent = `v${APP_VERSION}`;
+                }
             currentLanguage = localStorage.getItem('fomoFarmCalc_language') || 'en';
             loadData(); // Load data into cached elements
             populateCurrencyDropdowns(); // Populate selects
