@@ -2,17 +2,17 @@
 const domElements = {}; // Object to cache DOM elements
 
 // --- Global Variables & Constants ---
-const APP_VERSION = "3.1"; // Замени на актуальную версию
+const APP_VERSION = "3.1";
 let currentPage = 1;
-const itemsPerPage = 10; // Количество рефералов на странице
+const itemsPerPage = 10;
 let referralsData = [];
 let nextReferralId = 1;
 let currentLanguage = 'en';
 let balanceChartInstance = null;
-let conversionTimeout = null; // Timeout for debouncing conversion requests
-const CONVERSION_DEBOUNCE_DELAY = 500; // Delay in ms for API calls
-let currentSortKey = null; // For referral table sorting
-let currentSortOrder = 'asc'; // For referral table sorting ('asc' or 'desc')
+let conversionTimeout = null;
+const CONVERSION_DEBOUNCE_DELAY = 500;
+let currentSortKey = null;
+let currentSortOrder = 'asc';
 
 const REINVEST_THRESHOLD_SOL = 0.1;
 const REINVEST_THRESHOLD_USDC = 20;
@@ -20,7 +20,6 @@ const commissionRates = { 1: 0.08, 2: 0.05, 3: 0.03, 4: 0.01, 5: 0.03, 6: 0.05, 
 const solanaIconImg = `<img src="solana_icon.svg" alt="SOL" width="16" height="16">`;
 const usdcIconImg = `<img src="usdc_icon.svg" alt="USDC" width="16" height="16">`;
 
-// Currencies for the converter (CoinGecko IDs and display names)
 const converterCurrencies = [
     { id: 'solana', name: 'Solana', type: 'crypto', symbol: 'SOL' },
     { id: 'usd-coin', name: 'USD Coin', type: 'crypto', symbol: 'USDC' },
@@ -30,12 +29,9 @@ const converterCurrencies = [
     { id: 'eur', name: 'Euro', type: 'fiat', symbol: 'EUR' },
     { id: 'rub', name: 'Russian Ruble', type: 'fiat', symbol: 'RUB' }
 ];
-// Helper to check currency type by ID
 const getCurrencyType = (id) => converterCurrencies.find(c => c.id === id)?.type || 'crypto';
 const getCurrencySymbol = (id) => converterCurrencies.find(c => c.id === id)?.symbol || '';
 
-
-// --- Translations Object ---
 const translations = {
     'en': {
         labelUserStakedSol: 'Staked', labelUserProfitPercentSol: 'Profit % / day', labelUserStakedUsdc: 'Staked', labelUserProfitPercentUsdc: 'Profit % / day',
@@ -159,23 +155,42 @@ const translations = {
  */
 function saveData() {
     try {
-        const data = {
-            userStakedSolAmount: domElements.userStakedSolAmount.value, userProfitPercentSol: domElements.userProfitPercentSol.value,
-            userStakedUsdcAmount: domElements.userStakedUsdcAmount.value, userProfitPercentUsdc: domElements.userProfitPercentUsdc.value,
-            platformFee: domElements.platformFee.value, solToUsd: domElements.solToUsd.value, days: domElements.days.value,
-            periodicSolAmount: domElements.periodicSolAmount.value, periodicSolPeriod: domElements.periodicSolPeriod.value,
-            periodicUsdcAmount: domElements.periodicUsdcAmount.value, periodicUsdcPeriod: domElements.periodicUsdcPeriod.value,
-            reinvestSol: domElements.reinvestSolCheckbox.checked.toString(),
-            reinvestSolPercent: domElements.reinvestSolPercent.value,
-            reinvestUsdc: domElements.reinvestUsdcCheckbox.checked.toString(),
-            reinvestUsdcPercent: domElements.reinvestUsdcPercent.value,
+        const dataToSave = {
+            userStakedSolAmount: domElements.userStakedSolAmount.value,
+            userProfitPercentSol: domElements.userProfitPercentSol.value,
+            userStakedUsdcAmount: domElements.userStakedUsdcAmount.value,
+            userProfitPercentUsdc: domElements.userProfitPercentUsdc.value,
+            platformFee: domElements.platformFee.value,
+            solToUsd: domElements.solToUsd.value,
+            days: domElements.days.value,
+            periodicSolAmount: domElements.periodicSolAmount.value,
+            periodicSolPeriod: domElements.periodicSolPeriod.value,
+            periodicUsdcAmount: domElements.periodicUsdcAmount.value,
+            periodicUsdcPeriod: domElements.periodicUsdcPeriod.value,
             includeReferrals: domElements.includeReferralsCheckbox.checked.toString(),
-            referralsData: JSON.stringify(referralsData || []), nextReferralId: nextReferralId,
+            referralsData: JSON.stringify(referralsData || []),
+            nextReferralId: nextReferralId,
             referralsCollapsed: domElements.referralsSection?.classList.contains('collapsed').toString() || 'false',
             chartCollapsed: domElements.chartSection?.classList.contains('collapsed').toString() || 'false',
             converterCollapsed: domElements.converterSection?.classList.contains('collapsed').toString() || 'false'
         };
-        for (const [key, value] of Object.entries(data)) { localStorage.setItem(`fomoFarmCalc_${key}`, value); }
+
+        if (domElements.reinvestSolCheckbox) {
+            dataToSave.reinvestSol = domElements.reinvestSolCheckbox.checked.toString();
+        }
+        if (domElements.reinvestSolPercent) {
+            dataToSave.reinvestSolPercent = domElements.reinvestSolPercent.value;
+        }
+        if (domElements.reinvestUsdcCheckbox) {
+            dataToSave.reinvestUsdc = domElements.reinvestUsdcCheckbox.checked.toString();
+        }
+        if (domElements.reinvestUsdcPercent) {
+            dataToSave.reinvestUsdcPercent = domElements.reinvestUsdcPercent.value;
+        }
+
+        for (const [key, value] of Object.entries(dataToSave)) {
+            localStorage.setItem(`fomoFarmCalc_${key}`, value);
+        }
     } catch (error) { console.error("Ошибка сохранения данных в localStorage:", error); }
 }
 
@@ -191,18 +206,28 @@ function loadData() {
         domElements.platformFee.value = localStorage.getItem('fomoFarmCalc_platformFee') || '10';
         domElements.solToUsd.value = localStorage.getItem('fomoFarmCalc_solToUsd') || '0';
         domElements.days.value = localStorage.getItem('fomoFarmCalc_days') || '0';
-        domElements.reinvestSolCheckbox.checked = (localStorage.getItem('fomoFarmCalc_reinvestSol') || 'true') === 'true';
-        domElements.reinvestSolPercent.value = localStorage.getItem('fomoFarmCalc_reinvestSolPercent') || '100';
-        domElements.reinvestUsdcCheckbox.checked = (localStorage.getItem('fomoFarmCalc_reinvestUsdc') || 'true') === 'true';
-        domElements.reinvestUsdcPercent.value = localStorage.getItem('fomoFarmCalc_reinvestUsdcPercent') || '100';
+
+        if (domElements.reinvestSolCheckbox) {
+            domElements.reinvestSolCheckbox.checked = (localStorage.getItem('fomoFarmCalc_reinvestSol') || 'true') === 'true';
+        }
+        if (domElements.reinvestSolPercent) {
+            domElements.reinvestSolPercent.value = localStorage.getItem('fomoFarmCalc_reinvestSolPercent') || '100';
+        }
+        if (domElements.reinvestUsdcCheckbox) {
+            domElements.reinvestUsdcCheckbox.checked = (localStorage.getItem('fomoFarmCalc_reinvestUsdc') || 'true') === 'true';
+        }
+        if (domElements.reinvestUsdcPercent) {
+            domElements.reinvestUsdcPercent.value = localStorage.getItem('fomoFarmCalc_reinvestUsdcPercent') || '100';
+        }
+
         domElements.includeReferralsCheckbox.checked = (localStorage.getItem('fomoFarmCalc_includeReferrals') || 'true') === 'true';
         domElements.periodicSolAmount.value = localStorage.getItem('fomoFarmCalc_periodicSolAmount') || '0';
         domElements.periodicSolPeriod.value = localStorage.getItem('fomoFarmCalc_periodicSolPeriod') || '0';
         domElements.periodicUsdcAmount.value = localStorage.getItem('fomoFarmCalc_periodicUsdcAmount') || '0';
         domElements.periodicUsdcPeriod.value = localStorage.getItem('fomoFarmCalc_periodicUsdcPeriod') || '0';
 
-        toggleReinvestControls(domElements.reinvestSolCheckbox);
-        toggleReinvestControls(domElements.reinvestUsdcCheckbox);
+        if (domElements.reinvestSolCheckbox) toggleReinvestControls(domElements.reinvestSolCheckbox);
+        if (domElements.reinvestUsdcCheckbox) toggleReinvestControls(domElements.reinvestUsdcCheckbox);
 
         const savedReferrals = localStorage.getItem('fomoFarmCalc_referralsData');
         referralsData = savedReferrals ? JSON.parse(savedReferrals) : [];
@@ -773,7 +798,6 @@ function getAndValidateInputs(trans) {
     let isValid = true;
     clearAllValidationErrors();
 
-    // Basic validation for non-negative values
     const fieldsToValidatePositiveOrZero = [
         'userStakedSolAmount', 'userProfitPercentSol', 'userStakedUsdcAmount', 'userProfitPercentUsdc',
         'solToUsd', 'platformFee', 'periodicSolAmount', 'periodicUsdcAmount'
@@ -781,16 +805,17 @@ function getAndValidateInputs(trans) {
     fieldsToValidatePositiveOrZero.forEach(key => {
         if (isNaN(inputs[key]) || inputs[key] < 0) {
             isValid = false;
-            domElements[key.replace(/([A-Z])/g, '-$1').toLowerCase()]?.classList.add('input-error');
+            const elementKey = key.replace(/([A-Z])/g, '-$1').toLowerCase(); // Convert camelCase to kebab-case for ID
+            domElements[elementKey]?.classList.add('input-error'); // Use optional chaining for safety
         }
     });
+
 
     if (isNaN(inputs.days) || inputs.days <= 0) {
         isValid = false;
         domElements.days.classList.add('input-error');
     }
 
-    // Validate reinvest percentages
     if (inputs.reinvestSolCheckbox && (isNaN(inputs.reinvestSolPercent) || inputs.reinvestSolPercent < 0 || inputs.reinvestSolPercent > 100)) {
         isValid = false;
         domElements.reinvestSolPercent.classList.add('input-error');
@@ -800,7 +825,6 @@ function getAndValidateInputs(trans) {
         domElements.reinvestUsdcPercent.classList.add('input-error');
     }
 
-    // Validate SOL/USD rate if USDC is involved
     const needsSolUsdRate = (inputs.userStakedUsdcAmount > 0 || inputs.periodicUsdcAmount > 0 || (inputs.includeReferralsCheckbox && referralsData.some(ref => (ref.stakedUsdc || 0) > 0)));
     if (needsSolUsdRate && (isNaN(inputs.solToUsd) || inputs.solToUsd <= 0)) {
         isValid = false;
@@ -813,7 +837,6 @@ function getAndValidateInputs(trans) {
         return null;
     }
 
-    // Convert percentages to rates
     inputs.platformFeeRate = inputs.platformFee / 100;
     inputs.userProfitRateSol = inputs.userProfitPercentSol / 100;
     inputs.userProfitRateUsdc = inputs.userProfitPercentUsdc / 100;
@@ -855,26 +878,35 @@ function calculateInitialDailyReferralProfits(referralsData, platformFeeRate, co
 }
 
 /**
- * Performs the daily simulation of stake growth and reinvestment.
+ * Performs the daily simulation of stake growth and reinvestment with cumulative reinvest logic.
  * @param {object} params - Object containing all necessary calculation parameters.
  * @returns {object} An object with simulation results.
  */
 function simulateDailyGrowthAndReinvestment(params) {
     let currentSolStake = params.initialUserStakedSol;
     let currentUsdcStake = params.initialUserStakedUsdc;
-    let accumulatedSolProfit_nonReinvested = 0;
-    let accumulatedUsdcProfit_nonReinvested = 0;
+
+    let accumulatedSolProfit_nonReinvested_direct = 0;
+    let accumulatedUsdcProfit_nonReinvested_direct = 0;
+
+    let pendingReinvestmentSol = 0;
+    let pendingReinvestmentUsdc = 0;
+
     let totalSolProfitEarned = 0;
     let totalUsdcProfitEarned = 0;
     let totalPeriodicSolAdded = 0;
     let totalPeriodicUsdcAdded = 0;
     const chartLabels = [];
     const chartDataUsd = [];
-    let solDoubledWithReinvestDay = -1; // -1 indicates not doubled
+    let solDoubledWithReinvestDay = -1;
     let usdcDoubledWithReinvestDay = -1;
 
+    // console.log("--- Starting Daily Loop (Cumulative Reinvest) ---");
+    // console.log(`Initial SOL Stake: ${currentSolStake.toFixed(5)}, Initial USDC Stake: ${currentUsdcStake.toFixed(5)}`);
+    // console.log(`SOL Reinvest: ${params.reinvestSolCheckbox}, %: ${params.reinvestSolPercentRate*100}, Threshold: ${REINVEST_THRESHOLD_SOL}`);
+    // console.log(`USDC Reinvest: ${params.reinvestUsdcCheckbox}, %: ${params.reinvestUsdcPercentRate*100}, Threshold: ${REINVEST_THRESHOLD_USDC}`);
+
     for (let day = 1; day <= params.days; day++) {
-        // Периодические довложения
         if (params.periodicSolAmount > 0 && params.periodicSolPeriod > 0 && day % params.periodicSolPeriod === 0) {
             currentSolStake += params.periodicSolAmount;
             totalPeriodicSolAdded += params.periodicSolAmount;
@@ -884,7 +916,6 @@ function simulateDailyGrowthAndReinvestment(params) {
             totalPeriodicUsdcAdded += params.periodicUsdcAmount;
         }
 
-        // Ежедневная прибыль
         const profitTodaySol_User = currentSolStake * params.userProfitRateSol * (1 - params.platformFeeRate);
         const profitTodayUsdc_User = currentUsdcStake * params.userProfitRateUsdc * (1 - params.platformFeeRate);
         const profitTodaySol_Total = profitTodaySol_User + params.dailyNetProfit_RefSol;
@@ -893,36 +924,37 @@ function simulateDailyGrowthAndReinvestment(params) {
         totalSolProfitEarned += profitTodaySol_Total;
         totalUsdcProfitEarned += profitTodayUsdc_Total;
 
-        // Реинвест SOL
         if (params.reinvestSolCheckbox && params.reinvestSolPercentRate > 0) {
-            const solToReinvest = profitTodaySol_Total * params.reinvestSolPercentRate;
-            if (solToReinvest >= REINVEST_THRESHOLD_SOL) {
-                currentSolStake += solToReinvest;
-                accumulatedSolProfit_nonReinvested += (profitTodaySol_Total - solToReinvest);
-            } else {
-                accumulatedSolProfit_nonReinvested += profitTodaySol_Total;
+            const solPartForReinvest = profitTodaySol_Total * params.reinvestSolPercentRate;
+            const solPartNotForReinvest = profitTodaySol_Total * (1 - params.reinvestSolPercentRate);
+            pendingReinvestmentSol += solPartForReinvest;
+            accumulatedSolProfit_nonReinvested_direct += solPartNotForReinvest;
+            if (pendingReinvestmentSol >= REINVEST_THRESHOLD_SOL) {
+                currentSolStake += pendingReinvestmentSol;
+                // console.log(`Day ${day} SOL Reinvested: ${pendingReinvestmentSol.toFixed(5)}. New Stake: ${currentSolStake.toFixed(5)}`);
+                pendingReinvestmentSol = 0;
             }
         } else {
-            accumulatedSolProfit_nonReinvested += profitTodaySol_Total;
+            accumulatedSolProfit_nonReinvested_direct += profitTodaySol_Total;
         }
 
-        // Реинвест USDC
         if (params.reinvestUsdcCheckbox && params.reinvestUsdcPercentRate > 0) {
-            const usdcToReinvest = profitTodayUsdc_Total * params.reinvestUsdcPercentRate;
-            if (usdcToReinvest >= REINVEST_THRESHOLD_USDC) {
-                currentUsdcStake += usdcToReinvest;
-                accumulatedUsdcProfit_nonReinvested += (profitTodayUsdc_Total - usdcToReinvest);
-            } else {
-                accumulatedUsdcProfit_nonReinvested += profitTodayUsdc_Total;
+            const usdcPartForReinvest = profitTodayUsdc_Total * params.reinvestUsdcPercentRate;
+            const usdcPartNotForReinvest = profitTodayUsdc_Total * (1 - params.reinvestUsdcPercentRate);
+            pendingReinvestmentUsdc += usdcPartForReinvest;
+            accumulatedUsdcProfit_nonReinvested_direct += usdcPartNotForReinvest;
+            if (pendingReinvestmentUsdc >= REINVEST_THRESHOLD_USDC) {
+                currentUsdcStake += pendingReinvestmentUsdc;
+                // console.log(`Day ${day} USDC Reinvested: ${pendingReinvestmentUsdc.toFixed(5)}. New Stake: ${currentUsdcStake.toFixed(5)}`);
+                pendingReinvestmentUsdc = 0;
             }
         } else {
-            accumulatedUsdcProfit_nonReinvested += profitTodayUsdc_Total;
+            accumulatedUsdcProfit_nonReinvested_direct += profitTodayUsdc_Total;
         }
 
-        const currentSolBalanceForChart = currentSolStake + accumulatedSolProfit_nonReinvested;
-        const currentUsdcBalanceForChart = currentUsdcStake + accumulatedUsdcProfit_nonReinvested;
+        const currentSolBalanceForChart = currentSolStake + accumulatedSolProfit_nonReinvested_direct + pendingReinvestmentSol;
+        const currentUsdcBalanceForChart = currentUsdcStake + accumulatedUsdcProfit_nonReinvested_direct + pendingReinvestmentUsdc;
 
-        // Проверка удвоения с реинвестом
         if (solDoubledWithReinvestDay === -1 && params.initialUserStakedSol > 0 && currentSolBalanceForChart >= params.initialUserStakedSol * 2) {
             solDoubledWithReinvestDay = day;
         }
@@ -930,17 +962,22 @@ function simulateDailyGrowthAndReinvestment(params) {
             usdcDoubledWithReinvestDay = day;
         }
 
-        // Данные для графика
         const currentTotalBalanceUsd = (params.solToUsd > 0 ? currentSolBalanceForChart * params.solToUsd : 0) + currentUsdcBalanceForChart;
         chartLabels.push(day);
         chartDataUsd.push(currentTotalBalanceUsd);
     }
+    // console.log("--- End of Daily Loop (Cumulative Reinvest) ---");
+    // console.log(`Final SOL Stake: ${currentSolStake.toFixed(5)}, Pending SOL Reinvest: ${pendingReinvestmentSol.toFixed(5)}, Accumulated Non-Reinvest Direct SOL: ${accumulatedSolProfit_nonReinvested_direct.toFixed(5)}`);
+    // console.log(`Final USDC Stake: ${currentUsdcStake.toFixed(5)}, Pending USDC Reinvest: ${pendingReinvestmentUsdc.toFixed(5)}, Accumulated Non-Reinvest Direct USDC: ${accumulatedUsdcProfit_nonReinvested_direct.toFixed(5)}`);
+
+    const finalSolBalance = currentSolStake + accumulatedSolProfit_nonReinvested_direct + pendingReinvestmentSol;
+    const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit_nonReinvested_direct + pendingReinvestmentUsdc;
 
     return {
         finalSolStake: currentSolStake,
         finalUsdcStake: currentUsdcStake,
-        accumulatedSolProfit_nonReinvested,
-        accumulatedUsdcProfit_nonReinvested,
+        accumulatedSolProfit_nonReinvested: accumulatedSolProfit_nonReinvested_direct + pendingReinvestmentSol,
+        accumulatedUsdcProfit_nonReinvested: accumulatedUsdcProfit_nonReinvested_direct + pendingReinvestmentUsdc,
         totalSolProfitEarned,
         totalUsdcProfitEarned,
         totalPeriodicSolAdded,
@@ -949,13 +986,15 @@ function simulateDailyGrowthAndReinvestment(params) {
         chartDataUsd,
         solDoubledWithReinvestDay,
         usdcDoubledWithReinvestDay,
-        finalSolBalance: currentSolStake + accumulatedSolProfit_nonReinvested,
-        finalUsdcBalance: currentUsdcStake + accumulatedUsdcProfit_nonReinvested,
+        finalSolBalance,
+        finalUsdcBalance,
+        pendingReinvestmentSol_final: pendingReinvestmentSol,
+        pendingReinvestmentUsdc_final: pendingReinvestmentUsdc
     };
 }
 
 /**
- * Calculates the doubling time for a stake.
+ * Calculates the doubling time for a stake with cumulative reinvest logic.
  * @param {object} p - Parameters for calculation.
  * @param {string} currencyType - 'SOL' or 'USDC'.
  * @param {boolean} withReinvest - True if calculating with reinvestment.
@@ -971,7 +1010,9 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
     const reinvestPercentRate = currencyType === 'SOL' ? p.reinvestSolPercentRate : p.reinvestUsdcPercentRate;
     const reinvestThreshold = currencyType === 'SOL' ? REINVEST_THRESHOLD_SOL : REINVEST_THRESHOLD_USDC;
 
-    if (initialStake <= 0 || profitRate <= 0) return trans.roiNever;
+    if (initialStake <= 0) return trans.roiNever;
+    if (profitRate <= 0 && initialDailyReferralProfit <=0 && !withReinvest) return trans.roiNever;
+    if (profitRate <= 0 && initialDailyReferralProfit <=0 && withReinvest && reinvestPercentRate <= 0) return trans.roiNever;
 
     if (!withReinvest) {
         const dailyNetProfit_User_Initial = initialStake * profitRate * (1 - p.platformFeeRate);
@@ -979,31 +1020,36 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
         if (totalDailyProfit_NoReinvest <= 0) return trans.roiNever;
         return Math.ceil(initialStake / totalDailyProfit_NoReinvest);
     } else {
-        // Если удвоение уже произошло в основном цикле симуляции
-        if (daysAlreadySimulatedForReinvest > 0) return daysAlreadySimulatedForReinvest;
+        if (daysAlreadySimulatedForReinvest > 0 && daysAlreadySimulatedForReinvest !== -1) {
+            return daysAlreadySimulatedForReinvest;
+        }
 
-        // Симуляция для удвоения с реинвестом, если не произошло в основном цикле
         let tempStake = initialStake;
-        let tempAccNonReinvest = 0;
-        const maxSimulationDays = Math.max(p.days + 1, 365 * 10); // Симулируем до 10 лет или дольше периода расчета
+        let tempAccumulatedNonReinvestDirect = 0;
+        let tempPendingReinvestment = 0;
+        const maxSimulationDays = Math.max(p.days > 0 ? p.days + 1 : 1, 365 * 20);
 
         for (let d = 1; d <= maxSimulationDays; d++) {
             let dailyProfitOnTempStake = tempStake * profitRate * (1 - p.platformFeeRate);
             let totalDailyTempProfit = dailyProfitOnTempStake + initialDailyReferralProfit;
 
             if (reinvestEnabled && reinvestPercentRate > 0) {
-                const currencyToReinvestSim = totalDailyTempProfit * reinvestPercentRate;
-                if (currencyToReinvestSim >= reinvestThreshold) {
-                    tempStake += currencyToReinvestSim;
-                    tempAccNonReinvest += (totalDailyTempProfit - currencyToReinvestSim);
-                } else {
-                    tempAccNonReinvest += totalDailyTempProfit;
+                const partForReinvest = totalDailyTempProfit * reinvestPercentRate;
+                const partNotForReinvest = totalDailyTempProfit * (1 - reinvestPercentRate);
+
+                tempPendingReinvestment += partForReinvest;
+                tempAccumulatedNonReinvestDirect += partNotForReinvest;
+
+                if (tempPendingReinvestment >= reinvestThreshold) {
+                    tempStake += tempPendingReinvestment;
+                    tempPendingReinvestment = 0;
                 }
             } else {
-                tempAccNonReinvest += totalDailyTempProfit;
+                tempAccumulatedNonReinvestDirect += totalDailyTempProfit;
             }
 
-            if ((tempStake + tempAccNonReinvest) >= initialStake * 2) {
+            const currentTotalBalance = tempStake + tempAccumulatedNonReinvestDirect + tempPendingReinvestment;
+            if (currentTotalBalance >= initialStake * 2) {
                 return d;
             }
         }
@@ -1011,26 +1057,30 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
     }
 }
 
-
 /**
  * Updates the DOM with the calculated results.
- * @param {object} inputs - Validated input parameters.
+ * @param {object} inputs - Validated input parameters (renamed to 'calcParams' to avoid conflict with global 'inputs' if any).
  * @param {object} simulationResults - Results from the daily simulation.
  * @param {object} referralProfits - Calculated daily referral profits.
  * @param {object} doublingTimes - Calculated doubling times.
  * @param {object} trans - Translations object.
  */
-function updateDOMWithResults(inputs, simulationResults, referralProfits, doublingTimes, trans) {
+function updateDOMWithResults(calcParams, simulationResults, referralProfits, doublingTimes, trans) {
     const {
         finalSolBalance, finalUsdcBalance, totalSolProfitEarned, totalUsdcProfitEarned,
-        totalPeriodicSolAdded, totalPeriodicUsdcAdded, chartDataUsd
+        totalPeriodicSolAdded, totalPeriodicUsdcAdded, chartDataUsd,
+        accumulatedSolProfit_nonReinvested, accumulatedUsdcProfit_nonReinvested // Используем эти для общего профита
     } = simulationResults;
 
-    const totalReferralProfitOverPeriodSol = referralProfits.dailyNetProfit_RefSol * inputs.days;
-    const totalReferralProfitOverPeriodUsdc = referralProfits.dailyNetProfit_RefUsdc * inputs.days;
+    const totalReferralProfitOverPeriodSol = referralProfits.dailyNetProfit_RefSol * calcParams.days;
+    const totalReferralProfitOverPeriodUsdc = referralProfits.dailyNetProfit_RefUsdc * calcParams.days;
 
+    // Прибыль пользователя = Общая прибыль - Реферальная прибыль
+    // Общая прибыль (totalSolProfitEarned) уже включает в себя и прибыль со стейка и реферальную.
+    // Поэтому, чтобы получить прибыль ТОЛЬКО со стейка пользователя, вычитаем реферальную.
     let userProfitSolDisplay = totalSolProfitEarned - totalReferralProfitOverPeriodSol;
     let userProfitUsdcDisplay = totalUsdcProfitEarned - totalReferralProfitOverPeriodUsdc;
+
 
     const epsilon = 1e-9;
     if (Math.abs(userProfitSolDisplay) < epsilon) userProfitSolDisplay = 0;
@@ -1038,11 +1088,11 @@ function updateDOMWithResults(inputs, simulationResults, referralProfits, doubli
     if (Math.abs(userProfitUsdcDisplay) < epsilon) userProfitUsdcDisplay = 0;
     if (Object.is(userProfitUsdcDisplay, -0)) userProfitUsdcDisplay = 0;
 
-    const profitPercentSolDisplay = inputs.initialUserStakedSol > 0 ? (totalSolProfitEarned / inputs.initialUserStakedSol) * 100 : 0;
-    const profitPercentUsdcDisplay = inputs.initialUserStakedUsdc > 0 ? (totalUsdcProfitEarned / inputs.initialUserStakedUsdc) * 100 : 0;
+    const profitPercentSolDisplay = calcParams.initialUserStakedSol > 0 ? (totalSolProfitEarned / calcParams.initialUserStakedSol) * 100 : 0;
+    const profitPercentUsdcDisplay = calcParams.initialUserStakedUsdc > 0 ? (totalUsdcProfitEarned / calcParams.initialUserStakedUsdc) * 100 : 0;
 
-    const finalUsdBalanceTotal = chartDataUsd.length > 0 ? chartDataUsd[chartDataUsd.length - 1] : (inputs.initialUserStakedSol * (inputs.solToUsd || 0) + inputs.initialUserStakedUsdc);
-    const totalProfitUsdDisplay = (inputs.solToUsd > 0 ? totalSolProfitEarned * inputs.solToUsd : 0) + totalUsdcProfitEarned;
+    const finalUsdBalanceTotal = chartDataUsd.length > 0 ? chartDataUsd[chartDataUsd.length - 1] : (calcParams.initialUserStakedSol * (calcParams.solToUsd || 0) + calcParams.initialUserStakedUsdc);
+    const totalProfitUsdDisplay = (calcParams.solToUsd > 0 ? totalSolProfitEarned * calcParams.solToUsd : 0) + totalUsdcProfitEarned;
 
     const updateResultSpan = (element, value, formatDigits, iconHtml = '', className = '') => {
         if (element) {
@@ -1080,20 +1130,19 @@ function updateDOMWithResults(inputs, simulationResults, referralProfits, doubli
     updateResultSpan(domElements.resultProfitTotalUsd, totalProfitUsdDisplay, 2, ' $', 'balance-usd');
 }
 
-
 /**
  * Основная функция калькулятора.
  */
 function calculate() {
-    console.log("Calculate function called!");
+    // console.log("Calculate function called with cumulative reinvest logic!"); // Раскомментируйте для отладки
     const trans = translations[currentLanguage];
     const validatedInputs = getAndValidateInputs(trans);
 
     if (!validatedInputs) {
-        return; // Валидация не пройдена, сообщения об ошибках уже показаны
+        return;
     }
-    // Переименовываем для краткости, чтобы соответствовать старому коду внутри simulateDailyGrowthAndReinvestment
-    const params = {
+
+    const paramsForSimulation = {
         initialUserStakedSol: validatedInputs.userStakedSolAmount,
         userProfitRateSol: validatedInputs.userProfitRateSol,
         initialUserStakedUsdc: validatedInputs.userStakedUsdcAmount,
@@ -1104,47 +1153,42 @@ function calculate() {
         reinvestSolPercentRate: validatedInputs.reinvestSolPercentRate,
         reinvestUsdcCheckbox: validatedInputs.reinvestUsdcCheckbox,
         reinvestUsdcPercentRate: validatedInputs.reinvestUsdcPercentRate,
-        dailyNetProfit_RefSol: 0, // Будет перезаписано ниже
-        dailyNetProfit_RefUsdc: 0, // Будет перезаписано ниже
+        dailyNetProfit_RefSol: 0,
+        dailyNetProfit_RefUsdc: 0,
         periodicSolAmount: validatedInputs.periodicSolAmount,
         periodicSolPeriod: validatedInputs.periodicSolPeriod,
         periodicUsdcAmount: validatedInputs.periodicUsdcAmount,
         periodicUsdcPeriod: validatedInputs.periodicUsdcPeriod,
         solToUsd: validatedInputs.solToUsd,
-        // Добавляем недостающие параметры, которые были в старой функции calculate
-        // REINVEST_THRESHOLD_SOL и REINVEST_THRESHOLD_USDC доступны глобально
     };
-
 
     const referralProfits = calculateInitialDailyReferralProfits(
         referralsData,
-        params.platformFeeRate,
+        paramsForSimulation.platformFeeRate,
         commissionRates,
         validatedInputs.includeReferralsCheckbox
     );
-    params.dailyNetProfit_RefSol = referralProfits.dailyNetProfit_RefSol;
-    params.dailyNetProfit_RefUsdc = referralProfits.dailyNetProfit_RefUsdc;
+    paramsForSimulation.dailyNetProfit_RefSol = referralProfits.dailyNetProfit_RefSol;
+    paramsForSimulation.dailyNetProfit_RefUsdc = referralProfits.dailyNetProfit_RefUsdc;
 
-
-    const simulationResults = simulateDailyGrowthAndReinvestment(params);
+    const simulationResults = simulateDailyGrowthAndReinvestment(paramsForSimulation);
 
     const doublingTimes = {
-        solNoReinvest: calculateDoublingTime(params, 'SOL', false, trans, referralProfits.dailyNetProfit_RefSol),
-        usdcNoReinvest: calculateDoublingTime(params, 'USDC', false, trans, referralProfits.dailyNetProfit_RefUsdc),
-        solReinvest: calculateDoublingTime(params, 'SOL', true, trans, referralProfits.dailyNetProfit_RefSol, simulationResults.solDoubledWithReinvestDay),
-        usdcReinvest: calculateDoublingTime(params, 'USDC', true, trans, referralProfits.dailyNetProfit_RefUsdc, simulationResults.usdcDoubledWithReinvestDay)
+        solNoReinvest: calculateDoublingTime(paramsForSimulation, 'SOL', false, trans, referralProfits.dailyNetProfit_RefSol),
+        usdcNoReinvest: calculateDoublingTime(paramsForSimulation, 'USDC', false, trans, referralProfits.dailyNetProfit_RefUsdc),
+        solReinvest: calculateDoublingTime(paramsForSimulation, 'SOL', true, trans, referralProfits.dailyNetProfit_RefSol, simulationResults.solDoubledWithReinvestDay),
+        usdcReinvest: calculateDoublingTime(paramsForSimulation, 'USDC', true, trans, referralProfits.dailyNetProfit_RefUsdc, simulationResults.usdcDoubledWithReinvestDay)
     };
 
-    updateDOMWithResults(params, simulationResults, referralProfits, doublingTimes, trans);
+    updateDOMWithResults(paramsForSimulation, simulationResults, referralProfits, doublingTimes, trans);
 
-    if (typeof renderBalanceChart === 'function') {
+    if (typeof renderBalanceChart === 'function' && domElements.balanceChart) {
         renderBalanceChart(simulationResults.chartLabels, simulationResults.chartDataUsd);
     }
     if (typeof saveData === 'function') {
         saveData();
     }
 }
-
 
 /**
  * Очищает все поля результатов, график и сбрасывает классы.
@@ -1277,7 +1321,7 @@ function toggleCollapsibleSection(sectionElement, storageKey) {
 function renderBalanceChart(originalLabels, originalUsdData) {
     const canvasElement = domElements.balanceChart;
     if (!canvasElement) {
-        console.error("Элемент canvas для графика не найден!");
+        // console.error("Элемент canvas для графика не найден!"); // Раскомментируйте для отладки
         return;
     }
     const ctx = canvasElement.getContext('2d');
@@ -1300,8 +1344,8 @@ function renderBalanceChart(originalLabels, originalUsdData) {
         filteredLabels.push(originalLabels[0]);
         filteredUsdData.push(originalUsdData[0]);
         for (let i = stepSize; i < numDays; i += stepSize) {
-            filteredLabels.push(originalLabels[i -1]); // Corrected index
-            filteredUsdData.push(originalUsdData[i-1]); // Corrected index
+            filteredLabels.push(originalLabels[i -1]);
+            filteredUsdData.push(originalUsdData[i-1]);
         }
         const lastOriginalIndex = numDays - 1;
         if (filteredLabels.length === 0 || filteredLabels[filteredLabels.length - 1] !== originalLabels[lastOriginalIndex]) {
@@ -1312,11 +1356,9 @@ function renderBalanceChart(originalLabels, originalUsdData) {
         }
     }
 
-
     const gradient = ctx.createLinearGradient(0, 0, 0, 300);
     gradient.addColorStop(0, 'rgba(74, 222, 128, 0.3)');
     gradient.addColorStop(1, 'rgba(74, 222, 128, 0)');
-
 
     balanceChartInstance = new Chart(ctx, {
         type: 'line',
@@ -1418,7 +1460,7 @@ function triggerConversion() {
             return;
         }
         if (fromType === 'fiat' && toType === 'fiat') {
-            console.log(`Converting ${fromId} to ${toId} via USD (Fiat-Fiat)`);
+            // console.log(`Converting ${fromId} to ${toId} via USD (Fiat-Fiat)`); // Раскомментируйте для отладки
             statusSpan.textContent = trans.convertStatusLoading;
             statusSpan.className = 'loading';
             try {
@@ -1596,7 +1638,7 @@ function exportData() {
         URL.revokeObjectURL(url);
     } catch (error) {
         console.error("Ошибка экспорта данных:", error);
-        alert("Ошибка экспорта данных. См. консоль для деталей.");
+        // alert("Ошибка экспорта данных. См. консоль для деталей."); // Используйте более мягкое уведомление, если возможно
     }
 }
 
@@ -1625,15 +1667,16 @@ function importData(event) {
             domElements.periodicSolPeriod.value = importedData.periodicSolPeriod || '0';
             domElements.periodicUsdcAmount.value = importedData.periodicUsdcAmount || '0';
             domElements.periodicUsdcPeriod.value = importedData.periodicUsdcPeriod || '0';
-            domElements.reinvestSolCheckbox.checked = (importedData.reinvestSol || 'true') === 'true'; // Corrected from localStorage
-            domElements.reinvestSolPercent.value = importedData.reinvestSolPercent || '100'; // Corrected
-            domElements.reinvestUsdcCheckbox.checked = (importedData.reinvestUsdc || 'true') === 'true'; // Corrected
-            domElements.reinvestUsdcPercent.value = importedData.reinvestUsdcPercent || '100'; // Corrected
+            domElements.reinvestSolCheckbox.checked = (importedData.reinvestSol || 'true') === 'true';
+            domElements.reinvestSolPercent.value = importedData.reinvestSolPercent || '100';
+            domElements.reinvestUsdcCheckbox.checked = (importedData.reinvestUsdc || 'true') === 'true';
+            domElements.reinvestUsdcPercent.value = importedData.reinvestUsdcPercent || '100';
             domElements.includeReferralsCheckbox.checked = importedData.includeReferrals === true || importedData.includeReferrals === 'true';
 
             currentPage = 1;
-            toggleReinvestControls(domElements.reinvestSolCheckbox);
-            toggleReinvestControls(domElements.reinvestUsdcCheckbox);
+            if (domElements.reinvestSolCheckbox) toggleReinvestControls(domElements.reinvestSolCheckbox);
+            if (domElements.reinvestUsdcCheckbox) toggleReinvestControls(domElements.reinvestUsdcCheckbox);
+
 
             if (Array.isArray(importedData.referralsData)) {
                 referralsData = importedData.referralsData.filter(ref => typeof ref === 'object' && ref !== null && ref.hasOwnProperty('id'));
@@ -1653,17 +1696,16 @@ function importData(event) {
 
             currentLanguage = importedData.currentLanguage || 'en';
 
-            updateUI(currentLanguage); // Must be before renderReferralsTable if it uses translations
+            updateUI(currentLanguage);
             renderReferralsTable();
             clearResults();
-            resetConverter(); // Should also trigger a conversion
+            resetConverter();
             saveData();
 
-            alert("Данные успешно импортированы!");
-
+            // alert("Данные успешно импортированы!"); // Используйте более мягкое уведомление
         } catch (error) {
             console.error("Ошибка импорта данных:", error);
-            alert("Ошибка импорта файла. Убедитесь, что это действительный JSON экспорт из этого калькулятора.");
+            // alert("Ошибка импорта файла. Убедитесь, что это действительный JSON экспорт из этого калькулятора.");
         } finally {
             event.target.value = null;
         }
@@ -1674,14 +1716,20 @@ function importData(event) {
 
 // --- Reinvest Percentage Toggle ---
 function toggleReinvestControls(checkboxElement) {
-    const parentItem = checkboxElement.closest('.checkbox-item');
-    if (!parentItem) return;
-
+    if (!checkboxElement || typeof checkboxElement.closest !== 'function') {
+        return;
+    }
+    const parentItem = checkboxElement.closest('.checkbox-item.reinvest-control-group');
+    if (!parentItem) {
+        return;
+    }
     const percentInput = parentItem.querySelector('.reinvest-percent-input');
     const percentSymbol = parentItem.querySelector('.reinvest-percent-symbol');
 
     if (checkboxElement && percentInput && percentSymbol) {
         const shouldShow = checkboxElement.checked;
+        // Используем классы для управления видимостью, если планируется анимация
+        // В данном случае, возвращаемся к прямому управлению display для простоты, так как анимацию отменили
         percentInput.style.display = shouldShow ? 'inline-block' : 'none';
         percentSymbol.style.display = shouldShow ? 'inline-block' : 'none';
         percentInput.disabled = !shouldShow;
@@ -1724,15 +1772,13 @@ function setupEventListeners() {
     idsToCache.forEach(id => domElements[id.replace(/-([a-z])/g, g => g[1].toUpperCase())] = document.getElementById(id));
 
 
-    document.querySelectorAll('.input-group input, .input-group select, .checkbox-container input[type="number"]').forEach(element => { // More specific selector for inputs that need validation clearing
+    document.querySelectorAll('.input-group input, .input-group select, .checkbox-container input[type="number"]').forEach(element => {
         element.addEventListener('change', saveData);
         element.addEventListener('input', clearValidationError);
     });
-     // Checkboxes save data on change, but don't need validation clearing on input
     document.querySelectorAll('.checkbox-container input[type="checkbox"]').forEach(element => {
         element.addEventListener('change', saveData);
     });
-
 
     domElements.reinvestSolCheckbox?.addEventListener('change', function () {
         toggleReinvestControls(this);
