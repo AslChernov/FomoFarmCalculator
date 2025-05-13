@@ -75,6 +75,7 @@ const translations = {
         tooltipDoubleSolReinvest: 'Approximate days to double initial SOL stake with reinvesting profits', tooltipDoubleUsdcReinvest: 'Approximate days to double initial USDC stake with reinvesting profits',
         tooltipPlatformFee: 'Platform commission percentage',
         roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
+        reinvestOff: 'Off',
         invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
         solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.',
         h3ConverterTitle: 'Currency Converter',
@@ -132,6 +133,7 @@ const translations = {
         tooltipDoubleSolReinvest: 'Примерное кол-во дней для удвоения нач. стейка SOL с реинвестированием', tooltipDoubleUsdcReinvest: 'Примерное кол-во дней для удвоения нач. стейка USDC с реинвестированием',
         tooltipPlatformFee: 'Процент комиссии платформы',
         roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
+        reinvestOff: 'Выкл.',
         invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
         solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.',
         h3ConverterTitle: 'Конвертер Валют',
@@ -1006,56 +1008,85 @@ function simulateDailyGrowthAndReinvestment(params) {
 function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDailyReferralProfit, daysAlreadySimulatedForReinvest = 0) {
     const initialStake = currencyType === 'SOL' ? p.initialUserStakedSol : p.initialUserStakedUsdc;
     const profitRate = currencyType === 'SOL' ? p.userProfitRateSol : p.userProfitRateUsdc;
-    const reinvestEnabled = currencyType === 'SOL' ? p.reinvestSolCheckbox : p.reinvestUsdcCheckbox;
+
+    // Получаем актуальное состояние чекбокса реинвеста для ДАННОЙ валюты из параметров 'p'
+    // 'p' - это объект paramsForSimulation, который содержит validatedInputs,
+    // а validatedInputs.reinvestSolCheckbox и .reinvestUsdcCheckbox - это boolean значения .checked
+    const actualReinvestEnabled = currencyType === 'SOL' ? p.reinvestSolCheckbox : p.reinvestUsdcCheckbox;
+
     const reinvestPercentRate = currencyType === 'SOL' ? p.reinvestSolPercentRate : p.reinvestUsdcPercentRate;
     const reinvestThreshold = currencyType === 'SOL' ? REINVEST_THRESHOLD_SOL : REINVEST_THRESHOLD_USDC;
 
+    // Базовые проверки
     if (initialStake <= 0) return trans.roiNever;
-    if (profitRate <= 0 && initialDailyReferralProfit <=0 && !withReinvest) return trans.roiNever;
-    if (profitRate <= 0 && initialDailyReferralProfit <=0 && withReinvest && reinvestPercentRate <= 0) return trans.roiNever;
+    
+    // Если НЕ считаем с реинвестом, И нет ни профита от стейка, ни реферального профита, то "Никогда"
+    if (!withReinvest && profitRate <= 0 && initialDailyReferralProfit <= 0) return trans.roiNever;
+    
+    // Если СЧИТАЕМ с реинвестом, И реинвест ФАКТИЧЕСКИ включен пользователем, И процент реинвеста 0, И нет ни профита от стейка, ни реферального, то "Никогда"
+    if (withReinvest && actualReinvestEnabled && reinvestPercentRate <= 0 && profitRate <= 0 && initialDailyReferralProfit <= 0) return trans.roiNever;
 
-    if (!withReinvest) {
+
+    if (!withReinvest) { // Логика для расчета "Без реинвеста"
         const dailyNetProfit_User_Initial = initialStake * profitRate * (1 - p.platformFeeRate);
         const totalDailyProfit_NoReinvest = dailyNetProfit_User_Initial + initialDailyReferralProfit;
         if (totalDailyProfit_NoReinvest <= 0) return trans.roiNever;
         return Math.ceil(initialStake / totalDailyProfit_NoReinvest);
-    } else {
+    } else { // Логика для расчета "С реинвестом"
+        // Если мы рассчитываем "With Reinvest", но сам чекбокс реинвеста для этой валюты ВЫКЛЮЧЕН пользователем,
+        // то отображаем "Off" / "Выкл."
+        if (!actualReinvestEnabled) {
+            // Убедитесь, что 'reinvestOff' есть в translations и trans передан корректно
+            return trans.reinvestOff || "Off"; 
+        }
+
+        // Если удвоение уже произошло в основном цикле симуляции и это значение передано
         if (daysAlreadySimulatedForReinvest > 0 && daysAlreadySimulatedForReinvest !== -1) {
             return daysAlreadySimulatedForReinvest;
         }
 
+        // Если процент реинвеста 0 (но сам реинвест как опция может быть включен),
+        // то время удвоения будет как без реинвеста (или "Никогда", если нет общей прибыли)
+        // Эта проверка важна, так как actualReinvestEnabled может быть true, но процент 0
+        if (reinvestPercentRate <= 0) {
+             const dailyNetProfit_User_Initial = initialStake * profitRate * (1 - p.platformFeeRate);
+             const totalDailyProfit_NoReinvest = dailyNetProfit_User_Initial + initialDailyReferralProfit;
+             if (totalDailyProfit_NoReinvest <= 0) return trans.roiNever;
+             return Math.ceil(initialStake / totalDailyProfit_NoReinvest);
+        }
+
+        // Симуляция для удвоения с реинвестом (если не произошло в основном цикле и процент реинвеста > 0)
         let tempStake = initialStake;
         let tempAccumulatedNonReinvestDirect = 0;
         let tempPendingReinvestment = 0;
-        const maxSimulationDays = Math.max(p.days > 0 ? p.days + 1 : 1, 365 * 20);
+        const maxSimulationDays = Math.max(p.days > 0 ? p.days + 1 : 1, 365 * 20); // Симулируем до 20 лет
 
         for (let d = 1; d <= maxSimulationDays; d++) {
             let dailyProfitOnTempStake = tempStake * profitRate * (1 - p.platformFeeRate);
             let totalDailyTempProfit = dailyProfitOnTempStake + initialDailyReferralProfit;
 
-            if (reinvestEnabled && reinvestPercentRate > 0) {
-                const partForReinvest = totalDailyTempProfit * reinvestPercentRate;
-                const partNotForReinvest = totalDailyTempProfit * (1 - reinvestPercentRate);
+            // Логика реинвеста (должна совпадать с simulateDailyGrowthAndReinvestment)
+            // actualReinvestEnabled здесь уже true, и reinvestPercentRate > 0
+            const partForReinvest = totalDailyTempProfit * reinvestPercentRate;
+            const partNotForReinvest = totalDailyTempProfit * (1 - reinvestPercentRate);
 
-                tempPendingReinvestment += partForReinvest;
-                tempAccumulatedNonReinvestDirect += partNotForReinvest;
+            tempPendingReinvestment += partForReinvest;
+            tempAccumulatedNonReinvestDirect += partNotForReinvest;
 
-                if (tempPendingReinvestment >= reinvestThreshold) {
-                    tempStake += tempPendingReinvestment;
-                    tempPendingReinvestment = 0;
-                }
-            } else {
-                tempAccumulatedNonReinvestDirect += totalDailyTempProfit;
+            if (tempPendingReinvestment >= reinvestThreshold) {
+                tempStake += tempPendingReinvestment;
+                tempPendingReinvestment = 0;
             }
 
             const currentTotalBalance = tempStake + tempAccumulatedNonReinvestDirect + tempPendingReinvestment;
             if (currentTotalBalance >= initialStake * 2) {
-                return d;
+                return d; // Возвращаем количество дней
             }
         }
-        return trans.roiOverDays.replace('{days}', maxSimulationDays);
+        return trans.roiOverDays.replace('{days}', maxSimulationDays); // Если за maxSimulationDays не удвоилось
     }
 }
+
 
 /**
  * Updates the DOM with the calculated results.
