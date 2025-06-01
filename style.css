@@ -9,19 +9,21 @@ body {
     background-color: #000000;
     color: #ffffff;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+    flex-direction: column; /* Добавлено: располагать элементы вертикально */
+    align-items: center;   /* Изменено: центрировать элементы по горизонтали */
+    justify-content: flex-start; /* Выравнивание по верху, если нужно */
     min-height: 100vh;
     padding-bottom: 50px;
 }
 
 .container {
     width: 750px;
+    /* margin: auto; /* Можно оставить, но flex-настройки body уже должны центрировать */
     background-color: #000000;
     padding: 20px;
     border: 2px solid #0ea5e9;
     border-radius: 20px;
+    /* Добавляем немного отступа снизу, если нужно отделить от виджета */
     margin-bottom: 10px; 
 }
 
@@ -1058,4 +1060,9 @@ button:disabled:hover {
     color: #111827;
     border-color: #4ade80;
     font-weight: 700;
+}
+
+.fomofarm-registration-link {
+   font-weight: 700;
+   color: #4b5563;
 }
