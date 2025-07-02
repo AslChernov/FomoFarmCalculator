@@ -40,7 +40,7 @@ const translations = {
         optionNo: 'No', optionWeekly: 'Weekly', optionMonthly: 'Monthly', optionQuarterly: 'Quarterly',
         fetchSolPriceButton: 'Update', statusLoading: 'Loading...', statusSuccess: 'Success!', statusError: 'Error',
         labelEnableReferrals: 'Referrals', calculate: 'Calculate',
-        labelSupportAuthor: 'Support the author',
+        labelSupportAuthor: 'Support the author:',
         copyButtonTitle: 'Copy address',
         copiedMessage: 'Copied!',
         paginationPrevious: 'Previous',
@@ -98,7 +98,7 @@ const translations = {
         optionNo: 'Нет', optionWeekly: 'Раз в неделю', optionMonthly: 'Раз в месяц', optionQuarterly: 'Раз в 3 месяца',
         fetchSolPriceButton: 'Обновить', statusLoading: 'Загрузка...', statusSuccess: 'Успешно!', statusError: 'Ошибка',
         labelEnableReferrals: 'Рефералы', calculate: 'Рассчитать',
-        labelSupportAuthor: 'Поддержать автора',
+        labelSupportAuthor: 'Поддержать автора:',
         copyButtonTitle: 'Скопировать адрес',
         copiedMessage: 'Скопировано!',
         paginationPrevious: 'Назад',
@@ -1877,37 +1877,41 @@ function resetConverter() {
 }
 
 /**
- * Копирует адрес кошелька в буфер обмена и показывает подтверждение.
+ * Копирует адрес кошелька в буфер обмена и меняет иконку на галочку.
  */
 async function copyWalletAddress() {
     const walletAddressElement = domElements.walletAddress;
     const copyButton = domElements.copyWalletButton;
-    const copyStatus = domElements.copyStatus;
-    const trans = translations[currentLanguage];
+    const copyStatus = domElements.copyStatus; // Оставляем для сообщений об ошибках
 
     if (!walletAddressElement || !copyButton || !copyStatus) return;
     const address = walletAddressElement.textContent;
 
     try {
         await navigator.clipboard.writeText(address);
-        copyStatus.textContent = trans.copiedMessage;
-        copyStatus.style.display = 'inline';
+        
+        // Убираем отображение текста об успехе
+        // copyStatus.textContent = trans.copiedMessage;
+        // copyStatus.style.display = 'inline';
+
         const icon = copyButton.querySelector('i');
         if (icon) {
+            // Меняем иконку на галочку
             icon.classList.remove('fa-copy');
             icon.classList.add('fa-check');
             icon.style.color = '#4ade80';
         }
+
+        // Через 1.5 секунды возвращаем исходную иконку
         setTimeout(() => {
-            copyStatus.textContent = '';
-            copyStatus.style.display = 'none';
             if (icon) {
                 icon.classList.remove('fa-check');
                 icon.classList.add('fa-copy');
-                icon.style.color = '';
+                icon.style.color = ''; // Сбрасываем цвет
             }
         }, 1500);
     } catch (err) {
+        // Обработка ошибок остается без изменений, это полезно для пользователя
         console.error('Ошибка копирования в буфер обмена:', err);
         copyStatus.textContent = 'Error!';
         copyStatus.style.display = 'inline';
@@ -1915,7 +1919,7 @@ async function copyWalletAddress() {
         setTimeout(() => {
             copyStatus.textContent = '';
             copyStatus.style.display = 'none';
-            copyStatus.style.color = '#4ade80';
+            copyStatus.style.color = ''; // Сбрасываем цвет обратно на цвет по умолчанию
         }, 2000);
     }
 }
