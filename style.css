@@ -888,20 +888,6 @@ button:disabled:hover {
     color: #6b7280;
 }
 
-.textContent p {
-    display: block;
-    margin-block-start: 0em;
-    margin-block-end: 0em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    unicode-bidi: isolate;
-}
-
-.textContent i {
-    color: #6b7280;
-    margin: 0 2px;
-}
-
 .textContent a {
     color: #3b82f6;
     text-decoration: none;
@@ -909,6 +895,60 @@ button:disabled:hover {
 
 .textContent a:hover {
     text-decoration: underline;
+}
+
+.fomofarm-registration-link {
+    margin-top: 10px; /* Отступ сверху для ссылки "Присоединяйтесь" */
+}
+
+.fomofarm-registration-link a,
+#link-register-fomofarm {
+    color: #3b82f6;
+    font-weight: bold;
+}
+
+.fomofarm-registration-link a:hover,
+#link-register-fomofarm:hover {
+    color: #38a169;
+    text-decoration: underline;
+}
+
+#supportSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap; /* Разрешаем перенос элементов */
+    gap: 8px; /* Промежуток между "Support author:" и блоком с адресом */
+    margin-top: 15px; /* Отступ сверху для всей секции */
+}
+
+.wallet-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Промежуток между иконкой, адресом и кнопкой */
+}
+
+#walletAddress {
+    font-family: monospace;
+    color: #e5e7eb;
+    font-size: 13px;
+}
+
+#copyWalletButton {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    padding: 0 5px;
+    font-size: 1em;
+    line-height: 1;
+}
+
+#copyStatus {
+    display: none; /* Скрываем по умолчанию, JS будет показывать */
+    color: #ef4444; /* Цвет для сообщений об ошибках */
+    margin-left: 8px; /* Отступ, если JS его покажет */
 }
 
 /* --- Modal Window Styles (Edit Referral) --- */
@@ -1062,7 +1102,67 @@ button:disabled:hover {
     font-weight: 700;
 }
 
-.fomofarm-registration-link {
-   font-weight: 700;
-   color: #4b5563;
+.fomofarm-registration-link a, #link-register-fomofarm {
+    color: #3b82f6;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#p-footer {
+    font-size: 18px;
+}
+
+#walletAddress {
+        font-size: 14px;
+}
+
+
+/* --- Стили для мобильных устройств --- */
+@media (max-width: 768px) {
+    body {
+        margin: 0;
+        padding-bottom: 20px;
+    }
+
+    .container,
+    .widget-wrapper {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+        padding: 15px;
+    }
+    
+    .widget-wrapper {
+        padding: 15px 15px 0 15px;
+    }
+
+    #supportSection {
+        flex-direction: column; /* Элементы в столбик */
+        gap: 10px; /* Промежуток между строками */
+    }
+
+    /* Мобильные стили для шрифтов в подвале */
+    #label-support-author {
+        font-size: 18px;
+    }
+
+    #walletAddress {
+        font-size: 18px; /* Увеличиваем шрифт адреса на мобильных */
+        word-break: break-all;
+    }
+
+    #copyWalletButton .fa-copy {
+        font-size: 16px;
+    }
+
+    #p-footer {
+    font-size: 18px; /* Установите здесь нужный размер */
+    }
+
+    #fomofarm-registration-link a, #link-register-fomofarm {
+    color: #3b82f6;
+    font-weight: bold;
+    font-size: 20px;
+}
 }
