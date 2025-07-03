@@ -2,7 +2,7 @@
 const domElements = {}; // Object to cache DOM elements
 
 // --- Global Variables & Constants ---
-const APP_VERSION = "3.1";
+const APP_VERSION = "4.0";
 let currentPage = 1;
 const itemsPerPage = 10;
 let referralsData = [];
@@ -64,16 +64,6 @@ const translations = {
         h4FinalBalance: 'Final Balance', labelFinalBalanceSol: 'Final Balance SOL:', labelFinalBalanceUsdc: 'Final Balance USDC:',
         labelFinalBalanceUsd: 'Total Final Balance (USD):',
         labelProfitTotalUsd: 'Total Profit (USD):',
-        tooltipProfitUserSol: 'Your net profit from SOL stake after fees', tooltipProfitUserUsdc: 'Your net profit from USDC stake after fees',
-        tooltipProfitRefSol: 'Your profit from referral SOL stakes', tooltipProfitRefUsdc: 'Your profit from referral USDC stakes',
-        tooltipPeriodicTotalSol: 'Total additional SOL invested periodically', tooltipPeriodicTotalUsdc: 'Total additional USDC invested periodically',
-        tooltipProfitTotalSol: 'Total SOL profit (yours + referrals)', tooltipProfitTotalUsdc: 'Total USDC profit (yours + referrals)',
-        tooltipFinalBalanceSol: 'Initial stake + total profit + additional investments', tooltipFinalBalanceUsdc: 'Initial stake + total profit + additional investments',
-        tooltipFinalBalanceUsd: 'Total final balance of SOL and USDC converted to USD', tooltipProfitTotalUsd: 'Total profit of SOL and USDC converted to USD',
-        tooltipProfitPercentSol: 'Total SOL profit as a percentage of initial SOL stake', tooltipProfitPercentUsdc: 'Total USDC profit as a percentage of initial USDC stake',
-        tooltipDoubleSolNoreinvest: 'Approximate days to double initial SOL stake without reinvesting profits', tooltipDoubleUsdcNoreinvest: 'Approximate days to double initial USDC stake without reinvesting profits',
-        tooltipDoubleSolReinvest: 'Approximate days to double initial SOL stake with reinvesting profits', tooltipDoubleUsdcReinvest: 'Approximate days to double initial USDC stake with reinvesting profits',
-        tooltipPlatformFee: 'Platform commission percentage',
         roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
         reinvestOff: 'Off',
         invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
@@ -122,16 +112,6 @@ const translations = {
         h4FinalBalance: 'Итоговый баланс', labelFinalBalanceSol: 'Итоговый Баланс SOL:', labelFinalBalanceUsdc: 'Итоговый Баланс USDC:',
         labelFinalBalanceUsd: 'Общий Итоговый Баланс (USD):',
         labelProfitTotalUsd: 'Общий Профит (USD):',
-        tooltipProfitUserSol: 'Ваш чистый профит от стейка SOL после комиссий', tooltipProfitUserUsdc: 'Ваш чистый профит от стейка USDC после комиссий',
-        tooltipProfitRefSol: 'Ваш профит от стейков SOL рефералов', tooltipProfitRefUsdc: 'Ваш профит от стейков USDC рефералов',
-        tooltipPeriodicTotalSol: 'Всего дополнительно вложено SOL периодически', tooltipPeriodicTotalUsdc: 'Всего дополнительно вложено USDC периодически',
-        tooltipProfitTotalSol: 'Общий профит SOL (ваш + рефералов)', tooltipProfitTotalUsdc: 'Общий профит USDC (ваш + рефералов)',
-        tooltipFinalBalanceSol: 'Начальный стейк + общий профит + довложения', tooltipFinalBalanceUsdc: 'Начальный стейк + общий профит + довложения',
-        tooltipFinalBalanceUsd: 'Общий итоговый баланс SOL и USDC, конвертированный в USD', tooltipProfitTotalUsd: 'Общий профит SOL и USDC, конвертированный в USD',
-        tooltipProfitPercentSol: 'Общий профит SOL в процентах от начального стейка SOL', tooltipProfitPercentUsdc: 'Общий профит USDC в процентах от начального стейка USDC',
-        tooltipDoubleSolNoreinvest: 'Примерное кол-во дней для удвоения нач. стейка SOL без реинвестирования', tooltipDoubleUsdcNoreinvest: 'Примерное кол-во дней для удвоения нач. стейка USDC без реинвестирования',
-        tooltipDoubleSolReinvest: 'Примерное кол-во дней для удвоения нач. стейка SOL с реинвестированием', tooltipDoubleUsdcReinvest: 'Примерное кол-во дней для удвоения нач. стейка USDC с реинвестированием',
-        tooltipPlatformFee: 'Процент комиссии платформы',
         roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
         reinvestOff: 'Выкл.',
         invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
@@ -303,18 +283,8 @@ function updateUI(lang) {
         'option-sol-none': 'optionNo', 'option-sol-weekly': 'optionWeekly', 'option-sol-monthly': 'optionMonthly', 'option-sol-quarterly': 'optionQuarterly',
         'option-usdc-none': 'optionNo', 'option-usdc-weekly': 'optionWeekly', 'option-usdc-monthly': 'optionMonthly', 'option-usdc-quarterly': 'optionQuarterly',
         'fetchSolPriceButton': 'fetchSolPriceButton',
-        'tooltip-profit-sol': 'tooltipProfitSol', 'tooltip-profit-usdc': 'tooltipProfitUsdc', 'tooltip-platform-fee': 'tooltipPlatformFee',
         'h3-converter-title': 'h3ConverterTitle', 'h3-chart-title': 'h3ChartTitle', 'h3-referrals-text': 'h3Referrals',
         'swapCurrenciesButton': 'swapButtonTitle',
-        'tooltip-profit-user-sol': 'tooltipProfitUserSol', 'tooltip-profit-user-usdc': 'tooltipProfitUserUsdc',
-        'tooltip-profit-ref-sol': 'tooltipProfitRefSol', 'tooltip-profit-ref-usdc': 'tooltipProfitRefUsdc',
-        'tooltip-periodic-total-sol': 'tooltipPeriodicTotalSol', 'tooltip-periodic-total-usdc': 'tooltipPeriodicTotalUsdc',
-        'tooltip-profit-total-sol': 'tooltipProfitTotalSol', 'tooltip-profit-total-usdc': 'tooltipProfitTotalUsdc',
-        'tooltip-final-balance-sol': 'tooltipFinalBalanceSol', 'tooltip-final-balance-usdc': 'tooltipFinalBalanceUsdc',
-        'tooltip-final-balance-usd': 'tooltipFinalBalanceUsd', 'tooltip-profit-total-usd': 'tooltipProfitTotalUsd',
-        'tooltip-profit-percent-sol': 'tooltipProfitPercentSol', 'tooltip-profit-percent-usdc': 'tooltipProfitPercentUsdc',
-        'tooltip-double-sol-noreinvest': 'tooltipDoubleSolNoreinvest', 'tooltip-double-usdc-noreinvest': 'tooltipDoubleUsdcNoreinvest',
-        'tooltip-double-sol-reinvest': 'tooltipDoubleSolReinvest', 'tooltip-double-usdc-reinvest': 'tooltipDoubleUsdcReinvest',
         'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-general-results': 'h4GeneralResults'
     };
 
@@ -342,10 +312,6 @@ function updateUI(lang) {
             const isSpanLabel = element.tagName === 'SPAN' && element.classList.contains('label');
 
             if (isLabelTag || isSpanLabel) {
-                const existingTooltipContainer = element.querySelector('.tooltip-container');
-                if (existingTooltipContainer) {
-                    existingTooltipContainer.remove();
-                }
                 if (isLabelTag) {
                     const oldCurrencyIcon = element.querySelector('img.currency-icon-sol, img.currency-icon-usdc');
                     if (oldCurrencyIcon) {
@@ -362,17 +328,9 @@ function updateUI(lang) {
                         if (newCurrencyIconElement) {
                             newCurrencyIconElement.classList.add(iconInfo.class);
                             element.appendChild(newCurrencyIconElement);
-                            if (existingTooltipContainer) {
-                                element.appendChild(document.createTextNode(' '));
-                            }
                         }
                     }
                 }
-                if (existingTooltipContainer) {
-                    element.appendChild(existingTooltipContainer);
-                }
-            } else if (element.classList.contains('tooltip-text')) {
-                element.textContent = translatedText;
             } else if (element.tagName === 'OPTION') {
                 element.textContent = translatedText;
             } else if (id === 'p-footer') {
@@ -404,21 +362,11 @@ function updateUI(lang) {
     const labelReinvestSol = domElements.labelReinvestSol;
     if (labelReinvestSol) {
         labelReinvestSol.innerHTML = `${reinvestText} ${solanaIconImg}`;
-        const imgInSolLabel = labelReinvestSol.querySelector('img');
-        if (imgInSolLabel) {
-            imgInSolLabel.style.verticalAlign = 'middle';
-            imgInSolLabel.style.marginLeft = '4px';
-        }
     }
 
     const labelReinvestUsdc = domElements.labelReinvestUsdc;
     if (labelReinvestUsdc) {
         labelReinvestUsdc.innerHTML = `${reinvestText} ${usdcIconImg}`;
-        const imgInUsdcLabel = labelReinvestUsdc.querySelector('img');
-        if (imgInUsdcLabel) {
-            imgInUsdcLabel.style.verticalAlign = 'middle';
-            imgInUsdcLabel.style.marginLeft = '4px';
-        }
     }
 
     if (domElements.solPriceStatus) { domElements.solPriceStatus.textContent = ''; domElements.solPriceStatus.className = ''; }
@@ -531,7 +479,7 @@ function renderReferralsTable() {
 
     if (totalItems === 0) {
         const row = document.createElement('tr');
-        row.innerHTML = `<td colspan="4" style="text-align:center; color:#6b7280;">${trans.noReferrals}</td>`;
+        row.innerHTML = `<td colspan="4" class="no-referrals-message">${trans.noReferrals}</td>`;
         referralsListBody.appendChild(row);
     } else {
         paginatedReferrals.forEach((referral, index) => {
@@ -577,7 +525,7 @@ function renderReferralsTable() {
  * @param {number} totalPages - Общее количество страниц.
  */
 function renderPaginationControls(totalPages) {
-    const paginationContainer = document.getElementById('paginationControls');
+    const paginationContainer = domElements.paginationControls;
     if (!paginationContainer) return;
     paginationContainer.innerHTML = '';
     const trans = translations[currentLanguage];
@@ -662,15 +610,19 @@ function openEditModal(referralId) {
             if (modalIcons[index]) label.innerHTML += modalIcons[index];
         }
     });
-    modal.style.display = 'flex';
+    modal.classList.add('is-active');
 }
 
 /**
  * Закрывает модальное окно редактирования реферала.
  */
 function closeEditModal() {
-    if (domElements.editReferralModal) { domElements.editReferralModal.style.display = 'none'; }
-    if (domElements.editingReferralId) { domElements.editingReferralId.value = ''; }
+    if (domElements.editReferralModal) {
+        domElements.editReferralModal.classList.remove('is-active');
+    }
+    if (domElements.editingReferralId) {
+        domElements.editingReferralId.value = '';
+    }
 }
 
 /**
@@ -834,7 +786,7 @@ function getAndValidateInputs(trans) {
     }
 
     if (!isValid) {
-        clearResults(trans.invalidInputError);
+        clearResults();
         if (balanceChartInstance) { balanceChartInstance.destroy(); balanceChartInstance = null; }
         return null;
     }
@@ -903,11 +855,6 @@ function simulateDailyGrowthAndReinvestment(params) {
     let solDoubledWithReinvestDay = -1;
     let usdcDoubledWithReinvestDay = -1;
 
-    // console.log("--- Starting Daily Loop (Cumulative Reinvest) ---");
-    // console.log(`Initial SOL Stake: ${currentSolStake.toFixed(5)}, Initial USDC Stake: ${currentUsdcStake.toFixed(5)}`);
-    // console.log(`SOL Reinvest: ${params.reinvestSolCheckbox}, %: ${params.reinvestSolPercentRate*100}, Threshold: ${REINVEST_THRESHOLD_SOL}`);
-    // console.log(`USDC Reinvest: ${params.reinvestUsdcCheckbox}, %: ${params.reinvestUsdcPercentRate*100}, Threshold: ${REINVEST_THRESHOLD_USDC}`);
-
     for (let day = 1; day <= params.days; day++) {
         if (params.periodicSolAmount > 0 && params.periodicSolPeriod > 0 && day % params.periodicSolPeriod === 0) {
             currentSolStake += params.periodicSolAmount;
@@ -933,7 +880,6 @@ function simulateDailyGrowthAndReinvestment(params) {
             accumulatedSolProfit_nonReinvested_direct += solPartNotForReinvest;
             if (pendingReinvestmentSol >= REINVEST_THRESHOLD_SOL) {
                 currentSolStake += pendingReinvestmentSol;
-                // console.log(`Day ${day} SOL Reinvested: ${pendingReinvestmentSol.toFixed(5)}. New Stake: ${currentSolStake.toFixed(5)}`);
                 pendingReinvestmentSol = 0;
             }
         } else {
@@ -947,7 +893,6 @@ function simulateDailyGrowthAndReinvestment(params) {
             accumulatedUsdcProfit_nonReinvested_direct += usdcPartNotForReinvest;
             if (pendingReinvestmentUsdc >= REINVEST_THRESHOLD_USDC) {
                 currentUsdcStake += pendingReinvestmentUsdc;
-                // console.log(`Day ${day} USDC Reinvested: ${pendingReinvestmentUsdc.toFixed(5)}. New Stake: ${currentUsdcStake.toFixed(5)}`);
                 pendingReinvestmentUsdc = 0;
             }
         } else {
@@ -968,9 +913,6 @@ function simulateDailyGrowthAndReinvestment(params) {
         chartLabels.push(day);
         chartDataUsd.push(currentTotalBalanceUsd);
     }
-    // console.log("--- End of Daily Loop (Cumulative Reinvest) ---");
-    // console.log(`Final SOL Stake: ${currentSolStake.toFixed(5)}, Pending SOL Reinvest: ${pendingReinvestmentSol.toFixed(5)}, Accumulated Non-Reinvest Direct SOL: ${accumulatedSolProfit_nonReinvested_direct.toFixed(5)}`);
-    // console.log(`Final USDC Stake: ${currentUsdcStake.toFixed(5)}, Pending USDC Reinvest: ${pendingReinvestmentUsdc.toFixed(5)}, Accumulated Non-Reinvest Direct USDC: ${accumulatedUsdcProfit_nonReinvested_direct.toFixed(5)}`);
 
     const finalSolBalance = currentSolStake + accumulatedSolProfit_nonReinvested_direct + pendingReinvestmentSol;
     const finalUsdcBalance = currentUsdcStake + accumulatedUsdcProfit_nonReinvested_direct + pendingReinvestmentUsdc;
@@ -978,8 +920,6 @@ function simulateDailyGrowthAndReinvestment(params) {
     return {
         finalSolStake: currentSolStake,
         finalUsdcStake: currentUsdcStake,
-        accumulatedSolProfit_nonReinvested: accumulatedSolProfit_nonReinvested_direct + pendingReinvestmentSol,
-        accumulatedUsdcProfit_nonReinvested: accumulatedUsdcProfit_nonReinvested_direct + pendingReinvestmentUsdc,
         totalSolProfitEarned,
         totalUsdcProfitEarned,
         totalPeriodicSolAdded,
@@ -1009,45 +949,32 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
     const initialStake = currencyType === 'SOL' ? p.initialUserStakedSol : p.initialUserStakedUsdc;
     const profitRate = currencyType === 'SOL' ? p.userProfitRateSol : p.userProfitRateUsdc;
 
-    // Получаем актуальное состояние чекбокса реинвеста для ДАННОЙ валюты из параметров 'p'
-    // 'p' - это объект paramsForSimulation, который содержит validatedInputs,
-    // а validatedInputs.reinvestSolCheckbox и .reinvestUsdcCheckbox - это boolean значения .checked
     const actualReinvestEnabled = currencyType === 'SOL' ? p.reinvestSolCheckbox : p.reinvestUsdcCheckbox;
 
     const reinvestPercentRate = currencyType === 'SOL' ? p.reinvestSolPercentRate : p.reinvestUsdcPercentRate;
     const reinvestThreshold = currencyType === 'SOL' ? REINVEST_THRESHOLD_SOL : REINVEST_THRESHOLD_USDC;
 
-    // Базовые проверки
     if (initialStake <= 0) return trans.roiNever;
     
-    // Если НЕ считаем с реинвестом, И нет ни профита от стейка, ни реферального профита, то "Никогда"
     if (!withReinvest && profitRate <= 0 && initialDailyReferralProfit <= 0) return trans.roiNever;
     
-    // Если СЧИТАЕМ с реинвестом, И реинвест ФАКТИЧЕСКИ включен пользователем, И процент реинвеста 0, И нет ни профита от стейка, ни реферального, то "Никогда"
     if (withReinvest && actualReinvestEnabled && reinvestPercentRate <= 0 && profitRate <= 0 && initialDailyReferralProfit <= 0) return trans.roiNever;
 
 
-    if (!withReinvest) { // Логика для расчета "Без реинвеста"
+    if (!withReinvest) {
         const dailyNetProfit_User_Initial = initialStake * profitRate * (1 - p.platformFeeRate);
         const totalDailyProfit_NoReinvest = dailyNetProfit_User_Initial + initialDailyReferralProfit;
         if (totalDailyProfit_NoReinvest <= 0) return trans.roiNever;
         return Math.ceil(initialStake / totalDailyProfit_NoReinvest);
-    } else { // Логика для расчета "С реинвестом"
-        // Если мы рассчитываем "With Reinvest", но сам чекбокс реинвеста для этой валюты ВЫКЛЮЧЕН пользователем,
-        // то отображаем "Off" / "Выкл."
+    } else {
         if (!actualReinvestEnabled) {
-            // Убедитесь, что 'reinvestOff' есть в translations и trans передан корректно
             return trans.reinvestOff || "Off"; 
         }
 
-        // Если удвоение уже произошло в основном цикле симуляции и это значение передано
         if (daysAlreadySimulatedForReinvest > 0 && daysAlreadySimulatedForReinvest !== -1) {
             return daysAlreadySimulatedForReinvest;
         }
 
-        // Если процент реинвеста 0 (но сам реинвест как опция может быть включен),
-        // то время удвоения будет как без реинвеста (или "Никогда", если нет общей прибыли)
-        // Эта проверка важна, так как actualReinvestEnabled может быть true, но процент 0
         if (reinvestPercentRate <= 0) {
              const dailyNetProfit_User_Initial = initialStake * profitRate * (1 - p.platformFeeRate);
              const totalDailyProfit_NoReinvest = dailyNetProfit_User_Initial + initialDailyReferralProfit;
@@ -1055,18 +982,15 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
              return Math.ceil(initialStake / totalDailyProfit_NoReinvest);
         }
 
-        // Симуляция для удвоения с реинвестом (если не произошло в основном цикле и процент реинвеста > 0)
         let tempStake = initialStake;
         let tempAccumulatedNonReinvestDirect = 0;
         let tempPendingReinvestment = 0;
-        const maxSimulationDays = Math.max(p.days > 0 ? p.days + 1 : 1, 365 * 20); // Симулируем до 20 лет
+        const maxSimulationDays = Math.max(p.days > 0 ? p.days + 1 : 1, 365 * 20);
 
         for (let d = 1; d <= maxSimulationDays; d++) {
             let dailyProfitOnTempStake = tempStake * profitRate * (1 - p.platformFeeRate);
             let totalDailyTempProfit = dailyProfitOnTempStake + initialDailyReferralProfit;
 
-            // Логика реинвеста (должна совпадать с simulateDailyGrowthAndReinvestment)
-            // actualReinvestEnabled здесь уже true, и reinvestPercentRate > 0
             const partForReinvest = totalDailyTempProfit * reinvestPercentRate;
             const partNotForReinvest = totalDailyTempProfit * (1 - reinvestPercentRate);
 
@@ -1080,17 +1004,17 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
 
             const currentTotalBalance = tempStake + tempAccumulatedNonReinvestDirect + tempPendingReinvestment;
             if (currentTotalBalance >= initialStake * 2) {
-                return d; // Возвращаем количество дней
+                return d;
             }
         }
-        return trans.roiOverDays.replace('{days}', maxSimulationDays); // Если за maxSimulationDays не удвоилось
+        return trans.roiOverDays.replace('{days}', maxSimulationDays);
     }
 }
 
 
 /**
  * Updates the DOM with the calculated results.
- * @param {object} inputs - Validated input parameters (renamed to 'calcParams' to avoid conflict with global 'inputs' if any).
+ * @param {object} calcParams - Validated input parameters.
  * @param {object} simulationResults - Results from the daily simulation.
  * @param {object} referralProfits - Calculated daily referral profits.
  * @param {object} doublingTimes - Calculated doubling times.
@@ -1099,19 +1023,14 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
 function updateDOMWithResults(calcParams, simulationResults, referralProfits, doublingTimes, trans) {
     const {
         finalSolBalance, finalUsdcBalance, totalSolProfitEarned, totalUsdcProfitEarned,
-        totalPeriodicSolAdded, totalPeriodicUsdcAdded, chartDataUsd,
-        accumulatedSolProfit_nonReinvested, accumulatedUsdcProfit_nonReinvested // Используем эти для общего профита
+        totalPeriodicSolAdded, totalPeriodicUsdcAdded, chartDataUsd
     } = simulationResults;
 
     const totalReferralProfitOverPeriodSol = referralProfits.dailyNetProfit_RefSol * calcParams.days;
     const totalReferralProfitOverPeriodUsdc = referralProfits.dailyNetProfit_RefUsdc * calcParams.days;
 
-    // Прибыль пользователя = Общая прибыль - Реферальная прибыль
-    // Общая прибыль (totalSolProfitEarned) уже включает в себя и прибыль со стейка и реферальную.
-    // Поэтому, чтобы получить прибыль ТОЛЬКО со стейка пользователя, вычитаем реферальную.
     let userProfitSolDisplay = totalSolProfitEarned - totalReferralProfitOverPeriodSol;
     let userProfitUsdcDisplay = totalUsdcProfitEarned - totalReferralProfitOverPeriodUsdc;
-
 
     const epsilon = 1e-9;
     if (Math.abs(userProfitSolDisplay) < epsilon) userProfitSolDisplay = 0;
@@ -1165,7 +1084,6 @@ function updateDOMWithResults(calcParams, simulationResults, referralProfits, do
  * Основная функция калькулятора.
  */
 function calculate() {
-    // console.log("Calculate function called with cumulative reinvest logic!"); // Раскомментируйте для отладки
     const trans = translations[currentLanguage];
     const validatedInputs = getAndValidateInputs(trans);
 
@@ -1223,9 +1141,8 @@ function calculate() {
 
 /**
  * Очищает все поля результатов, график и сбрасывает классы.
- * @param {string} [message=""] - An optional message to log to the console.
  */
-function clearResults(message = "") {
+function clearResults() {
     const resetResultSpan = (element, defaultValue, defaultIconHtml = '', defaultClassName = 'value') => {
         if (element) {
             element.innerHTML = defaultValue + (defaultIconHtml || '');
@@ -1259,7 +1176,6 @@ function clearResults(message = "") {
         balanceChartInstance.destroy();
         balanceChartInstance = null;
     }
-    if (message) { console.warn(message); }
 }
 /**
  * Сбрасывает все поля ввода, рефералов и результаты к значениям по умолчанию.
@@ -1352,7 +1268,6 @@ function toggleCollapsibleSection(sectionElement, storageKey) {
 function renderBalanceChart(originalLabels, originalUsdData) {
     const canvasElement = domElements.balanceChart;
     if (!canvasElement) {
-        // console.error("Элемент canvas для графика не найден!"); // Раскомментируйте для отладки
         return;
     }
     const ctx = canvasElement.getContext('2d');
@@ -1416,7 +1331,7 @@ function renderBalanceChart(originalLabels, originalUsdData) {
                 y: { beginAtZero: true, ticks: { color: '#9ca3af' }, grid: { color: 'rgba(156, 163, 175, 0.2)' } },
                 x: { ticks: { color: '#9ca3af', autoSkip: false, maxRotation: 0, minRotation: 0 }, grid: { display: false } }
             },
-            plugins: { legend: { labels: { color: '#e5e7eb' } }, tooltip: { mode: 'index', intersect: false } },
+            plugins: { legend: { labels: { color: '#e5e7eb' } } },
             hover: { mode: 'nearest', intersect: true }
         }
     });
@@ -1491,7 +1406,6 @@ function triggerConversion() {
             return;
         }
         if (fromType === 'fiat' && toType === 'fiat') {
-            // console.log(`Converting ${fromId} to ${toId} via USD (Fiat-Fiat)`); // Раскомментируйте для отладки
             statusSpan.textContent = trans.convertStatusLoading;
             statusSpan.className = 'loading';
             try {
@@ -1669,7 +1583,6 @@ function exportData() {
         URL.revokeObjectURL(url);
     } catch (error) {
         console.error("Ошибка экспорта данных:", error);
-        // alert("Ошибка экспорта данных. См. консоль для деталей."); // Используйте более мягкое уведомление, если возможно
     }
 }
 
@@ -1732,11 +1645,8 @@ function importData(event) {
             clearResults();
             resetConverter();
             saveData();
-
-            // alert("Данные успешно импортированы!"); // Используйте более мягкое уведомление
         } catch (error) {
             console.error("Ошибка импорта данных:", error);
-            // alert("Ошибка импорта файла. Убедитесь, что это действительный JSON экспорт из этого калькулятора.");
         } finally {
             event.target.value = null;
         }
@@ -1751,19 +1661,12 @@ function toggleReinvestControls(checkboxElement) {
         return;
     }
     const parentItem = checkboxElement.closest('.checkbox-item.reinvest-control-group');
-    if (!parentItem) {
-        return;
+    if (parentItem) {
+        parentItem.classList.toggle('reinvest-active', checkboxElement.checked);
     }
     const percentInput = parentItem.querySelector('.reinvest-percent-input');
-    const percentSymbol = parentItem.querySelector('.reinvest-percent-symbol');
-
-    if (checkboxElement && percentInput && percentSymbol) {
-        const shouldShow = checkboxElement.checked;
-        // Используем классы для управления видимостью, если планируется анимация
-        // В данном случае, возвращаемся к прямому управлению display для простоты, так как анимацию отменили
-        percentInput.style.display = shouldShow ? 'inline-block' : 'none';
-        percentSymbol.style.display = shouldShow ? 'inline-block' : 'none';
-        percentInput.disabled = !shouldShow;
+    if (percentInput) {
+        percentInput.disabled = !checkboxElement.checked;
     }
 }
 
@@ -1798,7 +1701,8 @@ function setupEventListeners() {
         'label-user-profit-percent-usdc', 'label-periodic-sol', 'label-periodic-usdc',
         'label-modal-stake-sol', 'label-modal-profit-sol', 'label-modal-stake-usdc',
         'label-modal-profit-usdc', 'label-modal-level',
-        'referralsSection', 'chartSection', 'converterSection'
+        'referralsSection', 'chartSection', 'converterSection', 'paginationControls',
+        'referralsHeader', 'chartHeader', 'converterHeader', 'importFile'
     ];
     idsToCache.forEach(id => domElements[id.replace(/-([a-z])/g, g => g[1].toUpperCase())] = document.getElementById(id));
 
@@ -1841,13 +1745,13 @@ function setupEventListeners() {
     document.getElementById('fetchSolPriceButton').addEventListener('click', fetchSolPrice);
     document.getElementById('resetButton').addEventListener('click', resetCalculator);
     document.getElementById('exportButton').addEventListener('click', exportData);
-    document.getElementById('importButton').addEventListener('click', () => document.getElementById('importFile').click());
-    document.getElementById('importFile').addEventListener('change', importData);
+    document.getElementById('importButton').addEventListener('click', () => domElements.importFile.click());
+    domElements.importFile?.addEventListener('change', importData);
     domElements.copyWalletButton?.addEventListener('click', copyWalletAddress);
 
-    document.getElementById('referralsHeader')?.addEventListener('click', () => toggleCollapsibleSection(domElements.referralsSection, 'fomoFarmCalc_referralsCollapsed'));
-    document.getElementById('chartHeader')?.addEventListener('click', () => toggleCollapsibleSection(domElements.chartSection, 'fomoFarmCalc_chartCollapsed'));
-    document.getElementById('converterHeader')?.addEventListener('click', () => toggleCollapsibleSection(domElements.converterSection, 'fomoFarmCalc_converterCollapsed'));
+    domElements.referralsHeader?.addEventListener('click', () => toggleCollapsibleSection(domElements.referralsSection, 'fomoFarmCalc_referralsCollapsed'));
+    domElements.chartHeader?.addEventListener('click', () => toggleCollapsibleSection(domElements.chartSection, 'fomoFarmCalc_chartCollapsed'));
+    domElements.converterHeader?.addEventListener('click', () => toggleCollapsibleSection(domElements.converterSection, 'fomoFarmCalc_converterCollapsed'));
 
     document.querySelectorAll('#referralsTable th.sortable').forEach(header => {
         header.addEventListener('click', () => sortReferrals(header.dataset.sortKey));
@@ -1882,7 +1786,7 @@ function resetConverter() {
 async function copyWalletAddress() {
     const walletAddressElement = domElements.walletAddress;
     const copyButton = domElements.copyWalletButton;
-    const copyStatus = domElements.copyStatus; // Оставляем для сообщений об ошибках
+    const copyStatus = domElements.copyStatus;
 
     if (!walletAddressElement || !copyButton || !copyStatus) return;
     const address = walletAddressElement.textContent;
@@ -1890,36 +1794,28 @@ async function copyWalletAddress() {
     try {
         await navigator.clipboard.writeText(address);
         
-        // Убираем отображение текста об успехе
-        // copyStatus.textContent = trans.copiedMessage;
-        // copyStatus.style.display = 'inline';
-
         const icon = copyButton.querySelector('i');
         if (icon) {
-            // Меняем иконку на галочку
             icon.classList.remove('fa-copy');
             icon.classList.add('fa-check');
-            icon.style.color = '#4ade80';
+            icon.classList.add('success');
         }
 
-        // Через 1.5 секунды возвращаем исходную иконку
         setTimeout(() => {
             if (icon) {
                 icon.classList.remove('fa-check');
                 icon.classList.add('fa-copy');
-                icon.style.color = ''; // Сбрасываем цвет
+                icon.classList.remove('success');
             }
         }, 1500);
     } catch (err) {
-        // Обработка ошибок остается без изменений, это полезно для пользователя
         console.error('Ошибка копирования в буфер обмена:', err);
         copyStatus.textContent = 'Error!';
-        copyStatus.style.display = 'inline';
-        copyStatus.style.color = '#ef4444';
+        copyStatus.classList.add('visible', 'error');
+        
         setTimeout(() => {
             copyStatus.textContent = '';
-            copyStatus.style.display = 'none';
-            copyStatus.style.color = ''; // Сбрасываем цвет обратно на цвет по умолчанию
+            copyStatus.classList.remove('visible', 'error');
         }, 2000);
     }
 }
