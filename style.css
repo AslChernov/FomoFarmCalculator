@@ -82,7 +82,6 @@
     --gap-small: 8px;
     --gap-medium: 15px;
     --gap-large: 25px;
-
 }
 
 /* --- Общие стили и сброс --- */
@@ -458,25 +457,34 @@ button:disabled:hover {
 
 #calculateButton {
     background-color: var(--color-success);
+    background-image: linear-gradient(to right, #34d399 0%, var(--color-success) 100%);
+    border: none;
+    transition: all 0.3s ease;
 }
 #calculateButton:hover {
-    background-color: var(--color-success-dark);
+    background-image: linear-gradient(to right, var(--color-success) 0%, var(--color-success-dark) 100%);
 }
 
 #resetButton {
-    background-color: var(--color-error);
+    background-color: var(--color-error); /* Фоллбэк */
+    background-image: linear-gradient(to right, #f87171 0%, var(--color-error) 100%);
+    border: none;
+    transition: all 0.3s ease;
 }
 #resetButton:hover {
-    background-color: var(--color-error-dark);
+    background-image: linear-gradient(to right, var(--color-error) 0%, var(--color-error-dark) 100%);
 }
 
 #exportButton,
 #importButton {
-    background-color: var(--color-info);
+    background-color: var(--color-info); /* Фоллбэк */
+    background-image: linear-gradient(to right, #60a5fa 0%, var(--color-info) 100%);
+    border: none;
+    transition: all 0.3s ease;
 }
 #exportButton:hover,
 #importButton:hover {
-    background-color: var(--color-info-dark);
+    background-image: linear-gradient(to right, var(--color-info) 0%, var(--color-info-dark) 100%);
 }
 
 #fetchSolPriceButton {
@@ -705,6 +713,18 @@ button:disabled:hover {
     vertical-align: middle;
 }
 
+#addReferralButton {
+    background-color: var(--color-info); /* Фоллбэк */
+    background-image: linear-gradient(to right, rgb(96, 165, 250) 0%, var(--color-info) 100%);
+    border: none;
+    transition: all 0.3s ease;
+    margin-bottom: var(--gap-medium);
+}
+
+#addReferralButton:hover {
+    background-image: linear-gradient(to right, var(--color-info) 0%, var(--color-info-dark) 100%);
+}
+
 .referrals td .action-button {
     margin: 0 10px 0 10px;
     padding: 6px 8px;
@@ -714,22 +734,28 @@ button:disabled:hover {
     text-transform: none;
     min-width: 65px;
     text-align: center;
+    border: none;
+    transition: all 0.3s ease;
 }
 
 .referrals td .edit-button {
-    background-color: var(--color-warning);
+    background-color: var(--color-warning); /* Фоллбэк */
+    background-image: linear-gradient(to right, #fcd34d 0%, var(--color-warning) 100%);
+    border: none;
 }
 
 .referrals td .edit-button:hover {
-    background-color: var(--color-warning-dark);
+    background-image: linear-gradient(to right, var(--color-warning) 0%, var(--color-warning-dark) 100%);
 }
 
 .referrals td .remove-button {
-    background-color: var(--color-error);
+    background-color: var(--color-error); /* Фоллбэк */
+    background-image: linear-gradient(to right, #f87171 0%, var(--color-error) 100%);
+    border: none;
 }
 
 .referrals td .remove-button:hover {
-    background-color: var(--color-error-dark);
+    background-image: linear-gradient(to right, var(--color-error) 0%, var(--color-error-dark) 100%);
 }
 
 /* --- Пагинация --- */
@@ -772,6 +798,37 @@ button:disabled:hover {
     border-radius: var(--border-radius-medium);
     overflow: hidden;
     background-color: transparent;
+}
+
+.converter-block input[type="number"] {
+    flex-grow: 1;
+    width: 100%;
+    min-width: 50px;
+    margin-right: 10px;
+}
+
+.converter-block input[type="text"] {
+    flex-grow: 1;
+    width: 100%;
+    min-width: 50px;
+    margin-right: 10px;
+}
+
+#swapCurrenciesButton {
+    padding: 6px 10px;
+    font-size: var(--font-size-base);
+    color: var(--color-text-label);
+    background-color: var(--color-button-secondary); /* Фоллбэк */
+    background-image: linear-gradient(to right, #4b5563 0%, var(--color-button-secondary) 100%);
+    border: none;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    line-height: 1;
+    min-width: 40px;
+}
+
+#swapCurrenciesButton:hover {
+    background-image: linear-gradient(to right, var(--color-button-secondary) 0%, var(--color-button-secondary-hover) 100%);
 }
 
 /* --- Статусы и ошибки --- */
@@ -914,6 +971,10 @@ select.input-error {
     gap: 10px;
 }
 
+.modal-footer button {
+    flex: 1;
+}
+
 .modal-body {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -921,17 +982,23 @@ select.input-error {
 }
 
 #saveReferralButton {
-    background-color: var(--color-success);
+    background-color: var(--color-success); /* Фоллбэк */
+    background-image: linear-gradient(to right, #34d399 0%, var(--color-success) 100%);
+    border: none;
+    transition: all 0.3s ease;
 }
 #saveReferralButton:hover {
-    background-color: var(--color-success-dark);
+    background-image: linear-gradient(to right, var(--color-success) 0%, var(--color-success-dark) 100%);
 }
 
 #cancelReferralButton {
-    background-color: var(--color-error);
+    background-color: var(--color-error); /* Фоллбэк */
+    background-image: linear-gradient(to right, #f87171 0%, var(--color-error) 100%);
+    border: none;
+    transition: all 0.3s ease;
 }
 #cancelReferralButton:hover {
-    background-color: var(--color-error-dark);
+    background-image: linear-gradient(to right, var(--color-error) 0%, var(--color-error-dark) 100%);
 }
 
 /* --- Виджет и скрытые элементы --- */
