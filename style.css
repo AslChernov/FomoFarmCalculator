@@ -136,7 +136,7 @@ body {
 
 .background-texture {
     background-image: url('GlassTexture.jpg');
-    background-size: 130%;
+    background-size: cover;
     opacity: var(--texture-opacity);
     mix-blend-mode: overlay; 
     z-index: 3;
@@ -427,6 +427,11 @@ button {
     cursor: pointer;
     font-weight: var(--font-weight-bold);
     transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.control-buttons button {
+    flex: 1;
+    min-width: 150px; /* Минимальная ширина, чтобы кнопки не были слишком узкими */
 }
 
 button:hover {
