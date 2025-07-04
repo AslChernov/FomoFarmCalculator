@@ -822,7 +822,7 @@ button:disabled:hover {
     font-size: var(--font-size-base);
     color: var(--color-text-label);
     background-color: var(--color-button-secondary); /* Фоллбэк */
-    background-image: linear-gradient(to right, #4b5563 0%, var(--color-button-secondary) 100%);
+    background-image: linear-gradient(to right, var(--color-info) 0%, var(--color-info-dark) 100%);
     border: none;
     border-radius: var(--border-radius-medium);
     cursor: pointer;
