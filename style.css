@@ -11,7 +11,7 @@
     --color-text-muted: #6b7280;
     --color-text-label: #cbd5e1;
     --color-text-header: #cbd5e1;
-    --color-text-link: #3b82f6;
+    --color-text-link: #4ade80;
     
     /* Цвета акцентов */
     --color-primary-accent: #0ea5e9;
@@ -29,15 +29,15 @@
 
     /* Цвета для результатов */
     --color-result-sol: #4ade80;
-    --color-result-usdc: #60a5fa;
+    --color-result-usdc: #59a4ff;
     --color-result-doubling: #fbbf24;
     --color-result-chart-border: #4ade80;
     --color-result-chart-bg-start: rgba(74, 222, 128, 0.3);
     --color-result-chart-bg-end: rgba(74, 222, 128, 0);
 
     /* Настройки фона контейнера */
-    --color-backdrop-overlay: rgba(0, 0, 0, 0.7);
-    --backdrop-blur-amount: 50px;
+    --color-backdrop-overlay: radial-gradient(circle,rgba(0, 0, 0, 0.6) 60%, rgb(0, 0, 0, 1) 100%);
+    --backdrop-blur-amount: 30px;
     --texture-opacity: 1;
 
     /* Компоненты */
@@ -63,13 +63,13 @@
 
     /* Параметры подвала */
     --footer-text-size: 18px;
-    --footer-text-color: #cbd5e1;
+    --footer-text-color: #ffffff;
     
     --support-label-size: 16px;
-    --support-label-color: #cbd5e1;
+    --support-label-color: #ffffff;
 
     --wallet-address-size: 18px;
-    --wallet-address-color: #cbd5e1;
+    --wallet-address-color: #ffffff;
 
     /* Отступы и границы */
     --border-radius-small: 4px;
@@ -128,7 +128,7 @@ body {
 }
 
 .background-overlay {
-    background-color: var(--color-backdrop-overlay);
+    background: var(--color-backdrop-overlay);
     backdrop-filter: blur(var(--backdrop-blur-amount));
     -webkit-backdrop-filter: blur(var(--backdrop-blur-amount));
     z-index: 2;
@@ -491,10 +491,13 @@ button:disabled:hover {
     padding: 6px 10px;
     font-size: var(--font-size-small);
     text-transform: none;
-    background-color: var(--color-purple);
+    background-color: var(--color-purple); /* Фоллбэк */
+    background-image: linear-gradient(to right, #a78bfa 0%, var(--color-purple) 100%);
+    border: none;
+    transition: all 0.3s ease;
 }
 #fetchSolPriceButton:hover {
-    background-color: var(--color-purple-dark);
+    background-image: linear-gradient(to right, var(--color-purple) 0%, var(--color-purple-dark) 100%);
 }
 
 #languageToggleButton {
@@ -511,7 +514,7 @@ button:disabled:hover {
 #copyWalletButton {
     background: none;
     border: none;
-    color: #0ea5e9;
+    color: #ffffff;
     cursor: pointer;
     padding: 0 5px;
     font-size: 1em;
@@ -1033,6 +1036,15 @@ select.input-error {
         padding: var(--padding-medium);
     }
     
+    #link-register-fomofarm {
+    font-weight: var(--font-weight-bold);
+    font-size: 22px;
+    }
+
+    #p-footer {
+    font-size: 16px;
+    }
+
     #supportSection {
         flex-direction: column;
         gap: 10px;
