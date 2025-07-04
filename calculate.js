@@ -56,20 +56,20 @@ const translations = {
         labelProfitUserSol: 'From Your Stake:', labelProfitUserUsdc: 'From Your Stake:',
         h4ReferralProfit: 'Profit from referrals', labelProfitRefSol: 'From Referrals:', labelProfitRefUsdc: 'From Referrals:',
         h4TotalProfit: 'Total profit', labelProfitTotalSol: 'Total Profit SOL:', labelProfitTotalUsdc: 'Total Profit USDC:',
-        labelProfitPercentSol: 'Profit SOL (% of initial):', labelProfitPercentUsdc: 'Profit USDC (% of initial):',
-        h4DoublingTime: 'Doubling Time (100% Profit)',
-        labelDoubleSolNoreinvest: 'SOL Doubling (No Reinvest):', labelDoubleUsdcNoreinvest: 'USDC Doubling (No Reinvest):',
-        labelDoubleSolReinvest: 'SOL Doubling (With Reinvest):', labelDoubleUsdcReinvest: 'USDC Doubling (With Reinvest):',
+        labelProfitPercentSol: 'Profit SOL in %:', labelProfitPercentUsdc: 'Profit USDC in %:',
+        h4DoublingTime: 'Doubling Time | 100% Profit',
+        labelDoubleSolNoreinvest: 'SOL Doubling | No Reinvest:', labelDoubleUsdcNoreinvest: 'USDC Doubling | No Reinvest:',
+        labelDoubleSolReinvest: 'SOL Doubling | With Reinvest:', labelDoubleUsdcReinvest: 'USDC Doubling | With Reinvest:',
         h4PeriodicTotal: 'Total Add. Investments', labelPeriodicTotalSol: 'Added Investments:', labelPeriodicTotalUsdc: 'Added Investments:',
         h4FinalBalance: 'Final Balance', labelFinalBalanceSol: 'Final Balance SOL:', labelFinalBalanceUsdc: 'Final Balance USDC:',
-        labelFinalBalanceUsd: 'Total Final Balance (USD):',
-        labelProfitTotalUsd: 'Total Profit (USD):',
+        labelFinalBalanceUsd: 'Total Final Balance in USD:',
+        labelProfitTotalUsd: 'Total Profit in USD:',
         roiNever: 'Never', roiOverDays: 'Over {days} days', daysSuffix: ' days',
         reinvestOff: 'Off',
         invalidInputError: 'Please enter valid values for Stakes, Rates, Days, and SOL/USD Rate.',
         solUsdRateError: 'SOL/USD rate must be greater than 0 to calculate profit from USDC stakes.',
         h3ConverterTitle: 'Currency Converter',
-        h3ChartTitle: 'Profitability (USD)',
+        h3ChartTitle: 'Profitability',
         swapButtonTitle: 'Swap currencies',
         convertStatusLoading: 'Converting...',
         convertStatusSuccess: 'Success!',
@@ -79,7 +79,7 @@ const translations = {
         convertErrorPairNotFound: 'Currency pair not found.',
         convertErrorSameCurrency: 'Cannot convert to the same currency.',
         convertErrorFiatToFiat: 'Direct fiat-to-fiat conversion not supported.',
-        h4SolResults: 'SOL Results', h4UsdcResults: 'USDC Results', h4GeneralResults: 'General Results'
+        h4SolResults: 'SOL Results', h4UsdcResults: 'USDC Results', h4MainIndicators: 'Main Indicators',
     },
     'ru': {
         labelUserStakedSol: 'Вложено', labelUserProfitPercentSol: 'Профит % / день', labelUserStakedUsdc: 'Вложено', labelUserProfitPercentUsdc: 'Профит % / день',
@@ -104,20 +104,20 @@ const translations = {
         labelProfitUserSol: 'От Вашего стейка:', labelProfitUserUsdc: 'От Вашего стейка:',
         h4ReferralProfit: 'Профит от рефералов', labelProfitRefSol: 'От Рефералов:', labelProfitRefUsdc: 'От Рефералов:',
         h4TotalProfit: 'Общий профит', labelProfitTotalSol: 'Общий Профит SOL:', labelProfitTotalUsdc: 'Общий Профит USDC:',
-        labelProfitPercentSol: 'Профит SOL (% от нач.):', labelProfitPercentUsdc: 'Профит USDC (% от нач.):',
-        h4DoublingTime: 'Время удвоения (100% Профит)',
-        labelDoubleSolNoreinvest: 'Удвоение SOL (Без реинв.):', labelDoubleUsdcNoreinvest: 'Удвоение USDC (Без реинв.):',
-        labelDoubleSolReinvest: 'Удвоение SOL (С реинв.):', labelDoubleUsdcReinvest: 'Удвоение USDC (С реинв.):',
+        labelProfitPercentSol: 'Профит SOL в %:', labelProfitPercentUsdc: 'Профит USDC в %:',
+        h4DoublingTime: 'Время удвоения | 100% Профит',
+        labelDoubleSolNoreinvest: 'Удвоение SOL | Без реинвеста:', labelDoubleUsdcNoreinvest: 'Удвоение USDC | Без реинвеста:',
+        labelDoubleSolReinvest: 'Удвоение SOL | С реинвестом:', labelDoubleUsdcReinvest: 'Удвоение USDC | С реинвестом:',
         h4PeriodicTotal: 'Всего довложений', labelPeriodicTotalSol: 'Довложено:', labelPeriodicTotalUsdc: 'Довложено:',
         h4FinalBalance: 'Итоговый баланс', labelFinalBalanceSol: 'Итоговый Баланс SOL:', labelFinalBalanceUsdc: 'Итоговый Баланс USDC:',
-        labelFinalBalanceUsd: 'Общий Итоговый Баланс (USD):',
-        labelProfitTotalUsd: 'Общий Профит (USD):',
+        labelFinalBalanceUsd: 'Общий Итоговый Баланс в USD:',
+        labelProfitTotalUsd: 'Общий Профит в USD:',
         roiNever: 'Никогда', roiOverDays: 'Более {days} дн.', daysSuffix: ' дн.',
         reinvestOff: 'Выкл.',
         invalidInputError: 'Пожалуйста, введите корректные значения для Стейков, Процентов, Дней и Курса SOL/USD.',
         solUsdRateError: 'Курс SOL/USD должен быть больше 0 для расчета дохода со стейков в USDC.',
         h3ConverterTitle: 'Конвертер Валют',
-        h3ChartTitle: 'График Доходности (USD)',
+        h3ChartTitle: 'График Доходности',
         swapButtonTitle: 'Поменять валюты',
         convertStatusLoading: 'Конвертация...',
         convertStatusSuccess: 'Успешно!',
@@ -127,7 +127,7 @@ const translations = {
         convertErrorPairNotFound: 'Валютная пара не найдена.',
         convertErrorSameCurrency: 'Нельзя конвертировать в ту же валюту.',
         convertErrorFiatToFiat: 'Прямая конвертация фиат-фиат не поддерживается.',
-        h4SolResults: 'Результаты SOL', h4UsdcResults: 'Результаты USDC', h4GeneralResults: 'Общие Результаты'
+        h4SolResults: 'Результаты SOL', h4UsdcResults: 'Результаты USDC', h4MainIndicators: 'Основные Показатели'
     }
 };
 
@@ -285,7 +285,8 @@ function updateUI(lang) {
         'fetchSolPriceButton': 'fetchSolPriceButton',
         'h3-converter-title': 'h3ConverterTitle', 'h3-chart-title': 'h3ChartTitle', 'h3-referrals-text': 'h3Referrals',
         'swapCurrenciesButton': 'swapButtonTitle',
-        'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-general-results': 'h4GeneralResults'
+        'h4-doubling-time': 'h4DoublingTime',
+        'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-main-indicators': 'h4MainIndicators'
     };
 
     const currencyIconConfig = {
