@@ -355,7 +355,7 @@ select option {
     display: flex;
     justify-content: center;
     gap: var(--gap-large);
-    margin: var(--gap-large) 0;
+    margin: var(--gap-medium) 0;
     padding: 10px 0;
     flex-wrap: wrap;
     align-items: center;
@@ -430,8 +430,8 @@ button {
 }
 
 .control-buttons button {
-    flex: 1;
-    min-width: 150px; /* Минимальная ширина, чтобы кнопки не были слишком узкими */
+    flex: 2;
+    min-width: 150px;
 }
 
 button:hover {
@@ -456,7 +456,7 @@ button:disabled:hover {
     display: flex;
     justify-content: center;
     gap: var(--gap-medium);
-    margin-top: var(--gap-large);
+    padding: 0 15px 0 15px;
     flex-wrap: wrap;
 }
 
