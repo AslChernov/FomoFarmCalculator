@@ -1,0 +1,1061 @@
+/* --- Root: Глобальные переменные для настройки дизайна --- */
+:root {
+    /* Основное */
+    --font-family-main: 'Manrope', sans-serif;
+    --container-width: 750px;
+
+    /* Палитра цветов */
+    --color-body-bg: #000000;
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #e5e7eb;
+    --color-text-muted: #6b7280;
+    --color-text-label: #cbd5e1;
+    --color-text-header: #cbd5e1;
+    --color-text-link: #4ade80;
+    
+    /* Цвета акцентов */
+    --color-primary-accent: #0ea5e9;
+    --color-primary-accent-light: #7dd3fc;
+    --color-success: #4ade80;
+    --color-success-dark: #16a34a;
+    --color-error: rgb(239, 68, 68, 0.6);
+    --color-error-dark: #dc2626;
+    --color-warning: #f59e0b;
+    --color-warning-dark: #d97706;
+    --color-info: rgb(59, 130, 246, 0.6);
+    --color-info-dark: #2563eb;
+    --color-purple: rgb(139, 92, 246, 0.6);
+    --color-purple-dark: #6d28d9;
+
+    /* Цвета для результатов */
+    --color-result-sol: #4ade80;
+    --color-result-usdc: #59a4ff;
+    --color-result-doubling: #fbbf24;
+    --color-result-chart-border: #4ade80;
+    --color-result-chart-bg-start: rgba(74, 222, 128, 0.3);
+    --color-result-chart-bg-end: rgba(74, 222, 128, 0);
+
+    /* Настройки фона контейнера */
+    --color-backdrop-overlay: radial-gradient(circle,rgba(0, 0, 0, 0.6) 60%, rgb(0, 0, 0, 1) 100%);
+    --backdrop-blur-amount: 30px;
+    --texture-opacity: 1;
+
+    /* Компоненты */
+    --color-component-bg: rgba(17, 24, 39, 0.6);
+    --color-component-bg-alt: rgba(0, 0, 0, 0.3);
+    --color-select-option-bg: rgba(17, 24, 39);
+    --color-component-border: rgba(0, 0, 0, 0.3);
+    --color-component-border-strong: #374151;
+    --color-component-border-focus: var(--color-purple);
+    --color-button-primary: rgb(59, 130, 246, 0.6);
+    --color-button-primary-hover: #2563eb;
+    --color-button-secondary: #374151;
+    --color-button-secondary-hover: #4b5563;
+    --color-divider-line: rgba(0, 0, 0, 0.3);
+
+    /* Типографика */
+    --font-size-base: 14px;
+    --font-size-small: 12px;
+    --font-size-large: 16px;
+    --font-weight-normal: 500;
+    --font-weight-bold: 700;
+    --font-weight-black: 900;
+
+    /* Параметры подвала */
+    --footer-text-size: 18px;
+    --footer-text-color: #ffffff;
+    
+    --support-label-size: 16px;
+    --support-label-color: #ffffff;
+
+    --wallet-address-size: 18px;
+    --wallet-address-color: #ffffff;
+
+    /* Отступы и границы */
+    --border-radius-small: 4px;
+    --border-radius-medium: 6px;
+    --border-radius-large: 8px;
+    --border-radius-container: 0px;
+    --padding-small: 8px;
+    --padding-medium: 15px;
+    --padding-large: 20px;
+    --gap-small: 8px;
+    --gap-medium: 15px;
+    --gap-large: 25px;
+}
+
+/* --- Общие стили и сброс --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family-main);
+    background-color: var(--color-body-bg);
+    color: var(--color-text-primary);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: var(--padding-large);
+    padding-bottom: 50px;
+}
+
+/* --- Главный контейнер и его фон --- */
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    border: solid 1px rgb(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-container);
+    position: relative;
+    overflow: hidden;
+    background-color: #111; /* Фоллбэк */
+    padding: var(--padding-large);
+}
+
+.background-layers,
+.background-layers > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.background-video {
+    object-fit: cover;
+    z-index: 1;
+}
+
+.background-overlay {
+    background: var(--color-backdrop-overlay);
+    backdrop-filter: blur(var(--backdrop-blur-amount));
+    -webkit-backdrop-filter: blur(var(--backdrop-blur-amount));
+    z-index: 2;
+}
+
+.background-texture {
+    background-image: url('GlassTexture.jpg');
+    background-size: cover;
+    opacity: var(--texture-opacity);
+    mix-blend-mode: overlay; 
+    z-index: 3;
+}
+
+.content-wrapper {
+    position: relative;
+    z-index: 4;
+}
+
+/* --- Заголовки и текст --- */
+h1 {
+    font-size: 30px;
+    font-weight: var(--font-weight-black);
+    margin: 0;
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    justify-content: flex-start;
+}
+
+h1 span#appTitle {
+    background-image: linear-gradient(to right, var(--color-primary-accent), var(--color-primary-accent-light));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+h2 {
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--color-success);
+    margin: 0 0 var(--gap-medium);
+    border-bottom: 1px solid var(--color-divider-line);
+    padding-bottom: var(--padding-small);
+}
+
+h3 {
+    font-size: 24px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: var(--font-weight-bold);
+    letter-spacing: -0.5px;
+    color: var(--color-text-secondary);
+    margin: var(--gap-large) 0 var(--gap-medium);
+}
+
+h4 {
+    font-size: var(--font-size-large);
+    color: #ffffff;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: var(--gap-medium) 0 10px;
+}
+
+p {
+    margin: var(--gap-medium) 0;
+}
+
+/* --- Header --- */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--padding-large);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+h1 span.app-version-badge {
+    display: inline-block;
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-black);
+    line-height: 1;
+    color: #075985;
+    background-color: var(--color-primary-accent-light);
+    padding: 4px var(--padding-small);
+    border-radius: var(--border-radius-medium);
+    margin-left: 6px;
+    align-self: center;
+}
+
+/* --- Формы и поля ввода --- */
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap-medium);
+    margin-bottom: var(--padding-large);
+}
+
+.label-status-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.currency-input-row {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr 2fr;
+    gap: var(--gap-medium);
+    align-items: start;
+}
+
+.input-block {
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-large);
+    background-color: var(--color-component-bg);
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: block;
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-normal);
+    color: var(--color-text-label);
+    margin-bottom: 5px;
+    line-height: 1.3;
+}
+
+label img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-left: 5px;
+}
+
+.input-select-pair,
+.input-button-pair-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+input[type="number"] {
+    width: 100%;
+    padding: var(--padding-small) 10px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-medium);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-main);
+    color: var(--color-text-primary);
+    background-color: var(--color-component-bg-alt);
+    transition: border-color 0.3s ease;
+
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: var(--padding-small) 10px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-medium);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-main);
+    color: var(--color-text-primary);
+    background-color: var(--color-component-bg-alt);
+    transition: border-color 0.3s ease;
+}
+
+
+select {
+    width: 100%;
+    padding: var(--padding-small) 10px;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-medium);
+    font-size: var(--font-size-base);
+    font-family: var(--font-family-main);
+    color: var(--color-text-primary);
+    background-color: var(--color-component-bg-alt);
+    transition: border-color 0.3s ease;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus,
+select:focus {
+    outline: none;
+    border: 1px solid var(--color-component-border-focus);
+    border-radius: var(--border-radius-medium);
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='1.5' stroke='%239ca3af' class='w-6 h-6'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='m19.5 8.25-7.5 7.5-7.5-7.5' /%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 30px;
+}
+
+/* Стилизация выпадающего списка */
+select option {
+    background-color: var(--color-select-option-bg);
+    color: var(--color-text-primary);
+}
+
+/* --- Чекбоксы --- */
+.checkbox-container {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-large);
+    margin: var(--gap-medium) 0;
+    padding: 10px 0;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    gap: var(--gap-small);
+}
+
+.checkbox-item label {
+    font-size: 15px;
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.checkbox-item input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    cursor: pointer;
+    accent-color: var(--color-success);
+}
+
+.reinvest-control-group .reinvest-percent-input,
+.reinvest-control-group .reinvest-percent-symbol {
+    display: none;
+}
+
+.reinvest-control-group.reinvest-active .reinvest-percent-input,
+.reinvest-control-group.reinvest-active .reinvest-percent-symbol {
+    display: inline-block;
+}
+
+#label-reinvest-sol img,
+#label-reinvest-usdc img {
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+input.reinvest-percent-input {
+    width: 60px;
+    padding: 4px 6px;
+    font-size: 14px;
+    text-align: left;
+    margin-left: 5px;
+    border-radius: 6px;
+}
+
+.reinvest-percent-symbol {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-base);
+    margin-left: 2px;
+}
+
+/* --- Кнопки --- */
+button {
+    padding: 10px var(--padding-large);
+    border: none;
+    border-radius: var(--border-radius-medium);
+    font-size: 15px;
+    text-transform: uppercase;
+    font-family: var(--font-family-main);
+    background-color: var(--color-button-primary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    font-weight: var(--font-weight-bold);
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+.control-buttons button {
+    flex: 2;
+    min-width: 150px;
+}
+
+button:hover {
+    background-color: var(--color-button-primary-hover);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+button:disabled {
+    background-color: #585063;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+button:disabled:hover {
+    background-color: #585063;
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--gap-medium);
+    padding: 0 15px 0 15px;
+    flex-wrap: wrap;
+}
+
+#calculateButton {
+    background-color: var(--color-success);
+    background-image: linear-gradient(to right, #34d399 0%, var(--color-success) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+#calculateButton:hover {
+    background-image: linear-gradient(to right, var(--color-success) 0%, var(--color-success-dark) 100%);
+}
+
+#resetButton {
+    background-color: var(--color-error); /* Фоллбэк */
+    background-image: linear-gradient(to right, #f87171 0%, var(--color-error) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+#resetButton:hover {
+    background-image: linear-gradient(to right, var(--color-error) 0%, var(--color-error-dark) 100%);
+}
+
+#exportButton,
+#importButton {
+    background-color: var(--color-info); /* Фоллбэк */
+    background-image: linear-gradient(to right, #60a5fa 0%, var(--color-info) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+#exportButton:hover,
+#importButton:hover {
+    background-image: linear-gradient(to right, var(--color-info) 0%, var(--color-info-dark) 100%);
+}
+
+#fetchSolPriceButton {
+    padding: 6px 10px;
+    font-size: var(--font-size-small);
+    text-transform: none;
+    background-color: var(--color-purple); /* Фоллбэк */
+    background-image: linear-gradient(to right, #a78bfa 0%, var(--color-purple) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+#fetchSolPriceButton:hover {
+    background-image: linear-gradient(to right, var(--color-purple) 0%, var(--color-purple-dark) 100%);
+}
+
+#languageToggleButton {
+    padding: 6px 12px;
+    font-size: var(--font-size-small);
+    background-color: rgba(17, 24, 39, 0.6);
+    text-transform: none;
+    font-weight: var(--font-weight-normal);
+}
+#languageToggleButton:hover {
+    background-color: rgba(17, 24, 39, 0.3);
+}
+
+#copyWalletButton {
+    background: none;
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 0 5px;
+    font-size: 1em;
+    line-height: 1;
+    text-transform: none;
+}
+#copyWalletButton:hover {
+    color: #7dd3fc;
+    background: none;
+}
+
+/* --- Результаты --- */
+.results {
+    margin-top: var(--gap-large);
+    padding: var(--padding-large);
+    border-radius: var(--border-radius-large);
+    background-color: var(--color-component-bg);
+}
+
+.results-grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-large);
+    margin-top: var(--gap-medium);
+}
+
+.result-group h4 {
+    margin-top: 0;
+}
+
+.result-group-full-width {
+    grid-column: 1 / -1;
+}
+
+.general-results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--gap-medium);
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--color-divider-line);
+    font-size: var(--font-size-base);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item .label {
+    color: var(--color-text-label);
+}
+
+.result-item .value {
+    font-weight: var(--font-weight-black);
+    text-align: right;
+    display: inline-flex;
+    align-items: center;
+}
+
+.result-item .value.value-sol,
+.result-item .value.profit-percent {
+    color: var(--color-result-sol);
+}
+
+.result-item .value.value-usdc,
+.result-item .value.balance-usd {
+    color: var(--color-result-usdc);
+}
+
+.result-item .value.doubling {
+    color: var(--color-result-doubling);
+}
+
+.result-item .value img {
+    margin-left: 5px;
+}
+
+/* --- Секции (сворачивающиеся) --- */
+.collapsible-section {
+    margin-top: var(--gap-large);
+}
+
+.collapsible-header {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding-small) 10px;
+    background-color: var(--color-component-bg);
+    border: none;
+    border-radius: var(--border-radius-medium);
+}
+
+.collapsible-section:not(.collapsed) .collapsible-header {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.collapsible-header h3 {
+    font-size: 18px;
+    margin: 0;
+    text-align: left;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+    text-transform: none;
+}
+
+.toggle-icon {
+    font-size: 0.8em;
+    color: var(--color-text-muted);
+    transition: transform 0.3s ease;
+}
+
+.collapsible-content {
+    padding: var(--padding-medium);
+    border-top: none;
+    border-radius: 0 0 var(--border-radius-large) var(--border-radius-large);
+    overflow: hidden;
+    background-color: var(--color-component-bg);
+}
+
+.collapsible-section.collapsed .collapsible-content {
+    display: none;
+}
+
+.collapsible-section.collapsed .toggle-icon {
+    transform: rotate(-90deg);
+}
+
+/* --- Таблица рефералов --- */
+.referrals table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--gap-medium) 0;
+    table-layout: fixed;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.referrals th,
+.referrals td {
+    padding: var(--padding-small) 10px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: var(--font-weight-normal);
+    border: 1px solid var(--color-component-border);
+    word-wrap: break-word;
+    vertical-align: middle;
+}
+
+.referrals th {
+    font-weight: var(--font-weight-black);
+    color: var(--color-text-header);
+}
+
+.referrals th.sortable {
+    cursor: pointer;
+}
+
+.referrals th.sortable:hover {
+    background-color: var(--color-component-border-strong);
+}
+
+.referrals th:nth-child(1) {
+    width: 8%;
+}
+
+.referrals th:nth-child(2) {
+    width: 15%;
+}
+
+.referrals th:nth-child(3) {
+    width: 40%;
+}
+
+.referrals th:nth-child(4) {
+    width: 35%;
+}
+
+.no-referrals-message {
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.referrals td.stakes-summary span {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 5px;
+    white-space: nowrap;
+}
+
+.referrals td.stakes-summary span img {
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+#addReferralButton {
+    background-color: var(--color-info); /* Фоллбэк */
+    background-image: linear-gradient(to right, rgb(96, 165, 250) 0%, var(--color-info) 100%);
+    border: none;
+    transition: all 0.3s ease;
+    margin-bottom: var(--gap-medium);
+}
+
+#addReferralButton:hover {
+    background-image: linear-gradient(to right, var(--color-info) 0%, var(--color-info-dark) 100%);
+}
+
+.referrals td .action-button {
+    margin: 0 10px 0 10px;
+    padding: 6px 8px;
+    font-size: var(--font-size-small);
+    border-radius: var(--border-radius-small);
+    font-weight: var(--font-weight-normal);
+    text-transform: none;
+    min-width: 65px;
+    text-align: center;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.referrals td .edit-button {
+    background-color: var(--color-warning); /* Фоллбэк */
+    background-image: linear-gradient(to right, #fcd34d 0%, var(--color-warning) 100%);
+    border: none;
+}
+
+.referrals td .edit-button:hover {
+    background-image: linear-gradient(to right, var(--color-warning) 0%, var(--color-warning-dark) 100%);
+}
+
+.referrals td .remove-button {
+    background-color: var(--color-error); /* Фоллбэк */
+    background-image: linear-gradient(to right, #f87171 0%, var(--color-error) 100%);
+    border: none;
+}
+
+.referrals td .remove-button:hover {
+    background-image: linear-gradient(to right, var(--color-error) 0%, var(--color-error-dark) 100%);
+}
+
+/* --- Пагинация --- */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    margin-top: var(--gap-medium);
+    flex-wrap: wrap;
+}
+
+.pagination-controls button {
+    padding: 6px 12px;
+    font-size: 13px;
+    text-transform: none;
+    min-width: 35px;
+    border: 1px solid var(--color-component-border-strong);
+    background-color: var(--color-component-border);
+    color: var(--color-text-label);
+}
+
+.pagination-controls button.active {
+    background-color: var(--color-success);
+    color: var(--color-component-bg);
+    border-color: var(--color-success);
+}
+
+/* --- Конвертер --- */
+.converter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.converter-block {
+    display: flex;
+    flex-grow: 1;
+    border: 1px solid transparent;
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+    background-color: transparent;
+}
+
+.converter-block input[type="number"] {
+    flex-grow: 1;
+    width: 100%;
+    min-width: 50px;
+    margin-right: 10px;
+}
+
+.converter-block input[type="text"] {
+    flex-grow: 1;
+    width: 100%;
+    min-width: 50px;
+    margin-right: 10px;
+}
+
+#swapCurrenciesButton {
+    padding: 6px 10px;
+    font-size: var(--font-size-base);
+    color: var(--color-text-label);
+    background-color: var(--color-button-secondary); /* Фоллбэк */
+    background-image: linear-gradient(to right, var(--color-info) 0%, var(--color-info-dark) 100%);
+    border: none;
+    border-radius: var(--border-radius-medium);
+    cursor: pointer;
+    line-height: 1;
+    min-width: 40px;
+}
+
+#swapCurrenciesButton:hover {
+    background-image: linear-gradient(to right, var(--color-button-secondary) 0%, var(--color-button-secondary-hover) 100%);
+}
+
+/* --- Статусы и ошибки --- */
+#solPriceStatus,
+#converterStatus {
+    font-size: 11px;
+    min-height: 14px;
+    color: var(--color-text-muted);
+}
+
+#solPriceStatus.loading,
+#converterStatus.loading {
+    color: var(--color-warning);
+}
+
+#solPriceStatus.success,
+#converterStatus.success {
+    color: var(--color-success);
+}
+
+#solPriceStatus.error,
+#converterStatus.error {
+    color: var(--color-error);
+}
+
+input.input-error,
+select.input-error {
+    border-color: var(--color-error) !important;
+}
+
+.error-message {
+    display: none;
+}
+
+/* --- Подвал --- */
+.textContent {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 15px;
+}
+
+.textContent a {
+    color: var(--color-text-link);
+    text-decoration: none;
+}
+
+.fomofarm-registration-link a,
+#link-register-fomofarm {
+    font-weight: var(--font-weight-bold);
+    font-size: 20px;
+}
+
+#p-footer {
+    font-size: var(--footer-text-size);
+    color: var(--footer-text-color);
+}
+
+#supportSection {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--gap-small);
+    margin-top: var(--gap-medium);
+}
+
+#label-support-author {
+    font-size: var(--support-label-size);
+    color: var(--support-label-color);
+}
+
+.wallet-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--gap-small);
+}
+
+#walletAddress {
+    font-family: monospace;
+    font-size: var(--wallet-address-size);
+    color: var(--wallet-address-color);
+}
+
+#copyStatus.visible {
+    display: inline;
+}
+
+#copyStatus.error {
+    color: var(--color-error);
+}
+
+.fa-check.success {
+    color: var(--color-success);
+}
+
+/* --- Модальное окно --- */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay.is-active {
+    display: flex;
+}
+
+.modal-content {
+    background-color: var(--color-component-bg);
+    padding: var(--padding-large);
+    border-radius: var(--border-radius-medium);
+    width: 90%;
+    max-width: 500px;
+    border: none;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.4);
+}
+
+.modal-header h4 {
+    margin: 0;
+    font-size: 20px;
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding-bottom: var(--padding-medium);
+    margin-bottom: var(--padding-large);
+}
+
+.modal-footer {
+    padding-top: var(--padding-large);
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.modal-footer button {
+    flex: 1;
+}
+
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+#saveReferralButton {
+    background-color: var(--color-success); /* Фоллбэк */
+    background-image: linear-gradient(to right, #34d399 0%, var(--color-success) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+#saveReferralButton:hover {
+    background-image: linear-gradient(to right, var(--color-success) 0%, var(--color-success-dark) 100%);
+}
+
+#cancelReferralButton {
+    background-color: var(--color-error); /* Фоллбэк */
+    background-image: linear-gradient(to right, #f87171 0%, var(--color-error) 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+#cancelReferralButton:hover {
+    background-image: linear-gradient(to right, var(--color-error) 0%, var(--color-error-dark) 100%);
+}
+
+/* --- Виджет и скрытые элементы --- */
+.widget-wrapper {
+    width: 100%;
+    margin: 30px 0;
+    padding: 0;
+}
+
+#iframe-widget {
+    height: 356px;
+    width: 100%;
+    border: none;
+}
+
+#importFile {
+    display: none;
+}
+
+/* --- Адаптивность --- */
+@media (max-width: 768px) {
+    body {
+        margin: 0;
+        padding-bottom: var(--padding-large);
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+        padding: var(--padding-medium);
+    }
+    
+    #link-register-fomofarm {
+    font-weight: var(--font-weight-bold);
+    font-size: 22px;
+    }
+
+    #p-footer {
+    font-size: 16px;
+    }
+
+    #supportSection {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #walletAddress {
+        word-break: break-all;
+    }
+}
