@@ -113,33 +113,72 @@ body {
     padding: var(--padding-large);
 }
 
-.background-layers,
-.background-layers > * {
+.background-layers {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-}
-
-.background-video {
-    object-fit: cover;
+    overflow: hidden;
+    background: #6a6894; /* Базовый темный фон */
     z-index: 1;
 }
 
+.background-layers::before,
+.background-layers::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.background-layers::before {
+    background: radial-gradient(circle at 20% 25%, #8400ff 0%, transparent 20%),
+                radial-gradient(circle at 80% 30%, #0062ff 0%, transparent 20%);
+    animation: rotateBlobs 25s linear infinite;
+}
+
+.background-layers::after {
+background: radial-gradient(circle at 15% 20%, #8c66ff 0%, transparent 30%), /* Верхний левый угол */
+            radial-gradient(circle at 50% 50%, #7700ff 0%, transparent 30%), /* Центр */
+            radial-gradient(circle at 80% 30%, #00ff9d 0%, transparent 30%), /* Верхний правый угол */
+            radial-gradient(circle at 75% 80%, #00ffd5 0%, transparent 30%), /* Нижний правый угол */
+            radial-gradient(circle at 20% 85%, #0066ff 0%, transparent 30%), /* Нижний левый угол */
+            radial-gradient(circle at 85% 65%, #00c3ff 0%, transparent 30%); /* Правая сторона, по центру */
+    animation: rotateBlobs 18s linear infinite reverse;
+}
+
+@keyframes rotateBlobs {
+    from { transform: rotate(0deg) scale(1.4); }
+    to { transform: rotate(360deg) scale(1.4); }
+}
+
 .background-overlay {
-    background: var(--color-backdrop-overlay);
-    backdrop-filter: blur(var(--backdrop-blur-amount));
-    -webkit-backdrop-filter: blur(var(--backdrop-blur-amount));
+    backdrop-filter: blur(80px);
+    -webkit-backdrop-filter: blur(80px);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     z-index: 2;
 }
 
-.background-texture {
-    background-image: url('GlassTexture.jpg');
-    background-size: cover;
-    opacity: var(--texture-opacity);
-    mix-blend-mode: overlay; 
-    z-index: 3;
+/* --- НОВЫЙ СЛОЙ-ЗАТЕМНЕНИЕ --- */
+.background-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Градиент от черного (с 70% прозрачности) к полностью прозрачному */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, transparent 15%);
+    z-index: 3; /* Размещаем его над цветными каплями, но под основным контентом */
 }
 
 .content-wrapper {
