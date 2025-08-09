@@ -1,8 +1,9 @@
+
 // --- DOM Element Cache ---
 const domElements = {}; // Object to cache DOM elements
 
 // --- Global Variables & Constants ---
-const APP_VERSION = "4.1";
+const APP_VERSION = "4.2";
 let currentPage = 1;
 const itemsPerPage = 10;
 let referralsData = [];
