@@ -1092,6 +1092,57 @@ select.input-error {
     display: none;
 }
 
+/* --- Стили для блока Join --- */
+
+.join-links-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px; /* Расстояние между элементами */
+  margin: 20px 0; /* Отступы сверху и снизу */
+  flex-wrap: wrap;
+}
+
+.join-link-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-component-bg);
+  padding: 10px 15px;
+  border-radius: var(--border-radius-medium);
+  text-decoration: none;
+
+  /* Подготовка к hover-эффекту обводки */
+  border: 1px solid transparent;
+  transition: border-color 0.3s ease;
+}
+
+/* Обводка для кнопки FomoFarm (синий) */
+.fomofarm-button:hover {
+  border-color: var(--color-primary-accent-light);
+}
+
+/* Обводка для кнопки MetoFomo (фиолетовый) */
+.metofomo-button:hover {
+  border-color: #ffde00;
+}
+
+.join-link-button img {
+  height: 20px; /* Можете поменять высоту логотипа */
+  width: auto;
+}
+
+.join-text {
+  font-size: 25px;
+  font-weight: 900;
+
+  /* Магия для градиентного текста */
+  background-image: linear-gradient(to right, var(--color-primary-accent-light), #ffde00);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
 /* --- Адаптивность --- */
 @media (max-width: 768px) {
     body {
