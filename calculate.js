@@ -3,7 +3,7 @@
 const domElements = {}; // Object to cache DOM elements
 
 // --- Global Variables & Constants ---
-const APP_VERSION = "4.3";
+const APP_VERSION = "4.2";
 let currentPage = 1;
 const itemsPerPage = 10;
 let referralsData = [];
@@ -501,7 +501,7 @@ function renderReferralsTable() {
             const summaryCell = document.createElement('td');
             summaryCell.className = 'stakes-summary';
             let summaryContent = [];
-            if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatDisplayNumberCustom(referral.stakedSol, 5)}</span>`); }
+            if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatDisplayNumberCustom(referral.stakedSol, 4)}</span>`); }
             if (referral.stakedUsdc > 0) { summaryContent.push(`<span>${usdcIconImg}${formatDisplayNumberCustom(referral.stakedUsdc, 2)}</span>`); }
             summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join(' ') : trans.refSummaryNone;
 
@@ -674,7 +674,7 @@ function updateTotalStakeSummary() {
 
     totalStakeElement.innerHTML = `
         ${turnoverLabel}
-        <span>${solanaIconImg} ${formatDisplayNumberCustom(totalSol, 5)}</span>
+        <span>${solanaIconImg} ${formatDisplayNumberCustom(totalSol, 4)}</span>
         <span>${usdcIconImg} ${formatDisplayNumberCustom(totalUsdc, 2)}</span>
     `;
 }
@@ -1084,11 +1084,11 @@ function updateDOMWithResults(calcParams, simulationResults, referralProfits, do
 
     const daysSuffixText = ` ${trans.daysSuffix || 'days'}`;
 
-    updateResultSpan(domElements.resultProfitUserSol, userProfitSolDisplay, 5, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultProfitRefSol, totalReferralProfitOverPeriodSol, 5, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultPeriodicTotalSol, totalPeriodicSolAdded, 5, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultProfitTotalSol, totalSolProfitEarned, 5, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultFinalBalanceSol, finalSolBalance, 5, solanaIconImg, 'value-sol');
+    updateResultSpan(domElements.resultProfitUserSol, userProfitSolDisplay, 4, solanaIconImg, 'value-sol');
+    updateResultSpan(domElements.resultProfitRefSol, totalReferralProfitOverPeriodSol, 4, solanaIconImg, 'value-sol');
+    updateResultSpan(domElements.resultPeriodicTotalSol, totalPeriodicSolAdded, 4, solanaIconImg, 'value-sol');
+    updateResultSpan(domElements.resultProfitTotalSol, totalSolProfitEarned, 4, solanaIconImg, 'value-sol');
+    updateResultSpan(domElements.resultFinalBalanceSol, finalSolBalance, 4, solanaIconImg, 'value-sol');
 
     updateResultSpan(domElements.resultProfitUserUsdc, userProfitUsdcDisplay, 2, usdcIconImg, 'value-usdc');
     updateResultSpan(domElements.resultProfitRefUsdc, totalReferralProfitOverPeriodUsdc, 2, usdcIconImg, 'value-usdc');
@@ -1179,11 +1179,11 @@ function clearResults() {
     };
     const trans = translations[currentLanguage];
 
-    resetResultSpan(domElements.resultProfitUserSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
-    resetResultSpan(domElements.resultProfitRefSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
-    resetResultSpan(domElements.resultPeriodicTotalSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
-    resetResultSpan(domElements.resultProfitTotalSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
-    resetResultSpan(domElements.resultFinalBalanceSol, formatDisplayNumberCustom(0, 5), solanaIconImg, 'value-sol');
+    resetResultSpan(domElements.resultProfitUserSol, formatDisplayNumberCustom(0, 4), solanaIconImg, 'value-sol');
+    resetResultSpan(domElements.resultProfitRefSol, formatDisplayNumberCustom(0, 4), solanaIconImg, 'value-sol');
+    resetResultSpan(domElements.resultPeriodicTotalSol, formatDisplayNumberCustom(0, 4), solanaIconImg, 'value-sol');
+    resetResultSpan(domElements.resultProfitTotalSol, formatDisplayNumberCustom(0, 4), solanaIconImg, 'value-sol');
+    resetResultSpan(domElements.resultFinalBalanceSol, formatDisplayNumberCustom(0, 4), solanaIconImg, 'value-sol');
 
     resetResultSpan(domElements.resultProfitUserUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc');
     resetResultSpan(domElements.resultProfitRefUsdc, formatDisplayNumberCustom(0, 2), usdcIconImg, 'value-usdc');
@@ -1851,4 +1851,3 @@ document.addEventListener('DOMContentLoaded', function () {
     renderReferralsTable();
     triggerConversion();
 });
-
