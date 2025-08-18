@@ -3,7 +3,7 @@
 const domElements = {}; // Object to cache DOM elements
 
 // --- Global Variables & Constants ---
-const APP_VERSION = "4.2";
+const APP_VERSION = "4.3";
 let currentPage = 1;
 const itemsPerPage = 10;
 let referralsData = [];
@@ -1851,3 +1851,4 @@ document.addEventListener('DOMContentLoaded', function () {
     renderReferralsTable();
     triggerConversion();
 });
+
