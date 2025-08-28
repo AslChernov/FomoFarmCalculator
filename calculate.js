@@ -1,4 +1,3 @@
-
 // --- DOM Element Cache ---
 const domElements = {}; // Object to cache DOM elements
 
@@ -1851,4 +1850,5 @@ document.addEventListener('DOMContentLoaded', function () {
     renderReferralsTable();
     triggerConversion();
 });
+
 
