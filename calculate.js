@@ -748,7 +748,6 @@ async function fetchSolPrice() {
     }
 }
 
-
 // --- Calculation Logic ---
 
 /**
@@ -790,7 +789,6 @@ function getAndValidateInputs(trans) {
             domElements[elementKey]?.classList.add('input-error'); // Use optional chaining for safety
         }
     });
-
 
     if (isNaN(inputs.days) || inputs.days <= 0) {
         isValid = false;
@@ -987,7 +985,6 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
     
     if (withReinvest && actualReinvestEnabled && reinvestPercentRate <= 0 && profitRate <= 0 && initialDailyReferralProfit <= 0) return trans.roiNever;
 
-
     if (!withReinvest) {
         const dailyNetProfit_User_Initial = initialStake * profitRate * (1 - p.platformFeeRate);
         const totalDailyProfit_NoReinvest = dailyNetProfit_User_Initial + initialDailyReferralProfit;
@@ -1037,7 +1034,6 @@ function calculateDoublingTime(p, currencyType, withReinvest, trans, initialDail
         return trans.roiOverDays.replace('{days}', maxSimulationDays);
     }
 }
-
 
 /**
  * Updates the DOM with the calculated results.
@@ -1287,7 +1283,6 @@ function toggleCollapsibleSection(sectionElement, storageKey) {
     }
 }
 
-
 // --- Chart Rendering Function ---
 /**
  * Рендерит график баланса с использованием Chart.js.
@@ -1300,7 +1295,14 @@ function renderBalanceChart(originalLabels, originalUsdData) {
     const ctx = canvasElement.getContext('2d');
     if (balanceChartInstance) { balanceChartInstance.destroy(); }
 
-    const numDays = originalLabels.length;
+    
+    // Ensure canvas has no stale inline size before re-creating the chart
+    if (canvasElement) {
+        canvasElement.removeAttribute('width');
+        canvasElement.removeAttribute('height');
+    }
+
+const numDays = originalLabels.length;
     if (numDays === 0) return;
 
     let stepSize = 1;
@@ -1362,6 +1364,12 @@ function renderBalanceChart(originalLabels, originalUsdData) {
             hover: { mode: 'nearest', intersect: true }
         }
     });
+
+    // Force a resize on the next frame to match the container size
+    requestAnimationFrame(() => {
+        if (balanceChartInstance) balanceChartInstance.resize();
+    });
+
 }
 
 // --- Currency Converter Functions ---
@@ -1551,10 +1559,10 @@ function swapCurrencies() {
 
     if (!fromSelect || !toSelect || !fromInput || !toInput) return;
 
-    // Меняем местами выбранные валюты в выпадающих списках
+    
     [fromSelect.value, toSelect.value] = [toSelect.value, fromSelect.value];
 
-    // Меняем местами значения в полях ввода
+    
     [fromInput.value, toInput.value] = [toInput.value, fromInput.value];
 }
 
@@ -1631,7 +1639,6 @@ function importData(event) {
             if (domElements.reinvestSolCheckbox) toggleReinvestControls(domElements.reinvestSolCheckbox);
             if (domElements.reinvestUsdcCheckbox) toggleReinvestControls(domElements.reinvestUsdcCheckbox);
 
-
             if (Array.isArray(importedData.referralsData)) {
                 referralsData = importedData.referralsData.filter(ref => typeof ref === 'object' && ref !== null && ref.hasOwnProperty('id'));
                 referralsData.forEach(ref => {
@@ -1664,7 +1671,6 @@ function importData(event) {
     reader.readAsText(file);
 }
 
-
 // --- Reinvest Percentage Toggle ---
 function toggleReinvestControls(checkboxElement) {
     if (!checkboxElement || typeof checkboxElement.closest !== 'function') {
@@ -1679,7 +1685,6 @@ function toggleReinvestControls(checkboxElement) {
         percentInput.disabled = !checkboxElement.checked;
     }
 }
-
 
 // --- Event Listener Setup ---
 /**
@@ -1715,7 +1720,6 @@ function setupEventListeners() {
         'referralsHeader', 'chartHeader', 'converterHeader', 'importFile'
     ];
     idsToCache.forEach(id => domElements[id.replace(/-([a-z])/g, g => g[1].toUpperCase())] = document.getElementById(id));
-
 
     document.querySelectorAll('.input-group input, .input-group select, .checkbox-container input[type="number"]').forEach(element => {
         element.addEventListener('change', saveData);
@@ -1850,5 +1854,3 @@ document.addEventListener('DOMContentLoaded', function () {
     renderReferralsTable();
     triggerConversion();
 });
-
-
