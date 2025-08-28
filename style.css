@@ -1177,3 +1177,17 @@ select.input-error {
     }
 
 }
+
+/* Accessibility & Performance (Safe) */
+@media (prefers-reduced-motion: reduce) {
+  .background-layers::before,
+  .background-layers::after {
+    animation: none !important;
+  }
+}
+@media (max-width: 480px) {
+  .background-overlay {
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+  }
+}
