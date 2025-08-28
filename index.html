@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=750">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FomoFarm Calculator</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="favicon.png">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,18 +32,18 @@
                 <div class="currency-input-row sol-inputs">
                     <div class="input-block stake-input">
                         <label for="userStakedSolAmount" id="label-user-staked-sol">Staked</label>
-                        <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0">
+                        <input type="number" id="userStakedSolAmount" value="0" step="0.001" min="0" inputmode="decimal">
                         <span class="error-message" id="error-userStakedSolAmount"></span>
                     </div>
                     <div class="input-block profit-input">
                         <label for="userProfitPercentSol" id="label-user-profit-percent-sol">Profit % / day</label>
-                        <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0">
+                        <input type="number" id="userProfitPercentSol" value="0" step="0.01" min="0" inputmode="decimal">
                         <span class="error-message" id="error-userProfitPercentSol"></span>
                     </div>
                     <div class="input-block periodic-input-container">
                         <label for="periodicSolAmount" id="label-periodic-sol">Add. Investment</label>
                         <div class="input-select-pair">
-                            <input type="number" id="periodicSolAmount" value="0" step="0.01" min="0">
+                            <input type="number" id="periodicSolAmount" value="0" step="0.01" min="0" inputmode="decimal">
                             <select id="periodicSolPeriod">
                                 <option value="0" id="option-sol-none">No</option>
                                 <option value="7" id="option-sol-weekly">Weekly</option>
@@ -57,18 +58,18 @@
                 <div class="currency-input-row usdc-inputs">
                     <div class="input-block stake-input">
                         <label for="userStakedUsdcAmount" id="label-user-staked-usdc">Staked</label>
-                        <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0">
+                        <input type="number" id="userStakedUsdcAmount" value="0" step="0.01" min="0" inputmode="decimal">
                         <span class="error-message" id="error-userStakedUsdcAmount"></span>
                     </div>
                     <div class="input-block profit-input">
                         <label for="userProfitPercentUsdc" id="label-user-profit-percent-usdc">Profit % / day</label>
-                        <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0">
+                        <input type="number" id="userProfitPercentUsdc" value="0" step="0.01" min="0" inputmode="decimal">
                         <span class="error-message" id="error-userProfitPercentUsdc"></span>
                     </div>
                     <div class="input-block periodic-input-container">
                         <label for="periodicUsdcAmount" id="label-periodic-usdc">Add. Investment</label>
                         <div class="input-select-pair">
-                            <input type="number" id="periodicUsdcAmount" value="0" step="0.01" min="0">
+                            <input type="number" id="periodicUsdcAmount" value="0" step="0.01" min="0" inputmode="decimal">
                             <select id="periodicUsdcPeriod">
                                 <option value="0" id="option-usdc-none">No</option>
                                 <option value="7" id="option-usdc-weekly">Weekly</option>
@@ -83,7 +84,7 @@
                 <div class="currency-input-row other-params-row">
                     <div class="input-block">
                         <label for="days" id="label-days">Days</label>
-                        <input type="number" id="days" value="0" step="1" min="0">
+                        <input type="number" id="days" value="0" step="1" min="0" inputmode="decimal">
                         <span class="error-message" id="error-days"></span>
                     </div>
                     <div class="input-block" id="solUsdContainer">
@@ -92,14 +93,14 @@
                             <span id="solPriceStatus"></span>
                         </div>
                         <div class="input-button-pair-row">
-                            <input type="number" id="solToUsd" value="0" step="0.01" min="0">
+                            <input type="number" id="solToUsd" value="0" step="0.01" min="0" inputmode="decimal">
                             <button id="fetchSolPriceButton" type="button">Update</button>
                         </div>
                         <span class="error-message" id="error-solToUsd"></span>
                     </div>
                     <div class="input-block" id="platformFeeContainer">
                         <label for="platformFee" id="label-platform-fee">FomoFarm Fee (%)</label>
-                        <input type="number" id="platformFee" value="10" step="0.1" min="0">
+                        <input type="number" id="platformFee" value="10" step="0.1" min="0" inputmode="decimal">
                         <span class="error-message" id="error-platformFee"></span>
                     </div>
                 </div>
@@ -109,14 +110,14 @@
                 <div class="checkbox-item reinvest-control-group">
                     <input type="checkbox" id="reinvestSolCheckbox" data-currency="Sol">
                     <label for="reinvestSolCheckbox" id="label-reinvest-sol"></label>
-                    <input type="number" id="reinvestSolPercent" value="100" min="0" max="100" step="1" class="reinvest-percent-input">
+                    <input type="number" id="reinvestSolPercent" value="100" min="0" max="100" step="1" class="reinvest-percent-input" inputmode="decimal">
                     <span class="reinvest-percent-symbol">%</span>
                 </div>
 
                 <div class="checkbox-item reinvest-control-group">
                     <input type="checkbox" id="reinvestUsdcCheckbox" data-currency="Usdc">
                     <label for="reinvestUsdcCheckbox" id="label-reinvest-usdc"></label>
-                    <input type="number" id="reinvestUsdcPercent" value="100" min="0" max="100" step="1" class="reinvest-percent-input">
+                    <input type="number" id="reinvestUsdcPercent" value="100" min="0" max="100" step="1" class="reinvest-percent-input" inputmode="decimal">
                     <span class="reinvest-percent-symbol">%</span>
                 </div>
                 
@@ -272,7 +273,7 @@
                             <input type="text" id="convertAmountFrom" value="1">
                             <select id="convertFrom"></select>
                         </div>
-                        <button id="swapCurrenciesButton" title="Swap currencies">
+                        <button id="swapCurrenciesButton" title="Swap currencies" aria-label="Swap currencies">
                             <i class="fas fa-exchange-alt"></i>
                         </button>
                         <div class="converter-block result-block">
@@ -305,7 +306,7 @@
                              <i class="fas fa-copy"></i>
                          </button>
                      </div>
-                     <span id="copyStatus"></span>
+                     <span id="copyStatus" aria-live="polite"></span>
                  </div>
             </div>
 
@@ -332,19 +333,19 @@
                 <div></div>
                 <div class="input-pair"> 
                     <label for="modal-stake-sol" id="label-modal-stake-sol">Staked</label> 
-                    <input type="number" id="modal-stake-sol" step="0.001" min="0"> 
+                    <input type="number" id="modal-stake-sol" step="0.001" min="0" inputmode="decimal"> 
                 </div>
                 <div class="input-pair"> 
                     <label for="modal-profit-sol" id="label-modal-profit-sol">Profit % / day</label> 
-                    <input type="number" id="modal-profit-sol" step="0.01" min="0"> 
+                    <input type="number" id="modal-profit-sol" step="0.01" min="0" inputmode="decimal"> 
                 </div>
                 <div class="input-pair">
                     <label for="modal-stake-usdc" id="label-modal-stake-usdc">Staked</label> 
-                    <input type="number" id="modal-stake-usdc" step="0.01" min="0"> 
+                    <input type="number" id="modal-stake-usdc" step="0.01" min="0" inputmode="decimal"> 
                 </div>
                 <div class="input-pair">
                     <label for="modal-profit-usdc" id="label-modal-profit-usdc">Profit % / day</label> 
-                    <input type="number" id="modal-profit-usdc" step="0.01" min="0"> 
+                    <input type="number" id="modal-profit-usdc" step="0.01" min="0" inputmode="decimal"> 
                 </div>
             </div>
             <div class="modal-footer">
@@ -357,4 +358,3 @@
     <script src="calculate.js"></script>
 </body>
 </html>
-
