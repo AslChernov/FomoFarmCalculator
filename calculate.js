@@ -762,6 +762,7 @@ async function fetchSolPrice() {
             solInput.value = price.toFixed(2);
             statusElement.textContent = trans.statusSuccess;
             statusElement.className = 'success';
+            updateLiveSummary();
             saveData();
         } else {
             throw new Error('Invalid API response structure');
@@ -1936,3 +1937,4 @@ document.addEventListener('DOMContentLoaded', function () {
     renderReferralsTable();
     triggerConversion();
 });
+
