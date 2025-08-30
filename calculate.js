@@ -2,7 +2,7 @@
 const domElements = {}; // Object to cache DOM elements
 
 // --- Global Variables & Constants ---
-const APP_VERSION = "4.3";
+const APP_VERSION = "4.5";
 let currentPage = 1;
 const itemsPerPage = 10;
 let referralsData = [];
@@ -82,6 +82,9 @@ const translations = {
         convertErrorFiatToFiat: 'Direct fiat-to-fiat conversion not supported.',
         h4SolResults: 'SOL Results', h4UsdcResults: 'USDC Results', h4MainIndicators: 'Main Indicators',
         refStructureTurnover: 'Structure Turnover:',
+        liveSummaryTitle: 'LIVE SUMMARY',
+        liveSummaryStake: 'Initial Stake:',
+        liveSummaryProfit: 'Profit / day:',
         
     },
     'ru': {
@@ -131,7 +134,10 @@ const translations = {
         convertErrorSameCurrency: 'Нельзя конвертировать в ту же валюту.',
         convertErrorFiatToFiat: 'Прямая конвертация фиат-фиат не поддерживается.',
         refStructureTurnover: 'Оборот структуры:',
-        h4SolResults: 'Результаты SOL', h4UsdcResults: 'Результаты USDC', h4MainIndicators: 'Основные Показатели'
+        h4SolResults: 'Результаты SOL', h4UsdcResults: 'Результаты USDC', h4MainIndicators: 'Основные Показатели',
+        liveSummaryTitle: 'LIVE СВОДКА',
+        liveSummaryStake: 'Стартовый капитал:',
+        liveSummaryProfit: 'Доход/день:',
     }
 };
 
@@ -146,7 +152,6 @@ function saveData() {
             userProfitPercentSol: domElements.userProfitPercentSol.value,
             userStakedUsdcAmount: domElements.userStakedUsdcAmount.value,
             userProfitPercentUsdc: domElements.userProfitPercentUsdc.value,
-            platformFee: domElements.platformFee.value,
             solToUsd: domElements.solToUsd.value,
             days: domElements.days.value,
             periodicSolAmount: domElements.periodicSolAmount.value,
@@ -189,7 +194,6 @@ function loadData() {
         domElements.userProfitPercentSol.value = localStorage.getItem('fomoFarmCalc_userProfitPercentSol') || '0';
         domElements.userStakedUsdcAmount.value = localStorage.getItem('fomoFarmCalc_userStakedUsdcAmount') || '0';
         domElements.userProfitPercentUsdc.value = localStorage.getItem('fomoFarmCalc_userProfitPercentUsdc') || '0';
-        domElements.platformFee.value = localStorage.getItem('fomoFarmCalc_platformFee') || '10';
         domElements.solToUsd.value = localStorage.getItem('fomoFarmCalc_solToUsd') || '0';
         domElements.days.value = localStorage.getItem('fomoFarmCalc_days') || '0';
 
@@ -290,7 +294,10 @@ function updateUI(lang) {
         'h3-converter-title': 'h3ConverterTitle', 'h3-chart-title': 'h3ChartTitle', 'h3-referrals-text': 'h3Referrals',
         'swapCurrenciesButton': 'swapButtonTitle',
         'h4-doubling-time': 'h4DoublingTime',
-        'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-main-indicators': 'h4MainIndicators'
+        'h4-sol-results': 'h4SolResults', 'h4-usdc-results': 'h4UsdcResults', 'h4-main-indicators': 'h4MainIndicators',
+        'label-live-summary': 'liveSummaryTitle',
+        'label-live-stake': 'liveSummaryStake',
+        'label-live-profit': 'liveSummaryProfit'
     };
 
     const currencyIconConfig = {
@@ -500,7 +507,7 @@ function renderReferralsTable() {
             const summaryCell = document.createElement('td');
             summaryCell.className = 'stakes-summary';
             let summaryContent = [];
-            if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatDisplayNumberCustom(referral.stakedSol, 4)}</span>`); }
+            if (referral.stakedSol > 0) { summaryContent.push(`<span>${solanaIconImg}${formatSolDisplayNumber(referral.stakedSol)}</span>`); }
             if (referral.stakedUsdc > 0) { summaryContent.push(`<span>${usdcIconImg}${formatDisplayNumberCustom(referral.stakedUsdc, 2)}</span>`); }
             summaryCell.innerHTML = summaryContent.length > 0 ? summaryContent.join(' ') : trans.refSummaryNone;
 
@@ -673,7 +680,7 @@ function updateTotalStakeSummary() {
 
     totalStakeElement.innerHTML = `
         ${turnoverLabel}
-        <span>${solanaIconImg} ${formatDisplayNumberCustom(totalSol, 4)}</span>
+        <span>${solanaIconImg} ${formatSolDisplayNumber(totalSol)}</span>
         <span>${usdcIconImg} ${formatDisplayNumberCustom(totalUsdc, 2)}</span>
     `;
 }
@@ -703,6 +710,31 @@ function formatDisplayNumberCustom(number, maximumFractionDigits) {
         fractionalPart = fractionalPart.substring(0, maximumFractionDigits);
     }
     integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    return fractionalPart ? `${integerPart},${fractionalPart}` : integerPart;
+}
+
+/**
+ * Formats a SOL number for display, limiting to 4 decimal places and removing trailing zeros.
+ * @param {number} number - The number to format.
+ * @returns {string} Formatted number string.
+ */
+function formatSolDisplayNumber(number) {
+    if (isNaN(number) || number === null) return '';
+    if (Object.is(number, -0)) {
+        number = 0;
+    }
+    
+    // Ограничиваем до 4 знаков и убираем лишние нули в конце, преобразуя в Number
+    const cleanedNumber = Number(number.toFixed(4));
+
+    // Используем стандартное форматирование для запятой и пробелов
+    let numStr = cleanedNumber.toString();
+    let parts = numStr.split('.');
+    let integerPart = parts[0];
+    let fractionalPart = parts.length > 1 ? parts[1] : '';
+
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+
     return fractionalPart ? `${integerPart},${fractionalPart}` : integerPart;
 }
 
@@ -763,7 +795,7 @@ function getAndValidateInputs(trans) {
         userProfitPercentUsdc: parseFloat(domElements.userProfitPercentUsdc.value) || 0,
         days: parseInt(domElements.days.value) || 0,
         solToUsd: parseFloat(domElements.solToUsd.value) || 0,
-        platformFee: parseFloat(domElements.platformFee.value) || 0,
+        platformFee: 10,
         periodicSolAmount: parseFloat(domElements.periodicSolAmount.value) || 0,
         periodicSolPeriod: parseInt(domElements.periodicSolPeriod.value) || 0,
         periodicUsdcAmount: parseFloat(domElements.periodicUsdcAmount.value) || 0,
@@ -1079,11 +1111,20 @@ function updateDOMWithResults(calcParams, simulationResults, referralProfits, do
 
     const daysSuffixText = ` ${trans.daysSuffix || 'days'}`;
 
-    updateResultSpan(domElements.resultProfitUserSol, userProfitSolDisplay, 4, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultProfitRefSol, totalReferralProfitOverPeriodSol, 4, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultPeriodicTotalSol, totalPeriodicSolAdded, 4, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultProfitTotalSol, totalSolProfitEarned, 4, solanaIconImg, 'value-sol');
-    updateResultSpan(domElements.resultFinalBalanceSol, finalSolBalance, 4, solanaIconImg, 'value-sol');
+    updateResultSpan(domElements.resultProfitUserSol, userProfitSolDisplay, 0, solanaIconImg, 'value-sol'); // Вместо formatDisplayNumberCustom
+    domElements.resultProfitUserSol.innerHTML = formatSolDisplayNumber(userProfitSolDisplay) + solanaIconImg;
+
+    updateResultSpan(domElements.resultProfitRefSol, totalReferralProfitOverPeriodSol, 0, solanaIconImg, 'value-sol'); // Вместо formatDisplayNumberCustom
+    domElements.resultProfitRefSol.innerHTML = formatSolDisplayNumber(totalReferralProfitOverPeriodSol) + solanaIconImg;
+
+    updateResultSpan(domElements.resultPeriodicTotalSol, totalPeriodicSolAdded, 0, solanaIconImg, 'value-sol'); // Вместо formatDisplayNumberCustom
+    domElements.resultPeriodicTotalSol.innerHTML = formatSolDisplayNumber(totalPeriodicSolAdded) + solanaIconImg;
+
+    updateResultSpan(domElements.resultProfitTotalSol, totalSolProfitEarned, 0, solanaIconImg, 'value-sol'); // Вместо formatDisplayNumberCustom
+    domElements.resultProfitTotalSol.innerHTML = formatSolDisplayNumber(totalSolProfitEarned) + solanaIconImg;
+
+    updateResultSpan(domElements.resultFinalBalanceSol, finalSolBalance, 0, solanaIconImg, 'value-sol'); // Вместо formatDisplayNumberCustom
+    domElements.resultFinalBalanceSol.innerHTML = formatSolDisplayNumber(finalSolBalance) + solanaIconImg;
 
     updateResultSpan(domElements.resultProfitUserUsdc, userProfitUsdcDisplay, 2, usdcIconImg, 'value-usdc');
     updateResultSpan(domElements.resultProfitRefUsdc, totalReferralProfitOverPeriodUsdc, 2, usdcIconImg, 'value-usdc');
@@ -1575,7 +1616,7 @@ function exportData() {
         const exportObj = {
             userStakedSolAmount: domElements.userStakedSolAmount.value, userProfitPercentSol: domElements.userProfitPercentSol.value,
             userStakedUsdcAmount: domElements.userStakedUsdcAmount.value, userProfitPercentUsdc: domElements.userProfitPercentUsdc.value,
-            platformFee: domElements.platformFee.value, solToUsd: domElements.solToUsd.value, days: domElements.days.value,
+            solToUsd: domElements.solToUsd.value, days: domElements.days.value,
             periodicSolAmount: domElements.periodicSolAmount.value, periodicSolPeriod: domElements.periodicSolPeriod.value,
             periodicUsdcAmount: domElements.periodicUsdcAmount.value, periodicUsdcPeriod: domElements.periodicUsdcPeriod.value,
             reinvestSol: domElements.reinvestSolCheckbox.checked.toString(),
@@ -1622,7 +1663,6 @@ function importData(event) {
             domElements.userProfitPercentSol.value = importedData.userProfitPercentSol || '0';
             domElements.userStakedUsdcAmount.value = importedData.userStakedUsdcAmount || '0';
             domElements.userProfitPercentUsdc.value = importedData.userProfitPercentUsdc || '0';
-            domElements.platformFee.value = importedData.platformFee || '10';
             domElements.solToUsd.value = importedData.solToUsd || '0';
             domElements.days.value = importedData.days || '0';
             domElements.periodicSolAmount.value = importedData.periodicSolAmount || '0';
@@ -1772,6 +1812,19 @@ function setupEventListeners() {
     document.querySelectorAll('#referralsTable th.sortable').forEach(header => {
         header.addEventListener('click', () => sortReferrals(header.dataset.sortKey));
     });
+
+        // --- Event Listeners for Live Summary ---
+    const summaryInputs = [
+        'userStakedSolAmount', 'userStakedUsdcAmount',
+        'solToUsd', 'userProfitPercentSol', 'userProfitPercentUsdc'
+    ];
+
+    summaryInputs.forEach(inputId => {
+        const element = domElements[inputId] || document.getElementById(inputId);
+        if (element) {
+            element.addEventListener('input', updateLiveSummary);
+        }
+    });
 }
 
 /**
@@ -1836,6 +1889,34 @@ async function copyWalletAddress() {
     }
 }
 
+// --- Live Summary Calculation ---
+function updateLiveSummary() {
+    // Считываем все нужные значения из полей
+    const solStake = parseFloat(domElements.userStakedSolAmount.value) || 0;
+    const usdcStake = parseFloat(domElements.userStakedUsdcAmount.value) || 0;
+    const solPrice = parseFloat(domElements.solToUsd.value) || 0;
+    const solProfitPercent = parseFloat(domElements.userProfitPercentSol.value) || 0;
+    const usdcProfitPercent = parseFloat(domElements.userProfitPercentUsdc.value) || 0;
+
+    // Считаем общий стартовый капитал в USD
+    const totalStakeUSD = (solStake * solPrice) + usdcStake;
+
+    // Считаем прогнозируемый дневной профит в USD
+    const dailyProfitUSD = (solStake * (solProfitPercent / 100) * solPrice) + (usdcStake * (usdcProfitPercent / 100));
+
+    // Находим наши элементы для вывода
+    const stakeElement = document.getElementById('live-stake-usd');
+    const profitElement = document.getElementById('live-profit-usd');
+
+    // Обновляем значения в HTML, форматируя их до 2 знаков после запятой
+    if (stakeElement) {
+        stakeElement.textContent = `$ ${totalStakeUSD.toFixed(2)}`;
+    }
+    if (profitElement) {
+        profitElement.textContent = `$ ${dailyProfitUSD.toFixed(2)}`;
+    }
+}
+
 // --- Initialization ---
 /**
  * Инициализация калькулятора при загрузке DOM.
@@ -1848,6 +1929,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     currentLanguage = localStorage.getItem('fomoFarmCalc_language') || 'en';
     loadData();
+    updateLiveSummary();
     populateCurrencyDropdowns();
     updateUI(currentLanguage);
     clearResults();
