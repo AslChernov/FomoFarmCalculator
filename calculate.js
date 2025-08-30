@@ -1902,8 +1902,10 @@ function updateLiveSummary() {
     // Считаем общий стартовый капитал в USD
     const totalStakeUSD = (solStake * solPrice) + usdcStake;
 
-    // Считаем прогнозируемый дневной профит в USD
-    const dailyProfitUSD = (solStake * (solProfitPercent / 100) * solPrice) + (usdcStake * (usdcProfitPercent / 100));
+    // --- ИЗМЕНЕНИЕ ЗДЕСЬ ---
+    // Считаем прогнозируемый дневной профит в USD, вычитая 10% комиссии
+    const grossDailyProfitUSD = (solStake * (solProfitPercent / 100) * solPrice) + (usdcStake * (usdcProfitPercent / 100));
+    const dailyProfitUSD = grossDailyProfitUSD * (1 - 0.10); // Вычитаем 10%
 
     // Находим наши элементы для вывода
     const stakeElement = document.getElementById('live-stake-usd');
@@ -1937,4 +1939,3 @@ document.addEventListener('DOMContentLoaded', function () {
     renderReferralsTable();
     triggerConversion();
 });
-
